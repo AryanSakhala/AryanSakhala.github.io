@@ -136,9 +136,78 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       PARTICLES BACKGROUND
+       AURORA WAVE BACKGROUND (replaces generic particles)
     ═══════════════════════════════════════════════════════════════ */
+    .aurora-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      background: var(--base);
+    }
+
+    .aurora-wave {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      opacity: 0.15;
+      filter: blur(80px);
+      animation: aurora-drift 25s ease-in-out infinite;
+    }
+
+    .aurora-wave:nth-child(1) {
+      background: radial-gradient(ellipse 40% 30% at 30% 40%, var(--mauve), transparent 70%);
+      animation-delay: 0s;
+    }
+
+    .aurora-wave:nth-child(2) {
+      background: radial-gradient(ellipse 35% 25% at 70% 60%, var(--teal), transparent 70%);
+      animation-delay: -8s;
+      animation-duration: 30s;
+    }
+
+    .aurora-wave:nth-child(3) {
+      background: radial-gradient(ellipse 45% 35% at 50% 30%, var(--lavender), transparent 70%);
+      animation-delay: -16s;
+      animation-duration: 35s;
+    }
+
+    .aurora-wave:nth-child(4) {
+      background: radial-gradient(ellipse 30% 20% at 20% 70%, var(--peach), transparent 70%);
+      animation-delay: -5s;
+      animation-duration: 28s;
+    }
+
+    @keyframes aurora-drift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(5%, 3%) rotate(3deg) scale(1.05); }
+      50% { transform: translate(-3%, 5%) rotate(-2deg) scale(0.98); }
+      75% { transform: translate(-5%, -3%) rotate(4deg) scale(1.02); }
+    }
+
+    /* Subtle grid overlay */
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: 
+        linear-gradient(rgba(100, 100, 150, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 100, 150, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Hide old particles */
     #tsparticles {
+      display: none !important;
       position: fixed;
       top: 0;
       left: 0;
@@ -508,9 +577,27 @@
        PANEL 3: EXPERIENCE - MATRIX TERMINAL + SNAKE TIMELINE
     ═══════════════════════════════════════════════════════════════ */
     #experience {
-      background: #000 !important;
+      background: transparent !important;
       position: relative;
       overflow: hidden;
+    }
+
+    /* Matrix fade overlay - creates smooth transition */
+    .matrix-fade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #experience.matrix-active .matrix-fade {
+      opacity: 1;
     }
 
     /* Matrix rain canvas */
@@ -520,8 +607,13 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
-      opacity: 0.4;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 1s ease 0.3s;
+    }
+
+    #experience.matrix-active .matrix-canvas {
+      opacity: 0.5;
     }
 
     .experience-container {
@@ -1293,7 +1385,16 @@
   <!-- Progress Bar -->
   <div class="progress-bar"></div>
 
-  <!-- Neural Network Particles -->
+  <!-- Aurora Wave Background -->
+  <div class="aurora-bg">
+    <div class="aurora-wave"></div>
+    <div class="aurora-wave"></div>
+    <div class="aurora-wave"></div>
+    <div class="aurora-wave"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  
+  <!-- Hidden particles (replaced by aurora) -->
   <div id="tsparticles"></div>
 
   <!-- Navigation Dock -->
@@ -1440,6 +1541,8 @@
 
     <!-- Panel 3: Experience - Matrix Terminal + Snake Timeline -->
     <section class="panel" id="experience">
+      <!-- Fade overlay for smooth transition -->
+      <div class="matrix-fade"></div>
       <!-- Matrix rain canvas -->
       <canvas class="matrix-canvas" id="matrixCanvas"></canvas>
       
@@ -1969,14 +2072,27 @@
     const matrixObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          columns = Math.floor(matrixCanvas.width / fontSize);
-          drops = Array(columns).fill(1);
-          matrixInterval = setInterval(drawMatrix, 50);
+          // Fade in Matrix
+          expSection.classList.add('matrix-active');
+          
+          // Start animation after fade begins
+          setTimeout(() => {
+            initMatrix();
+            columns = Math.floor(matrixCanvas.width / fontSize);
+            drops = Array(columns).fill(1);
+            matrixInterval = setInterval(drawMatrix, 50);
+          }, 300);
         } else {
+          // Fade out Matrix
+          expSection.classList.remove('matrix-active');
           clearInterval(matrixInterval);
+          
+          // Clear canvas
+          matrixCtx.fillStyle = '#000';
+          matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.3 });
     
     matrixObserver.observe(expSection);
 
