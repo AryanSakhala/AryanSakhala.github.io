@@ -642,15 +642,93 @@
       height: 100%;
     }
 
-    /* Subtle chest plate glow */
-    .chest-glow {
+    /* Iron Man Chest Armor Background */
+    .chest-armor {
       position: absolute;
-      width: 600px;
-      height: 700px;
-      background: 
-        radial-gradient(ellipse 70% 50% at 50% 45%, rgba(139, 0, 0, 0.08), transparent 70%),
-        radial-gradient(ellipse 50% 35% at 50% 50%, rgba(255, 215, 0, 0.05), transparent 60%);
+      width: 700px;
+      height: 800px;
       z-index: 0;
+    }
+
+    .chest-armor::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      background: 
+        /* Center highlight */
+        radial-gradient(ellipse 30% 25% at 50% 48%, rgba(180, 40, 40, 0.25), transparent 60%),
+        /* Gold accents */
+        radial-gradient(ellipse 35% 20% at 50% 35%, rgba(218, 165, 32, 0.15), transparent 50%),
+        radial-gradient(ellipse 35% 20% at 50% 65%, rgba(218, 165, 32, 0.1), transparent 50%);
+    }
+
+    /* Chest plate shape - trapezoid armor panels */
+    .chest-armor::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 600px;
+      background: transparent;
+      border: 2px solid transparent;
+      border-image: linear-gradient(180deg, 
+        rgba(139, 0, 0, 0.4) 0%, 
+        rgba(180, 40, 40, 0.3) 30%,
+        rgba(139, 0, 0, 0.2) 50%,
+        rgba(100, 20, 20, 0.15) 100%) 1;
+      clip-path: polygon(
+        30% 5%, 70% 5%,
+        85% 25%, 90% 50%, 85% 75%,
+        70% 95%, 30% 95%,
+        15% 75%, 10% 50%, 15% 25%
+      );
+      box-shadow: 
+        inset 0 0 100px rgba(139, 0, 0, 0.15),
+        inset 0 0 200px rgba(180, 40, 40, 0.1);
+    }
+
+    /* Armor panel lines */
+    .armor-lines {
+      position: absolute;
+      width: 500px;
+      height: 600px;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .armor-line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.5), transparent);
+      height: 1px;
+    }
+
+    .armor-line:nth-child(1) { top: 20%; left: 10%; width: 25%; transform: rotate(-15deg); }
+    .armor-line:nth-child(2) { top: 20%; right: 10%; width: 25%; transform: rotate(15deg); }
+    .armor-line:nth-child(3) { top: 35%; left: 5%; width: 20%; transform: rotate(-25deg); }
+    .armor-line:nth-child(4) { top: 35%; right: 5%; width: 20%; transform: rotate(25deg); }
+    .armor-line:nth-child(5) { bottom: 35%; left: 5%; width: 20%; transform: rotate(25deg); }
+    .armor-line:nth-child(6) { bottom: 35%; right: 5%; width: 20%; transform: rotate(-25deg); }
+    .armor-line:nth-child(7) { bottom: 20%; left: 10%; width: 25%; transform: rotate(15deg); }
+    .armor-line:nth-child(8) { bottom: 20%; right: 10%; width: 25%; transform: rotate(-15deg); }
+
+    /* Gold edge highlights */
+    .armor-edge {
+      position: absolute;
+      width: 480px;
+      height: 580px;
+      border: 1px solid rgba(218, 165, 32, 0.2);
+      clip-path: polygon(
+        32% 6%, 68% 6%,
+        83% 26%, 88% 50%, 83% 74%,
+        68% 94%, 32% 94%,
+        17% 74%, 12% 50%, 17% 26%
+      );
     }
 
     .reactor-container {
@@ -809,26 +887,54 @@
       flex-direction: column;
       align-items: center;
       gap: 0.2rem;
-      padding: 0.5rem 0.7rem;
+      padding: 0.6rem 0.8rem;
       background: rgba(15, 15, 25, 0.95);
       border: 1px solid rgba(100, 180, 255, 0.3);
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      cursor: pointer;
+      border-radius: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: grab;
+      user-select: none;
     }
 
     .skill-node:hover {
-      transform: scale(1.15);
       border-color: rgba(100, 180, 255, 0.8);
-      box-shadow: 0 0 20px rgba(100, 180, 255, 0.4);
+      box-shadow: 0 0 25px rgba(100, 180, 255, 0.5);
       z-index: 20;
     }
 
-    .skill-node__icon { font-size: 1.4rem; }
+    .skill-node:active {
+      cursor: grabbing;
+      transform: scale(1.1);
+      box-shadow: 0 0 35px rgba(100, 180, 255, 0.7), 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    .skill-node.dragging {
+      transition: none;
+      z-index: 100;
+    }
+
+    .skill-node__icon { font-size: 1.5rem; }
     .skill-node__name { 
       font-family: var(--font-mono); 
-      font-size: 0.55rem; 
+      font-size: 0.6rem; 
       color: rgba(200, 220, 255, 0.9);
+    }
+
+    /* Drag hint */
+    .drag-hint {
+      position: absolute;
+      bottom: 50px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: rgba(100, 180, 255, 0.5);
+      letter-spacing: 1px;
+      animation: hint-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes hint-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.8; }
     }
 
     /* Title */
@@ -1327,8 +1433,19 @@
       <div class="section-label"><span>04</span> // tech arsenal</div>
       
       <div class="arc-wrapper">
-        <!-- Subtle red chest plate glow -->
-        <div class="chest-glow"></div>
+        <!-- Iron Man Chest Armor -->
+        <div class="chest-armor"></div>
+        <div class="armor-lines">
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+          <div class="armor-line"></div>
+        </div>
+        <div class="armor-edge"></div>
         
         <div class="reactor-container">
           <!-- Outer dark ring -->
@@ -1420,6 +1537,7 @@
         </div>
         
         <h2 class="reactor-title">TECH ARSENAL</h2>
+        <p class="drag-hint">⟨ drag skills to rearrange ⟩</p>
       </div>
     </section>
 
@@ -1707,6 +1825,93 @@
         const y = ((e.clientY - rect.top) / rect.height) * 100;
         card.style.setProperty('--mouse-x', x + '%');
         card.style.setProperty('--mouse-y', y + '%');
+      });
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // DRAGGABLE SKILL NODES
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('.skill-node').forEach(node => {
+      let isDragging = false;
+      let startX, startY;
+      let nodeStartX, nodeStartY;
+
+      node.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        node.classList.add('dragging');
+        
+        const rect = node.getBoundingClientRect();
+        const parentRect = node.parentElement.getBoundingClientRect();
+        
+        startX = e.clientX;
+        startY = e.clientY;
+        nodeStartX = rect.left - parentRect.left;
+        nodeStartY = rect.top - parentRect.top;
+        
+        // Remove any existing positioning
+        node.style.position = 'absolute';
+        node.style.left = nodeStartX + 'px';
+        node.style.top = nodeStartY + 'px';
+        node.style.right = 'auto';
+        node.style.bottom = 'auto';
+        node.style.transform = 'none';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        
+        node.style.left = (nodeStartX + dx) + 'px';
+        node.style.top = (nodeStartY + dy) + 'px';
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          node.classList.remove('dragging');
+        }
+      });
+
+      // Touch support
+      node.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        node.classList.add('dragging');
+        
+        const touch = e.touches[0];
+        const rect = node.getBoundingClientRect();
+        const parentRect = node.parentElement.getBoundingClientRect();
+        
+        startX = touch.clientX;
+        startY = touch.clientY;
+        nodeStartX = rect.left - parentRect.left;
+        nodeStartY = rect.top - parentRect.top;
+        
+        node.style.position = 'absolute';
+        node.style.left = nodeStartX + 'px';
+        node.style.top = nodeStartY + 'px';
+        node.style.right = 'auto';
+        node.style.bottom = 'auto';
+        node.style.transform = 'none';
+      });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        
+        const touch = e.touches[0];
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        
+        node.style.left = (nodeStartX + dx) + 'px';
+        node.style.top = (nodeStartY + dy) + 'px';
+      });
+
+      document.addEventListener('touchend', () => {
+        if (isDragging) {
+          isDragging = false;
+          node.classList.remove('dragging');
+        }
       });
     });
 
