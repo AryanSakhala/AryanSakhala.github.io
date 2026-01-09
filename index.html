@@ -15,6 +15,9 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
+  <!-- Simple Icons for brands -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@v6/font/simple-icons.min.css">
+  
   <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -231,6 +234,43 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       COMPANY BADGES
+    ═══════════════════════════════════════════════════════════════ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.7rem;
+      background: var(--surface0);
+      border: 1px solid var(--surface1);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .badge--dell { border-color: #007DB8; }
+    .badge--dell:hover { background: #007DB8; }
+    .badge--intel { border-color: #0071C5; }
+    .badge--intel:hover { background: #0071C5; }
+    .badge--springer { border-color: #FFA500; }
+    .badge--springer:hover { background: #FFA500; color: #000; }
+    .badge--blockchain { border-color: #F7931A; }
+    .badge--blockchain:hover { background: #F7931A; color: #000; }
+    .badge--gov { border-color: #FF9933; }
+    .badge--gov:hover { background: #FF9933; color: #000; }
+
+    .badge__icon {
+      font-size: 1rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        PANEL 1: HERO
     ═══════════════════════════════════════════════════════════════ */
     .hero {
@@ -258,49 +298,90 @@
       font-size: clamp(0.9rem, 2vw, 1.2rem);
       color: var(--teal);
       text-align: center;
-      overflow: hidden;
     }
 
-    .hero__title span {
-      display: inline-block;
+    .hero__badges {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
     }
 
-    .hero__scroll {
+    /* SCROLL INDICATOR - ENHANCED */
+    .scroll-indicator {
       position: absolute;
       bottom: 8rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-      color: var(--overlay0);
+      gap: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .scroll-indicator__text {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--mauve);
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
-    .hero__scroll-icon {
-      width: 24px;
-      height: 40px;
-      border: 2px solid var(--overlay0);
-      border-radius: 12px;
+    .scroll-indicator__mouse {
+      width: 28px;
+      height: 48px;
+      border: 2px solid var(--mauve);
+      border-radius: 20px;
       position: relative;
+      display: flex;
+      justify-content: center;
     }
 
-    .hero__scroll-icon::after {
-      content: '';
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
+    .scroll-indicator__wheel {
       width: 4px;
-      height: 8px;
+      height: 10px;
       background: var(--mauve);
       border-radius: 2px;
-      animation: scroll-indicator 2s infinite;
+      margin-top: 8px;
+      animation: scroll-wheel 2s ease-in-out infinite;
     }
 
-    @keyframes scroll-indicator {
-      0%, 100% { top: 6px; opacity: 1; }
-      50% { top: 20px; opacity: 0.3; }
+    @keyframes scroll-wheel {
+      0% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(12px); opacity: 0.3; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .scroll-indicator__arrows {
+      display: flex;
+      gap: 4px;
+    }
+
+    .scroll-indicator__arrow {
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid var(--teal);
+      border-bottom: 2px solid var(--teal);
+      transform: rotate(-45deg);
+      animation: arrow-move 1.5s ease-in-out infinite;
+    }
+
+    .scroll-indicator__arrow:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .scroll-indicator__arrow:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes arrow-move {
+      0%, 100% { opacity: 0.3; transform: rotate(-45deg) translate(0, 0); }
+      50% { opacity: 1; transform: rotate(-45deg) translate(5px, 5px); }
     }
 
     .magnetic-btn {
@@ -315,6 +396,9 @@
       position: relative;
       overflow: hidden;
       transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .magnetic-btn::before {
@@ -359,7 +443,6 @@
       padding: 2rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       position: relative;
       overflow: hidden;
       transform-style: preserve-3d;
@@ -396,7 +479,7 @@
     }
 
     .float-card__title {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
     }
@@ -411,306 +494,198 @@
     .float-card__text {
       color: var(--subtext0);
       line-height: 1.6;
+      flex-grow: 1;
     }
 
-    .float-card__tags {
+    .float-card__badges {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-top: auto;
-      padding-top: 1rem;
-    }
-
-    .float-card__tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      padding: 0.3rem 0.6rem;
-      background: var(--surface0);
-      border-radius: 6px;
-      color: var(--teal);
+      margin-top: 1rem;
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       PANEL 3: EXPERIENCE - ORBITAL TIMELINE
+       PANEL 3: EXPERIENCE - TIMELINE CARDS
     ═══════════════════════════════════════════════════════════════ */
-    .orbital-container {
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-      height: 80vh;
-    }
-
-    .orbital-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, var(--mauve), var(--base));
-      border-radius: 50%;
+    .experience-container {
       display: flex;
+      gap: 2rem;
+      max-width: 1400px;
+      width: 100%;
+      height: 80vh;
       align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      box-shadow: 0 0 60px rgba(203, 166, 247, 0.5);
-      z-index: 10;
+      padding: 0 2rem;
     }
 
-    .orbital-ring {
+    .exp-timeline {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding: 2rem 0;
+      scroll-snap-type: x mandatory;
+    }
+
+    .exp-card {
+      flex: 0 0 320px;
+      min-height: 400px;
+      background: rgba(30, 30, 46, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--surface0);
+      border-radius: 24px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      scroll-snap-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-card::before {
+      content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      border: 1px dashed var(--surface1);
-      border-radius: 50%;
-      animation: orbit-rotate 60s linear infinite;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--mauve), var(--teal));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
     }
 
-    .orbital-ring:nth-child(1) {
-      width: 300px;
-      height: 300px;
-      margin: -150px 0 0 -150px;
-      animation-duration: 80s;
+    .exp-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: var(--mauve);
+      box-shadow: 0 20px 40px rgba(203, 166, 247, 0.2);
     }
 
-    .orbital-ring:nth-child(2) {
-      width: 450px;
-      height: 450px;
-      margin: -225px 0 0 -225px;
-      animation-duration: 100s;
-      animation-direction: reverse;
+    .exp-card:hover::before {
+      transform: scaleX(1);
     }
 
-    .orbital-ring:nth-child(3) {
-      width: 600px;
-      height: 600px;
-      margin: -300px 0 0 -300px;
-      animation-duration: 120s;
-    }
-
-    @keyframes orbit-rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .orbit-planet {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 80px;
-      height: 80px;
-      margin: -40px 0 0 -40px;
-      transform-origin: center center;
-      animation: counter-rotate 80s linear infinite;
-    }
-
-    .orbit-planet:nth-child(4) { animation-duration: 80s; }
-    .orbit-planet:nth-child(5) { animation-duration: 100s; animation-direction: reverse; }
-    .orbit-planet:nth-child(6) { animation-duration: 100s; animation-direction: reverse; }
-    .orbit-planet:nth-child(7) { animation-duration: 120s; }
-    .orbit-planet:nth-child(8) { animation-duration: 120s; }
-
-    @keyframes counter-rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(-360deg); }
-    }
-
-    .planet-node {
-      width: 80px;
-      height: 80px;
+    .exp-card__icon {
+      width: 60px;
+      height: 60px;
       background: var(--surface0);
-      border: 2px solid var(--mauve);
-      border-radius: 50%;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
+      margin-bottom: 1.5rem;
     }
 
-    .planet-node:hover {
-      transform: scale(1.3);
-      background: var(--mauve);
-      box-shadow: 0 0 40px rgba(203, 166, 247, 0.6);
-    }
-
-    .planet-tooltip {
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-10px);
-      background: var(--base);
-      border: 1px solid var(--surface0);
-      border-radius: 12px;
-      padding: 1rem;
-      min-width: 250px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      z-index: 100;
-    }
-
-    .planet-node:hover .planet-tooltip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .planet-tooltip__year {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--teal);
-      margin-bottom: 0.5rem;
-    }
-
-    .planet-tooltip__title {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .planet-tooltip__company {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--mauve);
-    }
-
-    /* Experience detail panel */
-    .exp-detail {
-      position: absolute;
-      right: 5%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 350px;
-      background: rgba(30, 30, 46, 0.9);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--surface0);
-      border-radius: 20px;
-      padding: 2rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s ease;
-    }
-
-    .exp-detail.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .exp-detail__close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      color: var(--overlay0);
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    .exp-detail__year {
+    .exp-card__year {
       font-family: var(--font-mono);
       font-size: 0.8rem;
       color: var(--teal);
       margin-bottom: 0.5rem;
     }
 
-    .exp-detail__title {
-      font-size: 1.5rem;
+    .exp-card__title {
+      font-size: 1.3rem;
       font-weight: 700;
       margin-bottom: 0.25rem;
     }
 
-    .exp-detail__company {
+    .exp-card__company {
       font-family: var(--font-mono);
+      font-size: 0.9rem;
       color: var(--mauve);
       margin-bottom: 1rem;
     }
 
-    .exp-detail__desc {
+    .exp-card__desc {
       color: var(--subtext0);
+      font-size: 0.9rem;
       line-height: 1.6;
-      margin-bottom: 1rem;
+      flex-grow: 1;
     }
 
-    .exp-detail__tags {
+    .exp-card__badges {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+      margin-top: 1rem;
     }
 
-    .exp-detail__tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      padding: 0.3rem 0.6rem;
-      background: var(--surface0);
-      border-radius: 6px;
-      color: var(--peach);
+    /* Timeline connector */
+    .exp-connector {
+      display: flex;
+      align-items: center;
+      padding: 0 0.5rem;
+    }
+
+    .exp-connector__line {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--mauve), var(--teal));
+    }
+
+    .exp-connector__dot {
+      width: 12px;
+      height: 12px;
+      background: var(--mauve);
+      border-radius: 50%;
+      box-shadow: 0 0 20px var(--mauve);
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       PANEL 4: SKILLS - INTERACTIVE CONSTELLATION
+       PANEL 4: SKILLS
     ═══════════════════════════════════════════════════════════════ */
     .skills-container {
-      position: relative;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
       max-width: 1000px;
-      height: 80vh;
     }
 
-    .skill-node {
-      position: absolute;
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .skill-orb {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      padding: 1.5rem;
+      padding: 1.5rem 2rem;
       background: rgba(30, 30, 46, 0.8);
       backdrop-filter: blur(10px);
       border: 1px solid var(--surface0);
       border-radius: 16px;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: grab;
+      cursor: pointer;
     }
 
-    .skill-node:active {
-      cursor: grabbing;
-    }
-
-    .skill-node:hover {
-      transform: scale(1.15) !important;
+    .skill-orb:hover {
+      transform: scale(1.15) translateY(-5px);
       border-color: var(--mauve);
-      box-shadow: 0 0 30px rgba(203, 166, 247, 0.4);
-      z-index: 100;
+      box-shadow: 0 15px 30px rgba(203, 166, 247, 0.3);
     }
 
-    .skill-node__icon {
+    .skill-orb__icon {
       font-size: 2.5rem;
     }
 
-    .skill-node__name {
+    .skill-orb__name {
       font-family: var(--font-mono);
       font-size: 0.8rem;
       color: var(--text);
     }
 
-    .skill-node__level {
+    .skill-orb__level {
       font-family: var(--font-mono);
       font-size: 0.65rem;
       color: var(--teal);
     }
 
-    .skill-connection {
-      position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, var(--mauve), var(--teal));
-      opacity: 0.3;
-      transform-origin: left center;
-      pointer-events: none;
-    }
-
     /* ═══════════════════════════════════════════════════════════════
-       PANEL 5: CONTACT - IMMERSIVE
+       PANEL 5: CONTACT
     ═══════════════════════════════════════════════════════════════ */
     .contact-container {
       text-align: center;
@@ -881,12 +856,30 @@
         height: auto;
       }
       
-      .float-card--large {
+      .float-card--large,
+      .float-card--tall {
         grid-column: span 1;
+        grid-row: span 1;
       }
       
-      .orbital-container {
-        transform: scale(0.6);
+      .experience-container {
+        flex-direction: column;
+        height: auto;
+      }
+      
+      .exp-timeline {
+        flex-direction: column;
+        overflow-x: visible;
+      }
+      
+      .exp-card {
+        flex: 0 0 auto;
+        min-height: auto;
+      }
+      
+      .exp-connector {
+        transform: rotate(90deg);
+        padding: 0.5rem 0;
       }
       
       .dock {
@@ -946,23 +939,47 @@
       </h1>
       
       <p class="hero__title">
-        <span>Lead Software Engineer</span>
-        <span style="color: var(--overlay0);"> // </span>
-        <span>RAG & Agentic AI</span>
-        <span style="color: var(--overlay0);"> @ </span>
-        <span style="color: var(--peach);">Metrum AI</span>
+        Lead Software Engineer // RAG & Agentic AI @ Metrum AI
       </p>
       
+      <div class="hero__badges">
+        <span class="badge badge--dell">
+          <i class="fab fa-microsoft badge__icon"></i> Dell
+        </span>
+        <span class="badge badge--intel">
+          <i class="fas fa-microchip badge__icon"></i> Intel
+        </span>
+        <span class="badge badge--springer">
+          <i class="fas fa-book badge__icon"></i> Springer
+        </span>
+        <span class="badge badge--blockchain">
+          <i class="fas fa-cubes badge__icon"></i> Web3
+        </span>
+        <span class="badge">
+          <i class="fab fa-python badge__icon"></i> PyPI
+        </span>
+      </div>
+      
       <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-        <a href="#contact" class="magnetic-btn">Get in Touch</a>
+        <a href="#contact" class="magnetic-btn">
+          <i class="fas fa-paper-plane"></i> Get in Touch
+        </a>
         <a href="Aryan Sakhala Resume.pdf" class="magnetic-btn" target="_blank">
           <i class="fas fa-file-alt"></i> Resume
         </a>
       </div>
       
-      <div class="hero__scroll">
-        <div class="hero__scroll-icon"></div>
-        <span>scroll to explore</span>
+      <!-- Enhanced Scroll Indicator -->
+      <div class="scroll-indicator">
+        <div class="scroll-indicator__mouse">
+          <div class="scroll-indicator__wheel"></div>
+        </div>
+        <span class="scroll-indicator__text">Scroll to Explore</span>
+        <div class="scroll-indicator__arrows">
+          <div class="scroll-indicator__arrow"></div>
+          <div class="scroll-indicator__arrow"></div>
+          <div class="scroll-indicator__arrow"></div>
+        </div>
       </div>
     </section>
 
@@ -978,19 +995,22 @@
             Building intelligent systems that solve real enterprise problems. 
             Specializing in RAG pipelines, agentic workflows, and multi-modal AI for Fortune 500 clients.
           </p>
-          <div class="float-card__tags">
-            <span class="float-card__tag">LangChain</span>
-            <span class="float-card__tag">RAG</span>
-            <span class="float-card__tag">Agentic AI</span>
-            <span class="float-card__tag">Multi-Modal</span>
+          <div class="float-card__badges">
+            <span class="badge badge--dell"><i class="fab fa-microsoft badge__icon"></i> Dell</span>
+            <span class="badge badge--intel"><i class="fas fa-microchip badge__icon"></i> Intel</span>
+            <span class="badge"><i class="fas fa-robot badge__icon"></i> RAG</span>
+            <span class="badge"><i class="fas fa-brain badge__icon"></i> Agentic AI</span>
           </div>
         </div>
         
         <div class="float-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
           <div class="float-card__icon">🔬</div>
           <h3 class="float-card__title">Researcher</h3>
-          <p class="float-card__subtitle">Springer LNNS | ISBM 2025</p>
-          <p class="float-card__text">ESG + ML research presented in Bangkok</p>
+          <p class="float-card__subtitle">ISBM 2025, Bangkok</p>
+          <p class="float-card__text">ESG + ML research published in Springer LNNS</p>
+          <div class="float-card__badges">
+            <span class="badge badge--springer"><i class="fas fa-book badge__icon"></i> Springer</span>
+          </div>
         </div>
         
         <div class="float-card float-card--tall" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
@@ -998,19 +1018,23 @@
           <h3 class="float-card__title">Enterprise Impact</h3>
           <p class="float-card__subtitle">SuperCompute 2024</p>
           <p class="float-card__text">
-            Showcased multi-modal AI solution. Currently leading RAG initiatives for Dell and Intel.
+            Showcased multi-modal AI solution at world's largest supercomputing conference. 
+            Currently leading RAG initiatives for Fortune 500 tech giants.
           </p>
-          <div class="float-card__tags">
-            <span class="float-card__tag">Dell</span>
-            <span class="float-card__tag">Intel</span>
+          <div class="float-card__badges">
+            <span class="badge"><i class="fas fa-award badge__icon"></i> SuperCompute</span>
+            <span class="badge"><i class="fas fa-project-diagram badge__icon"></i> Multi-Modal</span>
           </div>
         </div>
         
         <div class="float-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
           <div class="float-card__icon">🎓</div>
           <h3 class="float-card__title">Educator</h3>
-          <p class="float-card__subtitle">IIT Guwahati | 5 Batches</p>
-          <p class="float-card__text">Teaching cybersecurity & ML</p>
+          <p class="float-card__subtitle">IIT Guwahati • 5 Batches</p>
+          <p class="float-card__text">Teaching cybersecurity & ML fundamentals</p>
+          <div class="float-card__badges">
+            <span class="badge"><i class="fas fa-graduation-cap badge__icon"></i> IIT</span>
+          </div>
         </div>
         
         <div class="float-card" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
@@ -1018,93 +1042,119 @@
           <h3 class="float-card__title">Open Source</h3>
           <p class="float-card__subtitle">PyPI Contributor</p>
           <p class="float-card__text">Building tools for the ML community</p>
+          <div class="float-card__badges">
+            <span class="badge"><i class="fab fa-python badge__icon"></i> PyPI</span>
+            <span class="badge"><i class="fab fa-github badge__icon"></i> OSS</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Panel 3: Experience - Orbital -->
+    <!-- Panel 3: Experience - Card Timeline -->
     <section class="panel" id="experience">
       <div class="section-label"><span>03</span> // journey</div>
       
-      <div class="orbital-container">
-        <!-- Center -->
-        <div class="orbital-center">👨‍💻</div>
-        
-        <!-- Orbital Rings -->
-        <div class="orbital-ring"></div>
-        <div class="orbital-ring"></div>
-        <div class="orbital-ring"></div>
-        
-        <!-- Planets (Experiences) -->
-        <div class="orbit-planet" style="transform: translateX(150px);">
-          <div class="planet-node" data-exp="metrum" onclick="showExpDetail('metrum')">
-            🚀
-            <div class="planet-tooltip">
-              <div class="planet-tooltip__year">2024 — Present</div>
-              <div class="planet-tooltip__title">Lead Software Engineer</div>
-              <div class="planet-tooltip__company">@ Metrum AI</div>
+      <div class="experience-container">
+        <div class="exp-timeline">
+          <!-- Metrum AI -->
+          <div class="exp-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+            <div class="exp-card__icon">🚀</div>
+            <span class="exp-card__year">2024 — Present</span>
+            <h3 class="exp-card__title">Lead Software Engineer</h3>
+            <p class="exp-card__company">@ Metrum AI</p>
+            <p class="exp-card__desc">
+              Leading RAG-based agentic workflow solutions for enterprise clients. 
+              Contributed to SuperCompute 2024 showcase with multi-modal AI capabilities.
+            </p>
+            <div class="exp-card__badges">
+              <span class="badge badge--dell"><i class="fab fa-microsoft badge__icon"></i> Dell</span>
+              <span class="badge badge--intel"><i class="fas fa-microchip badge__icon"></i> Intel</span>
+              <span class="badge"><i class="fas fa-robot badge__icon"></i> RAG</span>
             </div>
           </div>
-        </div>
-        
-        <div class="orbit-planet" style="transform: translateX(225px) rotate(60deg);">
-          <div class="planet-node" data-exp="vidyashilp" onclick="showExpDetail('vidyashilp')">
-            🔬
-            <div class="planet-tooltip">
-              <div class="planet-tooltip__year">2023 — 2024</div>
-              <div class="planet-tooltip__title">Research Associate</div>
-              <div class="planet-tooltip__company">@ Vidyashilp University</div>
+          
+          <div class="exp-connector">
+            <div class="exp-connector__dot"></div>
+            <div class="exp-connector__line"></div>
+          </div>
+          
+          <!-- Vidyashilp -->
+          <div class="exp-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+            <div class="exp-card__icon">🔬</div>
+            <span class="exp-card__year">2023 — 2024</span>
+            <h3 class="exp-card__title">Research Associate</h3>
+            <p class="exp-card__company">@ Vidyashilp University</p>
+            <p class="exp-card__desc">
+              Published ML research in Springer LNNS (ISBM 2025, Bangkok). 
+              Teaching Assistant for Data Science courses.
+            </p>
+            <div class="exp-card__badges">
+              <span class="badge badge--springer"><i class="fas fa-book badge__icon"></i> Springer</span>
+              <span class="badge"><i class="fas fa-graduation-cap badge__icon"></i> TA</span>
             </div>
           </div>
-        </div>
-        
-        <div class="orbit-planet" style="transform: translateX(225px) rotate(180deg);">
-          <div class="planet-node" data-exp="evueme" onclick="showExpDetail('evueme')">
-            🤖
-            <div class="planet-tooltip">
-              <div class="planet-tooltip__year">2023 — 2024</div>
-              <div class="planet-tooltip__title">ML Developer</div>
-              <div class="planet-tooltip__company">@ EvueMe Robot</div>
+          
+          <div class="exp-connector">
+            <div class="exp-connector__dot"></div>
+            <div class="exp-connector__line"></div>
+          </div>
+          
+          <!-- EvueMe -->
+          <div class="exp-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+            <div class="exp-card__icon">🤖</div>
+            <span class="exp-card__year">2023 — 2024</span>
+            <h3 class="exp-card__title">ML Developer</h3>
+            <p class="exp-card__company">@ EvueMe Selection Robot</p>
+            <p class="exp-card__desc">
+              Built deep learning models for AI-based HR bot. 
+              Developed Dashboard API and real-time database pipeline.
+            </p>
+            <div class="exp-card__badges">
+              <span class="badge"><i class="fas fa-brain badge__icon"></i> Deep Learning</span>
+              <span class="badge"><i class="fas fa-comments badge__icon"></i> NLP</span>
             </div>
           </div>
-        </div>
-        
-        <div class="orbit-planet" style="transform: translateX(300px) rotate(30deg);">
-          <div class="planet-node" data-exp="sirpi" onclick="showExpDetail('sirpi')">
-            📊
-            <div class="planet-tooltip">
-              <div class="planet-tooltip__year">2021 — 2023</div>
-              <div class="planet-tooltip__title">Data Scientist</div>
-              <div class="planet-tooltip__company">@ Sirpi</div>
+          
+          <div class="exp-connector">
+            <div class="exp-connector__dot"></div>
+            <div class="exp-connector__line"></div>
+          </div>
+          
+          <!-- Sirpi -->
+          <div class="exp-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+            <div class="exp-card__icon">📊</div>
+            <span class="exp-card__year">2021 — 2023</span>
+            <h3 class="exp-card__title">Data Scientist</h3>
+            <p class="exp-card__company">@ Sirpi</p>
+            <p class="exp-card__desc">
+              Led 7-member team building Proofify (Blockchain document transfer). 
+              Analytics for IUDX - Government of India.
+            </p>
+            <div class="exp-card__badges">
+              <span class="badge badge--blockchain"><i class="fas fa-cubes badge__icon"></i> Blockchain</span>
+              <span class="badge badge--gov"><i class="fas fa-landmark badge__icon"></i> Gov. India</span>
             </div>
           </div>
-        </div>
-        
-        <div class="orbit-planet" style="transform: translateX(300px) rotate(150deg);">
-          <div class="planet-node" data-exp="education" onclick="showExpDetail('education')">
-            🎓
-            <div class="planet-tooltip">
-              <div class="planet-tooltip__year">2019 — 2023</div>
-              <div class="planet-tooltip__title">B.E. Computer Engineering</div>
-              <div class="planet-tooltip__company">@ Pune University</div>
-            </div>
+          
+          <div class="exp-connector">
+            <div class="exp-connector__dot"></div>
+            <div class="exp-connector__line"></div>
           </div>
-        </div>
-        
-        <!-- Experience Detail Panel -->
-        <div class="exp-detail" id="exp-detail">
-          <button class="exp-detail__close" onclick="hideExpDetail()">&times;</button>
-          <div class="exp-detail__year" id="exp-year">2024 — Present</div>
-          <h3 class="exp-detail__title" id="exp-title">Lead Software Engineer</h3>
-          <p class="exp-detail__company" id="exp-company">@ Metrum AI</p>
-          <p class="exp-detail__desc" id="exp-desc">
-            Leading RAG-based agentic workflow solutions for enterprise clients Dell and Intel. 
-            Contributed to SuperCompute 2024 showcase with multi-modal AI capabilities.
-          </p>
-          <div class="exp-detail__tags" id="exp-tags">
-            <span class="exp-detail__tag">RAG</span>
-            <span class="exp-detail__tag">LangChain</span>
-            <span class="exp-detail__tag">Multi-Modal</span>
+          
+          <!-- Education -->
+          <div class="exp-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+            <div class="exp-card__icon">🎓</div>
+            <span class="exp-card__year">2019 — 2023</span>
+            <h3 class="exp-card__title">B.E. Computer Engineering</h3>
+            <p class="exp-card__company">@ Pune University (SPPU)</p>
+            <p class="exp-card__desc">
+              CGPA: 8.56/10 | Honors in AI/ML
+              <br>Dr. D.Y. Patil Institute of Engineering
+            </p>
+            <div class="exp-card__badges">
+              <span class="badge"><i class="fas fa-trophy badge__icon"></i> 8.56 CGPA</span>
+              <span class="badge"><i class="fas fa-brain badge__icon"></i> AI/ML Honors</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1114,8 +1164,23 @@
     <section class="panel" id="skills">
       <div class="section-label"><span>04</span> // skills</div>
       
-      <div class="skills-container" id="skills-container">
-        <!-- Skills will be dynamically positioned -->
+      <div class="skills-container">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--mauve), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Tech Arsenal</h2>
+        
+        <div class="skills-grid">
+          <div class="skill-orb"><span class="skill-orb__icon">🐍</span><span class="skill-orb__name">Python</span><span class="skill-orb__level">Expert</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🔥</span><span class="skill-orb__name">PyTorch</span><span class="skill-orb__level">Advanced</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🧠</span><span class="skill-orb__name">TensorFlow</span><span class="skill-orb__level">Advanced</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🦜</span><span class="skill-orb__name">LangChain</span><span class="skill-orb__level">Expert</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🤗</span><span class="skill-orb__name">HuggingFace</span><span class="skill-orb__level">Advanced</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">⚡</span><span class="skill-orb__name">FastAPI</span><span class="skill-orb__level">Expert</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🐳</span><span class="skill-orb__name">Docker</span><span class="skill-orb__level">Advanced</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">📊</span><span class="skill-orb__name">SQL</span><span class="skill-orb__level">Expert</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🍃</span><span class="skill-orb__name">MongoDB</span><span class="skill-orb__level">Advanced</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">⚛️</span><span class="skill-orb__name">React</span><span class="skill-orb__level">Intermediate</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">🔗</span><span class="skill-orb__name">Web3</span><span class="skill-orb__level">Advanced</span></div>
+          <div class="skill-orb"><span class="skill-orb__icon">📨</span><span class="skill-orb__name">Kafka</span><span class="skill-orb__level">Intermediate</span></div>
+        </div>
       </div>
     </section>
 
@@ -1158,130 +1223,6 @@
   </div>
 
   <script>
-    // ═══════════════════════════════════════════════════════════════
-    // EXPERIENCE DATA
-    // ═══════════════════════════════════════════════════════════════
-    const experiences = {
-      metrum: {
-        year: "2024 — Present",
-        title: "Lead Software Engineer",
-        company: "@ Metrum AI",
-        desc: "Leading RAG-based agentic workflow solutions for enterprise clients Dell and Intel. Contributed to SuperCompute 2024 showcase with multi-modal AI capabilities.",
-        tags: ["RAG", "LangChain", "Multi-Modal", "Dell", "Intel"]
-      },
-      vidyashilp: {
-        year: "2023 — 2024",
-        title: "Research Associate",
-        company: "@ Vidyashilp University",
-        desc: "Published ML research in Springer LNNS (ISBM 2025, Bangkok). Teaching Assistant for Data Science courses.",
-        tags: ["Research", "Springer", "Teaching", "ML"]
-      },
-      evueme: {
-        year: "2023 — 2024",
-        title: "ML Developer",
-        company: "@ EvueMe Selection Robot",
-        desc: "Built deep learning models for AI-based HR bot. Developed Dashboard API and real-time database pipeline.",
-        tags: ["Deep Learning", "NLP", "APIs", "HR Tech"]
-      },
-      sirpi: {
-        year: "2021 — 2023",
-        title: "Data Scientist",
-        company: "@ Sirpi",
-        desc: "Led 7-member team building Proofify (Blockchain document transfer). Analytics for IUDX - Government of India.",
-        tags: ["Blockchain", "Web3", "Analytics", "Team Lead"]
-      },
-      education: {
-        year: "2019 — 2023",
-        title: "B.E. Computer Engineering",
-        company: "@ Pune University (SPPU)",
-        desc: "CGPA: 8.56/10 | Honors in AI/ML | Dr. D.Y. Patil Institute of Engineering, Management and Research",
-        tags: ["AI/ML", "Computer Engineering", "8.56 CGPA"]
-      }
-    };
-
-    function showExpDetail(expId) {
-      const exp = experiences[expId];
-      const detail = document.getElementById('exp-detail');
-      
-      document.getElementById('exp-year').textContent = exp.year;
-      document.getElementById('exp-title').textContent = exp.title;
-      document.getElementById('exp-company').textContent = exp.company;
-      document.getElementById('exp-desc').textContent = exp.desc;
-      
-      const tagsContainer = document.getElementById('exp-tags');
-      tagsContainer.innerHTML = exp.tags.map(tag => 
-        `<span class="exp-detail__tag">${tag}</span>`
-      ).join('');
-      
-      detail.classList.add('active');
-    }
-
-    function hideExpDetail() {
-      document.getElementById('exp-detail').classList.remove('active');
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    // SKILLS DATA & CONSTELLATION
-    // ═══════════════════════════════════════════════════════════════
-    const skills = [
-      { name: "Python", icon: "🐍", level: "Expert", x: 20, y: 30 },
-      { name: "PyTorch", icon: "🔥", level: "Advanced", x: 35, y: 15 },
-      { name: "TensorFlow", icon: "🧠", level: "Advanced", x: 55, y: 25 },
-      { name: "LangChain", icon: "🦜", level: "Expert", x: 75, y: 20 },
-      { name: "HuggingFace", icon: "🤗", level: "Advanced", x: 15, y: 55 },
-      { name: "FastAPI", icon: "⚡", level: "Expert", x: 40, y: 45 },
-      { name: "Docker", icon: "🐳", level: "Advanced", x: 65, y: 50 },
-      { name: "SQL", icon: "📊", level: "Expert", x: 85, y: 40 },
-      { name: "MongoDB", icon: "🍃", level: "Advanced", x: 25, y: 75 },
-      { name: "React", icon: "⚛️", level: "Intermediate", x: 50, y: 70 },
-      { name: "Web3", icon: "🔗", level: "Advanced", x: 70, y: 75 },
-      { name: "Kafka", icon: "📨", level: "Intermediate", x: 45, y: 85 },
-    ];
-
-    function initSkills() {
-      const container = document.getElementById('skills-container');
-      const containerRect = container.getBoundingClientRect();
-      
-      skills.forEach((skill, i) => {
-        const node = document.createElement('div');
-        node.className = 'skill-node';
-        node.style.left = skill.x + '%';
-        node.style.top = skill.y + '%';
-        node.innerHTML = `
-          <span class="skill-node__icon">${skill.icon}</span>
-          <span class="skill-node__name">${skill.name}</span>
-          <span class="skill-node__level">${skill.level}</span>
-        `;
-        container.appendChild(node);
-        
-        // Make draggable
-        let isDragging = false;
-        let startX, startY, startLeft, startTop;
-        
-        node.addEventListener('mousedown', (e) => {
-          isDragging = true;
-          startX = e.clientX;
-          startY = e.clientY;
-          startLeft = parseFloat(node.style.left);
-          startTop = parseFloat(node.style.top);
-          node.style.zIndex = 1000;
-        });
-        
-        document.addEventListener('mousemove', (e) => {
-          if (!isDragging) return;
-          const dx = (e.clientX - startX) / containerRect.width * 100;
-          const dy = (e.clientY - startY) / containerRect.height * 100;
-          node.style.left = Math.max(0, Math.min(90, startLeft + dx)) + '%';
-          node.style.top = Math.max(0, Math.min(90, startTop + dy)) + '%';
-        });
-        
-        document.addEventListener('mouseup', () => {
-          isDragging = false;
-          node.style.zIndex = '';
-        });
-      });
-    }
-
     // ═══════════════════════════════════════════════════════════════
     // CUSTOM CURSOR
     // ═══════════════════════════════════════════════════════════════
@@ -1334,7 +1275,7 @@
     animateCursor();
     
     // Cursor hover effect
-    document.querySelectorAll('a, button, .planet-node, .skill-node, .float-card, .magnetic-btn').forEach(el => {
+    document.querySelectorAll('a, button, .skill-orb, .float-card, .exp-card, .magnetic-btn, .badge').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('cursor--hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('cursor--hover'));
     });
@@ -1534,13 +1475,13 @@
     // INIT
     // ═══════════════════════════════════════════════════════════════
     VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
-    initSkills();
 
     // Entrance animations
     gsap.from('.hero__name', { opacity: 0, y: 50, duration: 1, delay: 0.3 });
-    gsap.from('.hero__title span', { opacity: 0, y: 20, duration: 0.6, stagger: 0.1, delay: 0.8 });
-    gsap.from('.magnetic-btn', { opacity: 0, y: 20, duration: 0.6, stagger: 0.1, delay: 1.2 });
-    gsap.from('.hero__scroll', { opacity: 0, duration: 1, delay: 1.8 });
+    gsap.from('.hero__title', { opacity: 0, y: 20, duration: 0.6, delay: 0.8 });
+    gsap.from('.hero__badges .badge', { opacity: 0, y: 20, duration: 0.5, stagger: 0.1, delay: 1 });
+    gsap.from('.magnetic-btn', { opacity: 0, y: 20, duration: 0.6, stagger: 0.1, delay: 1.4 });
+    gsap.from('.scroll-indicator', { opacity: 0, duration: 1, delay: 2 });
   </script>
 </body>
 </html>
