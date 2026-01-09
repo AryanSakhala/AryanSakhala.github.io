@@ -631,7 +631,7 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       PANEL 4: SKILLS - IRON MAN ARC REACTOR
+       PANEL 4: SKILLS - AUTHENTIC ARC REACTOR + NEURAL NETWORK
     ═══════════════════════════════════════════════════════════════ */
     .arc-wrapper {
       position: relative;
@@ -642,314 +642,321 @@
       height: 100%;
     }
 
-    /* Iron Man Chest Armor Background */
-    .chest-armor {
-      position: absolute;
-      width: 700px;
-      height: 800px;
-      z-index: 0;
-    }
-
-    .chest-armor::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
-      background: 
-        /* Center highlight */
-        radial-gradient(ellipse 30% 25% at 50% 48%, rgba(180, 40, 40, 0.25), transparent 60%),
-        /* Gold accents */
-        radial-gradient(ellipse 35% 20% at 50% 35%, rgba(218, 165, 32, 0.15), transparent 50%),
-        radial-gradient(ellipse 35% 20% at 50% 65%, rgba(218, 165, 32, 0.1), transparent 50%);
-    }
-
-    /* Chest plate shape - trapezoid armor panels */
-    .chest-armor::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 500px;
-      height: 600px;
-      background: transparent;
-      border: 2px solid transparent;
-      border-image: linear-gradient(180deg, 
-        rgba(139, 0, 0, 0.4) 0%, 
-        rgba(180, 40, 40, 0.3) 30%,
-        rgba(139, 0, 0, 0.2) 50%,
-        rgba(100, 20, 20, 0.15) 100%) 1;
-      clip-path: polygon(
-        30% 5%, 70% 5%,
-        85% 25%, 90% 50%, 85% 75%,
-        70% 95%, 30% 95%,
-        15% 75%, 10% 50%, 15% 25%
-      );
-      box-shadow: 
-        inset 0 0 100px rgba(139, 0, 0, 0.15),
-        inset 0 0 200px rgba(180, 40, 40, 0.1);
-    }
-
-    /* Armor panel lines */
-    .armor-lines {
-      position: absolute;
-      width: 500px;
-      height: 600px;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
-    .armor-line {
-      position: absolute;
-      background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.5), transparent);
-      height: 1px;
-    }
-
-    .armor-line:nth-child(1) { top: 20%; left: 10%; width: 25%; transform: rotate(-15deg); }
-    .armor-line:nth-child(2) { top: 20%; right: 10%; width: 25%; transform: rotate(15deg); }
-    .armor-line:nth-child(3) { top: 35%; left: 5%; width: 20%; transform: rotate(-25deg); }
-    .armor-line:nth-child(4) { top: 35%; right: 5%; width: 20%; transform: rotate(25deg); }
-    .armor-line:nth-child(5) { bottom: 35%; left: 5%; width: 20%; transform: rotate(25deg); }
-    .armor-line:nth-child(6) { bottom: 35%; right: 5%; width: 20%; transform: rotate(-25deg); }
-    .armor-line:nth-child(7) { bottom: 20%; left: 10%; width: 25%; transform: rotate(15deg); }
-    .armor-line:nth-child(8) { bottom: 20%; right: 10%; width: 25%; transform: rotate(-15deg); }
-
-    /* Gold edge highlights */
-    .armor-edge {
-      position: absolute;
-      width: 480px;
-      height: 580px;
-      border: 1px solid rgba(218, 165, 32, 0.2);
-      clip-path: polygon(
-        32% 6%, 68% 6%,
-        83% 26%, 88% 50%, 83% 74%,
-        68% 94%, 32% 94%,
-        17% 74%, 12% 50%, 17% 26%
-      );
-    }
-
     .reactor-container {
       position: relative;
-      width: 400px;
-      height: 400px;
+      width: 320px;
+      height: 320px;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1;
     }
 
-    /* Outer ring - dark metal */
-    .arc-outer {
-      position: absolute;
-      width: 340px;
-      height: 340px;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, #1a1a2e, #2d2d44, #1a1a2e, #2d2d44, #1a1a2e);
-      box-shadow: 
-        0 0 0 8px #0d0d15,
-        inset 0 0 30px rgba(0,0,0,0.8),
-        0 0 60px rgba(100, 180, 255, 0.15);
-    }
-
-    /* Copper coil segments - 10 pieces */
-    .arc-segments {
+    /* Outer black ring */
+    .arc-ring-outer {
       position: absolute;
       width: 300px;
       height: 300px;
-    }
-
-    .arc-segment {
-      position: absolute;
-      width: 35px;
-      height: 70px;
-      top: 50%;
-      left: 50%;
-      transform-origin: 50% 0%;
-      background: linear-gradient(180deg, 
-        #b87333 0%, #cd7f32 15%, #daa520 30%, 
-        #cd7f32 50%, #b87333 70%, #8b4513 100%);
-      border-radius: 3px 3px 6px 6px;
-      box-shadow: 
-        inset 0 2px 4px rgba(255,255,255,0.3),
-        inset 0 -2px 4px rgba(0,0,0,0.4),
-        0 0 8px rgba(100, 180, 255, 0.2);
-    }
-
-    /* Coil texture lines */
-    .arc-segment::before {
-      content: '';
-      position: absolute;
-      top: 8px; left: 4px; right: 4px; bottom: 8px;
-      background: repeating-linear-gradient(0deg,
-        transparent, transparent 4px,
-        rgba(0,0,0,0.3) 4px, rgba(0,0,0,0.3) 5px);
-      border-radius: 2px;
-    }
-
-    .arc-segment:nth-child(1) { transform: translate(-50%, 0) rotate(0deg) translateY(-150px); }
-    .arc-segment:nth-child(2) { transform: translate(-50%, 0) rotate(36deg) translateY(-150px); }
-    .arc-segment:nth-child(3) { transform: translate(-50%, 0) rotate(72deg) translateY(-150px); }
-    .arc-segment:nth-child(4) { transform: translate(-50%, 0) rotate(108deg) translateY(-150px); }
-    .arc-segment:nth-child(5) { transform: translate(-50%, 0) rotate(144deg) translateY(-150px); }
-    .arc-segment:nth-child(6) { transform: translate(-50%, 0) rotate(180deg) translateY(-150px); }
-    .arc-segment:nth-child(7) { transform: translate(-50%, 0) rotate(216deg) translateY(-150px); }
-    .arc-segment:nth-child(8) { transform: translate(-50%, 0) rotate(252deg) translateY(-150px); }
-    .arc-segment:nth-child(9) { transform: translate(-50%, 0) rotate(288deg) translateY(-150px); }
-    .arc-segment:nth-child(10) { transform: translate(-50%, 0) rotate(324deg) translateY(-150px); }
-
-    /* Inner metallic ring */
-    .arc-inner {
-      position: absolute;
-      width: 180px;
-      height: 180px;
       border-radius: 50%;
-      background: conic-gradient(from 45deg, #2a2a3e, #3d3d55, #2a2a3e, #3d3d55, #2a2a3e);
+      background: #0a0a12;
       box-shadow: 
-        inset 0 0 20px rgba(0,0,0,0.7),
-        0 0 40px rgba(100, 180, 255, 0.2);
+        0 0 0 4px #1a1a25,
+        0 0 60px rgba(80, 180, 255, 0.3),
+        0 0 100px rgba(80, 180, 255, 0.2);
     }
 
-    /* Glow ring between segments */
-    .arc-glow-ring {
+    /* Blue glow ring (visible between segments) */
+    .arc-glow {
       position: absolute;
       width: 280px;
       height: 280px;
       border-radius: 50%;
+      background: radial-gradient(circle, 
+        rgba(80, 180, 255, 0.1) 60%, 
+        rgba(80, 180, 255, 0.4) 75%, 
+        rgba(80, 180, 255, 0.1) 85%);
       box-shadow: 
-        inset 0 0 50px rgba(100, 180, 255, 0.4),
-        inset 0 0 100px rgba(100, 180, 255, 0.2),
-        0 0 30px rgba(100, 180, 255, 0.3);
-      animation: glow-breathe 2.5s ease-in-out infinite;
+        inset 0 0 60px rgba(80, 180, 255, 0.5),
+        0 0 40px rgba(80, 180, 255, 0.3);
+      animation: glow-pulse 2s ease-in-out infinite;
     }
 
-    @keyframes glow-breathe {
-      0%, 100% { opacity: 0.8; }
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.85; }
       50% { opacity: 1; }
     }
 
-    /* Core - bright center */
-    .arc-core {
+    /* Segment container */
+    .arc-segments {
       position: absolute;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%,
-        #ffffff 0%,
-        #e0f4ff 20%,
-        #7dd3fc 40%,
-        #38bdf8 60%,
-        #0ea5e9 80%);
-      box-shadow: 
-        0 0 20px #fff,
-        0 0 40px rgba(125, 211, 252, 0.9),
-        0 0 60px rgba(56, 189, 248, 0.7),
-        0 0 80px rgba(14, 165, 233, 0.5),
-        0 0 120px rgba(14, 165, 233, 0.3);
-      animation: core-pulse 2s ease-in-out infinite;
+      width: 280px;
+      height: 280px;
     }
 
+    /* Individual copper segments - 10 pieces */
+    .arc-seg {
+      position: absolute;
+      width: 42px;
+      height: 75px;
+      top: 50%;
+      left: 50%;
+      margin-left: -21px;
+      margin-top: -140px;
+      transform-origin: 21px 140px;
+      background: linear-gradient(180deg,
+        #2a2a35 0%,
+        #b87333 5%,
+        #cd853f 15%,
+        #daa520 25%,
+        #cd853f 40%,
+        #b87333 55%,
+        #8b5a2b 70%,
+        #5c4033 85%,
+        #2a2a35 100%);
+      border-radius: 4px;
+      box-shadow: 
+        inset 2px 0 4px rgba(255,255,255,0.2),
+        inset -2px 0 4px rgba(0,0,0,0.4),
+        0 0 10px rgba(80, 180, 255, 0.3);
+    }
+
+    /* Coil wire texture */
+    .arc-seg::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 6px;
+      right: 6px;
+      bottom: 10px;
+      background: repeating-linear-gradient(0deg,
+        rgba(139, 90, 43, 0.8) 0px,
+        rgba(205, 133, 63, 0.9) 2px,
+        rgba(139, 90, 43, 0.8) 4px);
+      border-radius: 2px;
+    }
+
+    /* Blue LED strip on each segment */
+    .arc-seg::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: calc(100% - 16px);
+      background: linear-gradient(180deg,
+        rgba(80, 180, 255, 0.9),
+        rgba(150, 220, 255, 1),
+        rgba(80, 180, 255, 0.9));
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(80, 180, 255, 0.8);
+    }
+
+    .arc-seg:nth-child(1) { transform: rotate(0deg); }
+    .arc-seg:nth-child(2) { transform: rotate(36deg); }
+    .arc-seg:nth-child(3) { transform: rotate(72deg); }
+    .arc-seg:nth-child(4) { transform: rotate(108deg); }
+    .arc-seg:nth-child(5) { transform: rotate(144deg); }
+    .arc-seg:nth-child(6) { transform: rotate(180deg); }
+    .arc-seg:nth-child(7) { transform: rotate(216deg); }
+    .arc-seg:nth-child(8) { transform: rotate(252deg); }
+    .arc-seg:nth-child(9) { transform: rotate(288deg); }
+    .arc-seg:nth-child(10) { transform: rotate(324deg); }
+
+    /* Inner ring */
+    .arc-ring-inner {
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #15151f, #1f1f2e, #15151f);
+      box-shadow: 
+        inset 0 0 20px rgba(0,0,0,0.8),
+        0 0 30px rgba(80, 180, 255, 0.4);
+    }
+
+    /* Bright core */
+    .arc-core {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%,
+        #ffffff 0%,
+        #e0f7ff 15%,
+        #7dd3fc 35%,
+        #38bdf8 55%,
+        #0ea5e9 75%,
+        #0284c7 100%);
+      box-shadow: 
+        0 0 30px #fff,
+        0 0 60px rgba(125, 211, 252, 1),
+        0 0 100px rgba(56, 189, 248, 0.8),
+        0 0 150px rgba(14, 165, 233, 0.5);
+      animation: core-breathe 2s ease-in-out infinite;
+    }
+
+    /* Inner core ring detail */
     .arc-core::before {
       content: '';
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
-      width: 0; height: 0;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-bottom: 32px solid rgba(255,255,255,0.95);
-      filter: drop-shadow(0 0 8px #fff);
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255,255,255,0.6);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
     }
 
-    @keyframes core-pulse {
+    .arc-core::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #fff, 0 0 40px rgba(200,240,255,1);
+    }
+
+    @keyframes core-breathe {
       0%, 100% { 
         transform: scale(1);
-        box-shadow: 0 0 20px #fff, 0 0 40px rgba(125, 211, 252, 0.9), 0 0 60px rgba(56, 189, 248, 0.7), 0 0 80px rgba(14, 165, 233, 0.5);
+        filter: brightness(1);
       }
       50% { 
-        transform: scale(1.03);
-        box-shadow: 0 0 30px #fff, 0 0 60px rgba(125, 211, 252, 1), 0 0 90px rgba(56, 189, 248, 0.8), 0 0 120px rgba(14, 165, 233, 0.6);
+        transform: scale(1.02);
+        filter: brightness(1.1);
       }
     }
 
-    /* Skills orbit container */
-    .skills-orbit {
+    /* ═══════════════════════════════════════════════════════════════
+       NEURAL NETWORK SKILLS
+    ═══════════════════════════════════════════════════════════════ */
+    .neural-container {
       position: absolute;
-      width: 550px;
-      height: 550px;
+      width: 700px;
+      height: 700px;
     }
 
+    /* SVG for neural connections */
+    .neural-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .neural-line {
+      stroke: url(#neural-grad);
+      stroke-width: 2;
+      fill: none;
+      opacity: 0.6;
+      filter: drop-shadow(0 0 3px rgba(80, 180, 255, 0.5));
+    }
+
+    .neural-line.active {
+      stroke-width: 3;
+      opacity: 1;
+      filter: drop-shadow(0 0 6px rgba(80, 180, 255, 0.8));
+    }
+
+    /* Skill nodes */
     .skill-node {
       position: absolute;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.2rem;
-      padding: 0.6rem 0.8rem;
-      background: rgba(15, 15, 25, 0.95);
-      border: 1px solid rgba(100, 180, 255, 0.3);
-      border-radius: 10px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      gap: 0.3rem;
+      padding: 0.7rem 1rem;
+      background: rgba(10, 10, 20, 0.95);
+      border: 2px solid rgba(80, 180, 255, 0.4);
+      border-radius: 12px;
       cursor: grab;
       user-select: none;
+      z-index: 10;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .skill-node::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 14px;
+      background: transparent;
+      z-index: -1;
     }
 
     .skill-node:hover {
-      border-color: rgba(100, 180, 255, 0.8);
-      box-shadow: 0 0 25px rgba(100, 180, 255, 0.5);
-      z-index: 20;
-    }
-
-    .skill-node:active {
-      cursor: grabbing;
-      transform: scale(1.1);
-      box-shadow: 0 0 35px rgba(100, 180, 255, 0.7), 0 10px 30px rgba(0,0,0,0.3);
-      z-index: 100;
+      border-color: rgba(80, 180, 255, 0.9);
+      box-shadow: 
+        0 0 20px rgba(80, 180, 255, 0.5),
+        inset 0 0 15px rgba(80, 180, 255, 0.1);
     }
 
     .skill-node.dragging {
-      transition: none;
+      cursor: grabbing;
+      border-color: #fff;
+      box-shadow: 
+        0 0 30px rgba(80, 180, 255, 0.8),
+        0 0 60px rgba(80, 180, 255, 0.4);
       z-index: 100;
     }
 
-    .skill-node__icon { font-size: 1.5rem; }
+    .skill-node__icon { font-size: 1.8rem; }
     .skill-node__name { 
       font-family: var(--font-mono); 
-      font-size: 0.6rem; 
-      color: rgba(200, 220, 255, 0.9);
+      font-size: 0.65rem; 
+      color: rgba(180, 220, 255, 0.95);
+      letter-spacing: 0.5px;
     }
 
-    /* Drag hint */
-    .drag-hint {
+    /* Connection dots on nodes */
+    .skill-node__dot {
       position: absolute;
-      bottom: 50px;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: rgba(100, 180, 255, 0.5);
-      letter-spacing: 1px;
-      animation: hint-pulse 2s ease-in-out infinite;
+      width: 8px;
+      height: 8px;
+      background: rgba(80, 180, 255, 0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(80, 180, 255, 0.6);
     }
 
-    @keyframes hint-pulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.8; }
-    }
-
-    /* Title */
+    /* Title & hint */
     .reactor-title {
       position: absolute;
-      bottom: 30px;
+      bottom: 10px;
       font-family: var(--font-mono);
-      font-size: 1rem;
-      letter-spacing: 4px;
-      color: rgba(100, 180, 255, 0.8);
-      text-shadow: 0 0 20px rgba(100, 180, 255, 0.5);
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      color: rgba(80, 180, 255, 0.7);
+      text-shadow: 0 0 15px rgba(80, 180, 255, 0.4);
+    }
+
+    .neural-hint {
+      position: absolute;
+      bottom: 35px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: rgba(80, 180, 255, 0.4);
+      animation: hint-fade 3s ease-in-out infinite;
+    }
+
+    @keyframes hint-fade {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.7; }
     }
 
     @media (max-width: 768px) {
-      .arc-wrapper { transform: scale(0.5); }
+      .arc-wrapper { transform: scale(0.45); }
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -1433,111 +1440,59 @@
       <div class="section-label"><span>04</span> // tech arsenal</div>
       
       <div class="arc-wrapper">
-        <!-- Iron Man Chest Armor -->
-        <div class="chest-armor"></div>
-        <div class="armor-lines">
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-          <div class="armor-line"></div>
-        </div>
-        <div class="armor-edge"></div>
-        
+        <!-- Neural network SVG connections -->
+        <svg class="neural-svg" id="neuralSvg">
+          <defs>
+            <linearGradient id="neural-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:rgba(80,180,255,0.1)"/>
+              <stop offset="50%" style="stop-color:rgba(80,180,255,0.8)"/>
+              <stop offset="100%" style="stop-color:rgba(80,180,255,0.1)"/>
+            </linearGradient>
+            <filter id="glow-line">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+        </svg>
+
+        <!-- Arc Reactor -->
         <div class="reactor-container">
-          <!-- Outer dark ring -->
-          <div class="arc-outer"></div>
-          
-          <!-- Glow ring -->
-          <div class="arc-glow-ring"></div>
-          
-          <!-- 10 Copper coil segments -->
+          <div class="arc-ring-outer"></div>
+          <div class="arc-glow"></div>
           <div class="arc-segments">
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
-            <div class="arc-segment"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
+            <div class="arc-seg"></div>
           </div>
-          
-          <!-- Inner metallic ring -->
-          <div class="arc-inner"></div>
-          
-          <!-- Glowing core with triangle -->
+          <div class="arc-ring-inner"></div>
           <div class="arc-core"></div>
-          
-          <!-- Skills orbiting outside reactor -->
-          <div class="skills-orbit">
-            <!-- Top -->
-            <div class="skill-node" style="top: 0; left: 50%; transform: translateX(-50%);">
-              <span class="skill-node__icon">🐍</span>
-              <span class="skill-node__name">Python</span>
-            </div>
-            <!-- Top Right -->
-            <div class="skill-node" style="top: 12%; right: 8%;">
-              <span class="skill-node__icon">🦜</span>
-              <span class="skill-node__name">LangChain</span>
-            </div>
-            <!-- Right -->
-            <div class="skill-node" style="top: 50%; right: 0; transform: translateY(-50%);">
-              <span class="skill-node__icon">🔥</span>
-              <span class="skill-node__name">PyTorch</span>
-            </div>
-            <!-- Bottom Right -->
-            <div class="skill-node" style="bottom: 12%; right: 8%;">
-              <span class="skill-node__icon">🧠</span>
-              <span class="skill-node__name">TensorFlow</span>
-            </div>
-            <!-- Bottom -->
-            <div class="skill-node" style="bottom: 0; left: 50%; transform: translateX(-50%);">
-              <span class="skill-node__icon">⚡</span>
-              <span class="skill-node__name">FastAPI</span>
-            </div>
-            <!-- Bottom Left -->
-            <div class="skill-node" style="bottom: 12%; left: 8%;">
-              <span class="skill-node__icon">🤗</span>
-              <span class="skill-node__name">HuggingFace</span>
-            </div>
-            <!-- Left -->
-            <div class="skill-node" style="top: 50%; left: 0; transform: translateY(-50%);">
-              <span class="skill-node__icon">🐳</span>
-              <span class="skill-node__name">Docker</span>
-            </div>
-            <!-- Top Left -->
-            <div class="skill-node" style="top: 12%; left: 8%;">
-              <span class="skill-node__icon">📊</span>
-              <span class="skill-node__name">SQL</span>
-            </div>
-            <!-- Inner orbit - 4 more -->
-            <div class="skill-node" style="top: 30%; left: 18%;">
-              <span class="skill-node__icon">🍃</span>
-              <span class="skill-node__name">MongoDB</span>
-            </div>
-            <div class="skill-node" style="top: 30%; right: 18%;">
-              <span class="skill-node__icon">⚛️</span>
-              <span class="skill-node__name">React</span>
-            </div>
-            <div class="skill-node" style="bottom: 30%; left: 18%;">
-              <span class="skill-node__icon">🔗</span>
-              <span class="skill-node__name">Web3</span>
-            </div>
-            <div class="skill-node" style="bottom: 30%; right: 18%;">
-              <span class="skill-node__icon">📨</span>
-              <span class="skill-node__name">Kafka</span>
-            </div>
-          </div>
         </div>
-        
+
+        <!-- Neural Network Skills -->
+        <div class="neural-container" id="neuralContainer">
+          <div class="skill-node" data-idx="0"><img class="skill-node__icon" src="https://cdn.simpleicons.org/python/3776AB" width="32"/><span class="skill-node__name">Python</span></div>
+          <div class="skill-node" data-idx="1"><img class="skill-node__icon" src="https://cdn.simpleicons.org/langchain/1C3C3C" width="32"/><span class="skill-node__name">LangChain</span></div>
+          <div class="skill-node" data-idx="2"><img class="skill-node__icon" src="https://cdn.simpleicons.org/react/61DAFB" width="32"/><span class="skill-node__name">React</span></div>
+          <div class="skill-node" data-idx="3"><img class="skill-node__icon" src="https://cdn.simpleicons.org/pytorch/EE4C2C" width="32"/><span class="skill-node__name">PyTorch</span></div>
+          <div class="skill-node" data-idx="4"><img class="skill-node__icon" src="https://cdn.simpleicons.org/apachekafka/fff" width="32"/><span class="skill-node__name">Kafka</span></div>
+          <div class="skill-node" data-idx="5"><img class="skill-node__icon" src="https://cdn.simpleicons.org/tensorflow/FF6F00" width="32"/><span class="skill-node__name">TensorFlow</span></div>
+          <div class="skill-node" data-idx="6"><img class="skill-node__icon" src="https://cdn.simpleicons.org/fastapi/009688" width="32"/><span class="skill-node__name">FastAPI</span></div>
+          <div class="skill-node" data-idx="7"><img class="skill-node__icon" src="https://cdn.simpleicons.org/huggingface/FFD21E" width="32"/><span class="skill-node__name">HuggingFace</span></div>
+          <div class="skill-node" data-idx="8"><img class="skill-node__icon" src="https://cdn.simpleicons.org/web3dotjs/F16822" width="32"/><span class="skill-node__name">Web3</span></div>
+          <div class="skill-node" data-idx="9"><img class="skill-node__icon" src="https://cdn.simpleicons.org/docker/2496ED" width="32"/><span class="skill-node__name">Docker</span></div>
+          <div class="skill-node" data-idx="10"><img class="skill-node__icon" src="https://cdn.simpleicons.org/mongodb/47A248" width="32"/><span class="skill-node__name">MongoDB</span></div>
+          <div class="skill-node" data-idx="11"><img class="skill-node__icon" src="https://cdn.simpleicons.org/mysql/4479A1" width="32"/><span class="skill-node__name">SQL</span></div>
+        </div>
+
+        <p class="neural-hint">⟨ drag nodes • connections follow ⟩</p>
         <h2 class="reactor-title">TECH ARSENAL</h2>
-        <p class="drag-hint">⟨ drag skills to rearrange ⟩</p>
       </div>
     </section>
 
@@ -1829,91 +1784,145 @@
     });
 
     // ═══════════════════════════════════════════════════════════════
-    // DRAGGABLE SKILL NODES
+    // NEURAL NETWORK SKILLS - DRAGGABLE WITH CONNECTIONS
     // ═══════════════════════════════════════════════════════════════
-    document.querySelectorAll('.skill-node').forEach(node => {
+    const neuralContainer = document.getElementById('neuralContainer');
+    const neuralSvg = document.getElementById('neuralSvg');
+    const skillNodes = document.querySelectorAll('.skill-node');
+    const nodeCount = skillNodes.length;
+    
+    // Define neural network connections (which nodes connect)
+    const connections = [
+      [0, 1], [0, 10], [0, 11],  // Python connects to LangChain, MongoDB, SQL
+      [1, 2], [1, 3],           // LangChain connects to React, PyTorch
+      [2, 4],                   // React connects to Kafka
+      [3, 5], [3, 7],           // PyTorch connects to TensorFlow, HuggingFace
+      [5, 6],                   // TensorFlow connects to FastAPI
+      [6, 7], [6, 8],           // FastAPI connects to HuggingFace, Web3
+      [7, 9],                   // HuggingFace connects to Docker
+      [8, 10],                  // Web3 connects to MongoDB
+      [9, 10], [9, 11],         // Docker connects to MongoDB, SQL
+      [4, 5],                   // Kafka connects to TensorFlow
+      [10, 11],                 // MongoDB connects to SQL
+    ];
+
+    // Store node positions
+    const nodePositions = [];
+
+    // Position nodes in a circle around reactor
+    function positionNodes() {
+      const containerRect = neuralContainer.getBoundingClientRect();
+      const centerX = containerRect.width / 2;
+      const centerY = containerRect.height / 2;
+      const radius = 280;
+
+      skillNodes.forEach((node, i) => {
+        const angle = (i / nodeCount) * Math.PI * 2 - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * radius - node.offsetWidth / 2;
+        const y = centerY + Math.sin(angle) * radius - node.offsetHeight / 2;
+        
+        node.style.left = x + 'px';
+        node.style.top = y + 'px';
+        
+        nodePositions[i] = { x: x + node.offsetWidth / 2, y: y + node.offsetHeight / 2 };
+      });
+      
+      drawConnections();
+    }
+
+    // Draw SVG lines between connected nodes
+    function drawConnections() {
+      // Clear existing lines
+      const existingLines = neuralSvg.querySelectorAll('line');
+      existingLines.forEach(l => l.remove());
+
+      // Get container position for SVG coordinates
+      const containerRect = neuralContainer.getBoundingClientRect();
+      const svgRect = neuralSvg.getBoundingClientRect();
+      const offsetX = containerRect.left - svgRect.left;
+      const offsetY = containerRect.top - svgRect.top;
+
+      connections.forEach(([fromIdx, toIdx]) => {
+        const from = nodePositions[fromIdx];
+        const to = nodePositions[toIdx];
+        
+        if (from && to) {
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', from.x + offsetX);
+          line.setAttribute('y1', from.y + offsetY);
+          line.setAttribute('x2', to.x + offsetX);
+          line.setAttribute('y2', to.y + offsetY);
+          line.setAttribute('class', 'neural-line');
+          line.setAttribute('filter', 'url(#glow-line)');
+          neuralSvg.appendChild(line);
+        }
+      });
+    }
+
+    // Update single node position and redraw
+    function updateNodePosition(node, x, y) {
+      const idx = parseInt(node.dataset.idx);
+      nodePositions[idx] = { x: x + node.offsetWidth / 2, y: y + node.offsetHeight / 2 };
+      drawConnections();
+    }
+
+    // Draggable logic
+    skillNodes.forEach(node => {
       let isDragging = false;
-      let startX, startY;
-      let nodeStartX, nodeStartY;
+      let startX, startY, nodeStartX, nodeStartY;
 
+      const startDrag = (clientX, clientY) => {
+        isDragging = true;
+        node.classList.add('dragging');
+        startX = clientX;
+        startY = clientY;
+        nodeStartX = parseFloat(node.style.left) || 0;
+        nodeStartY = parseFloat(node.style.top) || 0;
+      };
+
+      const moveDrag = (clientX, clientY) => {
+        if (!isDragging) return;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        const newX = nodeStartX + dx;
+        const newY = nodeStartY + dy;
+        node.style.left = newX + 'px';
+        node.style.top = newY + 'px';
+        updateNodePosition(node, newX, newY);
+      };
+
+      const endDrag = () => {
+        if (isDragging) {
+          isDragging = false;
+          node.classList.remove('dragging');
+        }
+      };
+
+      // Mouse events
       node.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        node.classList.add('dragging');
-        
-        const rect = node.getBoundingClientRect();
-        const parentRect = node.parentElement.getBoundingClientRect();
-        
-        startX = e.clientX;
-        startY = e.clientY;
-        nodeStartX = rect.left - parentRect.left;
-        nodeStartY = rect.top - parentRect.top;
-        
-        // Remove any existing positioning
-        node.style.position = 'absolute';
-        node.style.left = nodeStartX + 'px';
-        node.style.top = nodeStartY + 'px';
-        node.style.right = 'auto';
-        node.style.bottom = 'auto';
-        node.style.transform = 'none';
+        e.preventDefault();
+        startDrag(e.clientX, e.clientY);
       });
+      document.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+      document.addEventListener('mouseup', endDrag);
 
-      document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-        
-        node.style.left = (nodeStartX + dx) + 'px';
-        node.style.top = (nodeStartY + dy) + 'px';
-      });
-
-      document.addEventListener('mouseup', () => {
-        if (isDragging) {
-          isDragging = false;
-          node.classList.remove('dragging');
-        }
-      });
-
-      // Touch support
+      // Touch events
       node.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        node.classList.add('dragging');
-        
         const touch = e.touches[0];
-        const rect = node.getBoundingClientRect();
-        const parentRect = node.parentElement.getBoundingClientRect();
-        
-        startX = touch.clientX;
-        startY = touch.clientY;
-        nodeStartX = rect.left - parentRect.left;
-        nodeStartY = rect.top - parentRect.top;
-        
-        node.style.position = 'absolute';
-        node.style.left = nodeStartX + 'px';
-        node.style.top = nodeStartY + 'px';
-        node.style.right = 'auto';
-        node.style.bottom = 'auto';
-        node.style.transform = 'none';
+        startDrag(touch.clientX, touch.clientY);
       });
-
       document.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        
-        const touch = e.touches[0];
-        const dx = touch.clientX - startX;
-        const dy = touch.clientY - startY;
-        
-        node.style.left = (nodeStartX + dx) + 'px';
-        node.style.top = (nodeStartY + dy) + 'px';
-      });
-
-      document.addEventListener('touchend', () => {
         if (isDragging) {
-          isDragging = false;
-          node.classList.remove('dragging');
+          const touch = e.touches[0];
+          moveDrag(touch.clientX, touch.clientY);
         }
       });
+      document.addEventListener('touchend', endDrag);
     });
+
+    // Initial positioning
+    setTimeout(positionNodes, 100);
+    window.addEventListener('resize', positionNodes);
 
     // ═══════════════════════════════════════════════════════════════
     // INIT
