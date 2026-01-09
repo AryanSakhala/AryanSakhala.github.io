@@ -505,130 +505,231 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       PANEL 3: EXPERIENCE - TIMELINE CARDS
+       PANEL 3: EXPERIENCE - MATRIX TERMINAL + SNAKE TIMELINE
     ═══════════════════════════════════════════════════════════════ */
-    .experience-container {
-      display: flex;
-      gap: 2rem;
-      max-width: 1400px;
-      width: 100%;
-      height: 80vh;
-      align-items: center;
-      padding: 0 2rem;
-    }
-
-    .exp-timeline {
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      padding: 2rem 0;
-      scroll-snap-type: x mandatory;
-    }
-
-    .exp-card {
-      flex: 0 0 320px;
-      min-height: 400px;
-      background: rgba(30, 30, 46, 0.8);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--surface0);
-      border-radius: 24px;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      scroll-snap-align: center;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    #experience {
+      background: #000 !important;
       position: relative;
       overflow: hidden;
+    }
+
+    /* Matrix rain canvas */
+    .matrix-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .experience-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* Snake path SVG */
+    .snake-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .snake-path {
+      fill: none;
+      stroke: url(#snake-grad);
+      stroke-width: 4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px #0f0);
+    }
+
+    .snake-glow {
+      fill: none;
+      stroke: #0f0;
+      stroke-width: 8;
+      stroke-linecap: round;
+      opacity: 0.3;
+      filter: blur(4px);
+    }
+
+    /* Timeline grid - snake layout */
+    .exp-timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem 2rem;
+      max-width: 1100px;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Snake order: row1 L→R, row2 R→L */
+    .exp-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+    .exp-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+    .exp-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+    .exp-card:nth-child(4) { grid-column: 3; grid-row: 2; }
+    .exp-card:nth-child(5) { grid-column: 2; grid-row: 2; }
+
+    .exp-card {
+      background: rgba(0, 10, 0, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid #0f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      position: relative;
+      box-shadow: 
+        0 0 10px rgba(0, 255, 0, 0.2),
+        inset 0 0 20px rgba(0, 255, 0, 0.05);
     }
 
     .exp-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--mauve), var(--teal));
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(0,255,0,0.3), transparent, rgba(0,255,0,0.1));
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     .exp-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      border-color: var(--mauve);
-      box-shadow: 0 20px 40px rgba(203, 166, 247, 0.2);
+      transform: scale(1.03);
+      border-color: #5f5;
+      box-shadow: 
+        0 0 30px rgba(0, 255, 0, 0.4),
+        inset 0 0 30px rgba(0, 255, 0, 0.1);
     }
 
     .exp-card:hover::before {
-      transform: scaleX(1);
+      opacity: 1;
     }
 
+    /* Terminal-style card content */
     .exp-card__icon {
-      width: 60px;
-      height: 60px;
-      background: var(--surface0);
-      border-radius: 16px;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .exp-card__year {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--teal);
+      font-size: 0.75rem;
+      color: #0f0;
       margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px #0f0;
+    }
+
+    .exp-card__year::before {
+      content: '> ';
+      opacity: 0.6;
     }
 
     .exp-card__title {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 700;
+      color: #fff;
       margin-bottom: 0.25rem;
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
     }
 
     .exp-card__company {
       font-family: var(--font-mono);
-      font-size: 0.9rem;
-      color: var(--mauve);
-      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      color: #5f5;
+      margin-bottom: 0.75rem;
     }
 
     .exp-card__desc {
-      color: var(--subtext0);
-      font-size: 0.9rem;
-      line-height: 1.6;
+      color: rgba(0, 255, 0, 0.7);
+      font-size: 0.8rem;
+      line-height: 1.5;
       flex-grow: 1;
+      font-family: var(--font-mono);
     }
 
     .exp-card__badges {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
     }
 
-    /* Timeline connector */
-    .exp-connector {
-      display: flex;
-      align-items: center;
-      padding: 0 0.5rem;
+    .exp-card .badge {
+      background: rgba(0, 255, 0, 0.15);
+      border: 1px solid rgba(0, 255, 0, 0.4);
+      color: #0f0;
+      font-size: 0.65rem;
     }
 
-    .exp-connector__line {
-      width: 40px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--mauve), var(--teal));
-    }
-
-    .exp-connector__dot {
-      width: 12px;
-      height: 12px;
-      background: var(--mauve);
+    /* Snake node markers */
+    .snake-node {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: #0f0;
       border-radius: 50%;
-      box-shadow: 0 0 20px var(--mauve);
+      box-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+      animation: node-pulse 1.5s ease-in-out infinite;
     }
+
+    @keyframes node-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    /* Terminal title */
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #0f0;
+      margin-bottom: 1rem;
+      text-align: center;
+      text-shadow: 0 0 10px #0f0;
+    }
+
+    .terminal-title::before {
+      content: '$ cat ';
+      opacity: 0.6;
+    }
+
+    .terminal-title::after {
+      content: ' _';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Hide old connectors */
+    .exp-connector { display: none; }
 
     /* ═══════════════════════════════════════════════════════════════
        PANEL 4: SKILLS - AUTHENTIC ARC REACTOR + NEURAL NETWORK
@@ -1143,9 +1244,21 @@
       }
       
       .exp-timeline {
-        flex-direction: column;
-        overflow-x: visible;
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        max-height: 70vh;
       }
+      
+      .exp-card:nth-child(1),
+      .exp-card:nth-child(2),
+      .exp-card:nth-child(3),
+      .exp-card:nth-child(4),
+      .exp-card:nth-child(5) {
+        grid-column: 1;
+        grid-row: auto;
+      }
+      
+      .snake-svg { display: none; }
       
       .exp-card {
         flex: 0 0 auto;
@@ -1325,11 +1438,29 @@
       </div>
     </section>
 
-    <!-- Panel 3: Experience - Card Timeline -->
+    <!-- Panel 3: Experience - Matrix Terminal + Snake Timeline -->
     <section class="panel" id="experience">
-      <div class="section-label"><span>03</span> // journey</div>
+      <!-- Matrix rain canvas -->
+      <canvas class="matrix-canvas" id="matrixCanvas"></canvas>
+      
+      <!-- Snake path -->
+      <svg class="snake-svg" viewBox="0 0 1100 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="snake-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#0a0"/>
+            <stop offset="50%" style="stop-color:#0f0"/>
+            <stop offset="100%" style="stop-color:#0a0"/>
+          </linearGradient>
+        </defs>
+        <!-- Snake path: zigzag through cards -->
+        <path class="snake-glow" d="M100,150 H350 Q400,150 400,200 V250 Q400,300 350,300 H750 Q800,300 800,350 V400 Q800,450 750,450 H550"/>
+        <path class="snake-path" d="M100,150 H350 Q400,150 400,200 V250 Q400,300 350,300 H750 Q800,300 800,350 V400 Q800,450 750,450 H550"/>
+      </svg>
+      
+      <div class="section-label" style="color:#0f0;"><span style="color:#5f5;">03</span> // journey</div>
       
       <div class="experience-container">
+        <p class="terminal-title">career_timeline.log</p>
         <div class="exp-timeline">
           <!-- Metrum AI -->
           <div class="exp-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
@@ -1782,6 +1913,72 @@
         card.style.setProperty('--mouse-y', y + '%');
       });
     });
+
+    // ═══════════════════════════════════════════════════════════════
+    // MATRIX RAIN EFFECT
+    // ═══════════════════════════════════════════════════════════════
+    const matrixCanvas = document.getElementById('matrixCanvas');
+    const matrixCtx = matrixCanvas.getContext('2d');
+
+    function initMatrix() {
+      const parent = matrixCanvas.parentElement;
+      matrixCanvas.width = parent.offsetWidth;
+      matrixCanvas.height = parent.offsetHeight;
+    }
+
+    initMatrix();
+    window.addEventListener('resize', initMatrix);
+
+    const chars = '01';
+    const fontSize = 14;
+    let columns = Math.floor(matrixCanvas.width / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      // Semi-transparent black for trail effect
+      matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+      matrixCtx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        
+        // Random green/white color
+        if (Math.random() > 0.98) {
+          matrixCtx.fillStyle = '#fff';  // Occasional white
+        } else {
+          const brightness = Math.random() * 100 + 155;
+          matrixCtx.fillStyle = `rgb(0, ${brightness}, 0)`;
+        }
+
+        matrixCtx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+        // Reset drop randomly after reaching bottom
+        if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    // Run matrix animation only when experience section is visible
+    let matrixInterval;
+    const expSection = document.getElementById('experience');
+    
+    const matrixObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          columns = Math.floor(matrixCanvas.width / fontSize);
+          drops = Array(columns).fill(1);
+          matrixInterval = setInterval(drawMatrix, 50);
+        } else {
+          clearInterval(matrixInterval);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    matrixObserver.observe(expSection);
 
     // ═══════════════════════════════════════════════════════════════
     // NEURAL NETWORK SKILLS - DRAGGABLE WITH CONNECTIONS
