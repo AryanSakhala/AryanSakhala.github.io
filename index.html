@@ -3,233 +3,1205 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aryan Sakhala - Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="description" content="Aryan Sakhala - Lead Software Engineer specializing in RAG, Agentic AI, and Deep Learning">
+  <meta name="theme-color" content="#1e1e2e">
+  <title>Aryan Sakhala | Neural Architect</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Particles -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+  
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       CATPPUCCIN MOCHA THEME
+    ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --crust: #11111b;
+      --mantle: #181825;
+      --base: #1e1e2e;
+      --surface0: #313244;
+      --surface1: #45475a;
+      --surface2: #585b70;
+      --overlay0: #6c7086;
+      --overlay1: #7f849c;
+      --text: #cdd6f4;
+      --subtext0: #a6adc8;
+      --subtext1: #bac2de;
+      --lavender: #b4befe;
+      --blue: #89b4fa;
+      --sapphire: #74c7ec;
+      --sky: #89dceb;
+      --teal: #94e2d5;
+      --green: #a6e3a1;
+      --yellow: #f9e2af;
+      --peach: #fab387;
+      --maroon: #eba0ac;
+      --red: #f38ba8;
+      --mauve: #cba6f7;
+      --pink: #f5c2e7;
+      --flamingo: #f2cdcd;
+      --rosewater: #f5e0dc;
+      
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Space Grotesk', sans-serif;
+      
+      --glow-mauve: 0 0 20px rgba(203, 166, 247, 0.4);
+      --glow-teal: 0 0 20px rgba(148, 226, 213, 0.4);
+      --glow-peach: 0 0 20px rgba(250, 179, 135, 0.4);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--mauve) var(--base);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--crust);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--base);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--mauve);
+      border-radius: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PARTICLES BACKGROUND
+    ═══════════════════════════════════════════════════════════════ */
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(17, 17, 27, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--surface0);
+    }
+
+    .nav__logo {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--mauve);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav__logo::before {
+      content: '>';
+      color: var(--teal);
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav__link {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--subtext0);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav__link::before {
+      content: '//';
+      color: var(--surface2);
+      margin-right: 0.3rem;
+    }
+
+    .nav__link:hover {
+      color: var(--mauve);
+    }
+
+    .nav__link:hover::before {
+      color: var(--teal);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       HERO SECTION
+    ═══════════════════════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .hero__terminal {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 800px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .terminal__header {
+      background: var(--surface0);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .terminal__dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal__dot--red { background: var(--red); }
+    .terminal__dot--yellow { background: var(--yellow); }
+    .terminal__dot--green { background: var(--green); }
+
+    .terminal__title {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--overlay0);
+    }
+
+    .terminal__body {
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .terminal__line {
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .terminal__prompt {
+      color: var(--teal);
+    }
+
+    .terminal__command {
+      color: var(--mauve);
+    }
+
+    .terminal__output {
+      color: var(--subtext0);
+      padding-left: 1rem;
+    }
+
+    .terminal__highlight {
+      color: var(--peach);
+    }
+
+    .terminal__link {
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--blue);
+    }
+
+    .terminal__link:hover {
+      color: var(--sapphire);
+    }
+
+    .hero__cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn--primary {
+      background: var(--mauve);
+      color: var(--base);
+    }
+
+    .btn--primary:hover {
+      box-shadow: var(--glow-mauve);
+      transform: translateY(-2px);
+    }
+
+    .btn--secondary {
+      background: transparent;
+      color: var(--teal);
+      border: 1px solid var(--teal);
+    }
+
+    .btn--secondary:hover {
+      background: var(--teal);
+      color: var(--base);
+      box-shadow: var(--glow-teal);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECTIONS
+    ═══════════════════════════════════════════════════════════════ */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section__tag {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .section__title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--mauve), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       BENTO GRID
+    ═══════════════════════════════════════════════════════════════ */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .bento {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .bento {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bento__card {
+      background: rgba(30, 30, 46, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--surface0);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bento__card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--mauve), var(--teal));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .bento__card:hover {
+      transform: translateY(-8px);
+      border-color: var(--mauve);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .bento__card:hover::before {
+      opacity: 1;
+    }
+
+    .bento__card--wide {
+      grid-column: span 2;
+    }
+
+    .bento__card--tall {
+      grid-row: span 2;
+    }
+
+    .bento__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .bento__icon--mauve { background: rgba(203, 166, 247, 0.2); color: var(--mauve); }
+    .bento__icon--teal { background: rgba(148, 226, 213, 0.2); color: var(--teal); }
+    .bento__icon--peach { background: rgba(250, 179, 135, 0.2); color: var(--peach); }
+    .bento__icon--blue { background: rgba(137, 180, 250, 0.2); color: var(--blue); }
+    .bento__icon--green { background: rgba(166, 227, 161, 0.2); color: var(--green); }
+    .bento__icon--pink { background: rgba(245, 194, 231, 0.2); color: var(--pink); }
+
+    .bento__title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .bento__subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--mauve);
+      margin-bottom: 0.75rem;
+    }
+
+    .bento__text {
+      font-size: 0.9rem;
+      color: var(--subtext0);
+    }
+
+    .bento__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .bento__tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--surface0);
+      border-radius: 4px;
+      color: var(--subtext0);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       TIMELINE
+    ═══════════════════════════════════════════════════════════════ */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--mauve), var(--teal), var(--peach));
+    }
+
+    .timeline__item {
+      position: relative;
+      padding-bottom: 3rem;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .timeline__item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0.5rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--mauve);
+      border: 3px solid var(--crust);
+      box-shadow: var(--glow-mauve);
+    }
+
+    .timeline__year {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline__title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline__company {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--mauve);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline__desc {
+      color: var(--subtext0);
+      font-size: 0.9rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SKILLS ORBS
+    ═══════════════════════════════════════════════════════════════ */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .skill-orb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      background: rgba(30, 30, 46, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--surface0);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .skill-orb:hover {
+      transform: scale(1.1);
+      border-color: var(--mauve);
+      box-shadow: var(--glow-mauve);
+    }
+
+    .skill-orb__icon {
+      font-size: 2rem;
+    }
+
+    .skill-orb__name {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--subtext0);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════════ */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--surface0);
+    }
+
+    .footer__socials {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer__social {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--surface0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer__social:hover {
+      background: var(--mauve);
+      color: var(--base);
+      transform: translateY(-4px);
+      box-shadow: var(--glow-mauve);
+    }
+
+    .footer__text {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--overlay0);
+    }
+
+    .footer__heart {
+      color: var(--red);
+      animation: pulse 1.5s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .nav__links {
+        display: none;
+      }
+      
+      .hero__terminal {
+        margin: 0 1rem;
+      }
+      
+      .terminal__body {
+        padding: 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .section__title {
+        font-size: 1.8rem;
+      }
+      
+      .bento__card--wide {
+        grid-column: span 1;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       GLITCH EFFECT
+    ═══════════════════════════════════════════════════════════════ */
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 var(--red);
+      clip: rect(24px, 550px, 90px, 0);
+      animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 var(--teal);
+      clip: rect(85px, 550px, 140px, 0);
+      animation: glitch-anim 2.5s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim {
+      0% { clip: rect(17px, 9999px, 94px, 0); }
+      20% { clip: rect(33px, 9999px, 35px, 0); }
+      40% { clip: rect(75px, 9999px, 89px, 0); }
+      60% { clip: rect(2px, 9999px, 48px, 0); }
+      80% { clip: rect(56px, 9999px, 99px, 0); }
+      100% { clip: rect(42px, 9999px, 14px, 0); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { clip: rect(65px, 9999px, 100px, 0); }
+      20% { clip: rect(10px, 9999px, 60px, 0); }
+      40% { clip: rect(40px, 9999px, 55px, 0); }
+      60% { clip: rect(80px, 9999px, 25px, 0); }
+      80% { clip: rect(20px, 9999px, 70px, 0); }
+      100% { clip: rect(50px, 9999px, 85px, 0); }
+    }
+  </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Aryan Sakhala</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#experience">Experience</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#education">Education</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#skills">Skills</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#certifications">Certifications</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <!-- Neural Network Particles -->
+  <div id="tsparticles"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="#" class="nav__logo">aryan.sakhala</a>
+    <ul class="nav__links">
+      <li><a href="#about" class="nav__link">about</a></li>
+      <li><a href="#experience" class="nav__link">experience</a></li>
+      <li><a href="#skills" class="nav__link">skills</a></li>
+      <li><a href="#contact" class="nav__link">contact</a></li>
+    </ul>
   </nav>
 
-  <!-- Home Section -->
-  <section id="home" class="d-flex align-items-center text-center text-light">
-    <div class="container">
-      <h1 class="display-4">Aryan Sakhala</h1>
-      <p class="lead">Software Engineer at Metrum AI in RAG & Gen AI</p>
-      <a href="#about" class="btn btn-custom">Learn More</a>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero__terminal">
+      <div class="terminal__header">
+        <span class="terminal__dot terminal__dot--red"></span>
+        <span class="terminal__dot terminal__dot--yellow"></span>
+        <span class="terminal__dot terminal__dot--green"></span>
+        <span class="terminal__title">aryan@neural-architect ~ %</span>
+      </div>
+      <div class="terminal__body">
+        <div class="terminal__line">
+          <span class="terminal__prompt">$</span>
+          <span class="terminal__command"> whoami</span>
+        </div>
+        <div class="terminal__line terminal__output">
+          <span class="terminal__highlight">Aryan Sakhala</span> — Lead Software Engineer
+        </div>
+        <div class="terminal__line">
+          <span class="terminal__prompt">$</span>
+          <span class="terminal__command"> cat current_role.txt</span>
+        </div>
+        <div class="terminal__line terminal__output">
+          Building <span class="terminal__highlight">RAG-based Agentic AI</span> @ Metrum AI
+        </div>
+        <div class="terminal__line terminal__output">
+          Clients: <span class="terminal__highlight">Dell</span> | <span class="terminal__highlight">Intel</span>
+        </div>
+        <div class="terminal__line">
+          <span class="terminal__prompt">$</span>
+          <span class="terminal__command"> cat highlights.json</span>
+        </div>
+        <div class="terminal__line terminal__output">
+          {
+        </div>
+        <div class="terminal__line terminal__output">
+          &nbsp;&nbsp;"research": "<span class="terminal__highlight">Springer LNNS</span> | ISBM 2025",
+        </div>
+        <div class="terminal__line terminal__output">
+          &nbsp;&nbsp;"showcase": "<span class="terminal__highlight">SuperCompute 2024</span>",
+        </div>
+        <div class="terminal__line terminal__output">
+          &nbsp;&nbsp;"teaching": "<span class="terminal__highlight">IIT Guwahati</span> | 5 Batches"
+        </div>
+        <div class="terminal__line terminal__output">
+          }
+        </div>
+        <div class="terminal__line">
+          <span class="terminal__prompt">$</span>
+          <span class="terminal__command"> echo $MISSION</span>
+        </div>
+        <div class="terminal__line terminal__output">
+          "Making machines learn <span class="terminal__highlight">faster</span>" 🚀
+        </div>
+      </div>
+      <div class="hero__cta">
+        <a href="#contact" class="btn btn--primary">
+          <i class="fas fa-paper-plane"></i> Get in Touch
+        </a>
+        <a href="Aryan Sakhala Resume.pdf" class="btn btn--secondary" target="_blank">
+          <i class="fas fa-file-alt"></i> Resume
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-5 bg-dark text-light">
-    <div class="container">
-      <h2 class="text-center mb-4">About Me</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <p class="lead text-center">Hi, I'm Aryan Sakhala, a Software Engineer at Metrum AI in RAG & Gen AI.</p>
-          <p>I have a solid foundation in software engineering and data science with a Bachelor of Engineering in Computer Engineering and experience in various domains including Machine Learning, Deep Learning, and Data Science. I am passionate about using cutting-edge techniques to tackle complex problems and drive innovation.</p>
+  <section class="section" id="about">
+    <div class="section__header">
+      <p class="section__tag">// who am i</p>
+      <h2 class="section__title">About Me</h2>
+    </div>
+    
+    <div class="bento">
+      <div class="bento__card bento__card--wide">
+        <div class="bento__icon bento__icon--mauve">
+          <i class="fas fa-brain"></i>
+        </div>
+        <h3 class="bento__title">AI/ML Engineer</h3>
+        <p class="bento__text">
+          Specializing in RAG pipelines, agentic workflows, and multi-modal AI systems. 
+          I architect intelligent systems that solve real enterprise problems for Fortune 500 clients.
+        </p>
+        <div class="bento__tags">
+          <span class="bento__tag">LangChain</span>
+          <span class="bento__tag">RAG</span>
+          <span class="bento__tag">Agentic AI</span>
+          <span class="bento__tag">Multi-Modal</span>
+        </div>
+      </div>
+      
+      <div class="bento__card">
+        <div class="bento__icon bento__icon--teal">
+          <i class="fas fa-microscope"></i>
+        </div>
+        <h3 class="bento__title">Researcher</h3>
+        <p class="bento__text">
+          Published in Springer LNNS. ESG + ML research presented at ISBM 2025, Bangkok.
+        </p>
+      </div>
+      
+      <div class="bento__card">
+        <div class="bento__icon bento__icon--peach">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <h3 class="bento__title">Educator</h3>
+        <p class="bento__text">
+          Taught 5 batches at IIT Guwahati. ML/Blockchain tutorials on YouTube.
+        </p>
+      </div>
+      
+      <div class="bento__card">
+        <div class="bento__icon bento__icon--blue">
+          <i class="fab fa-python"></i>
+        </div>
+        <h3 class="bento__title">Open Source</h3>
+        <p class="bento__text">
+          Active PyPI contributor. Building tools for the ML community.
+        </p>
+      </div>
+      
+      <div class="bento__card bento__card--wide">
+        <div class="bento__icon bento__icon--green">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h3 class="bento__title">Enterprise Impact</h3>
+        <p class="bento__text">
+          Showcased at SuperCompute 2024 with multi-modal AI solution. 
+          Currently leading RAG initiatives for Dell and Intel at Metrum AI.
+        </p>
+        <div class="bento__tags">
+          <span class="bento__tag">Dell</span>
+          <span class="bento__tag">Intel</span>
+          <span class="bento__tag">SuperCompute 2024</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Experience Section -->
-  <section id="experience" class="py-5 bg-primary text-light">
-    <div class="container">
-      <h2 class="text-center mb-4">Experience</h2>
-      <div class="row">
-        <!-- Experience Cards -->
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Metrum AI</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Software Engineer</h6>
-              <p class="card-text">August 2024 - Present (2 months)<br>Bangalore Urban, Karnataka, India</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Metrum AI</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Deep Learning Intern</h6>
-              <p class="card-text">May 2024 - August 2024 (4 months)<br>Bengaluru, Karnataka, India</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Vidyashilp University</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Research Associate</h6>
-              <p class="card-text">July 2023 - May 2024 (11 months)</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">EvueMe Selection Robot</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Deep Learning Researcher</h6>
-              <p class="card-text">March 2023 - May 2024 (1 year 3 months)</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">SirpiDataScience</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Data Science</h6>
-              <p class="card-text">December 2021 - July 2023 (1 year 8 months)</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">NeyX</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Deep Learning Developer</h6>
-              <p class="card-text">March 2021 - January 2023 (1 year 11 months)</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">N. S Gokhale And Co.</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Data Analyst</h6>
-              <p class="card-text">July 2021 - August 2021 (2 months)<br>Worked as a Data Analyst in project at Bank Of India - Data Center</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">R3</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Machine Learning Intern</h6>
-              <p class="card-text">January 2021 - July 2021 (7 months)<br>Nashik, Maharashtra, India</p>
-            </div>
-          </div>
-        </div>
-      </div>
+  <section class="section" id="experience">
+    <div class="section__header">
+      <p class="section__tag">// career.timeline</p>
+      <h2 class="section__title">Experience</h2>
     </div>
-  </section>
-
-  <!-- Education Section -->
-  <section id="education" class="py-5 bg-secondary text-light">
-    <div class="container">
-      <h2 class="text-center mb-4">Education</h2>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Dr. D.Y. Patil Institute of Engineering, Management and Research, Pune</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Computer Engineering</h6>
-              <h6 class="card-subtitle mb-2 text-muted">8.56/10</h6>
-              <p class="card-text">2019 - 2023<br>Bachelor of Engineering, Computer Engineering</p>
-            </div>
-          </div>
-        </div>
+    
+    <div class="timeline">
+      <div class="timeline__item">
+        <span class="timeline__year">2024 — Present</span>
+        <h3 class="timeline__title">Lead Software Engineer</h3>
+        <p class="timeline__company">@ Metrum AI</p>
+        <p class="timeline__desc">
+          Leading RAG-based agentic workflow solutions for Dell and Intel. 
+          Contributed to SuperCompute 2024 showcase with multi-modal AI capabilities.
+        </p>
+      </div>
+      
+      <div class="timeline__item">
+        <span class="timeline__year">2023 — 2024</span>
+        <h3 class="timeline__title">Research Associate</h3>
+        <p class="timeline__company">@ Vidyashilp University</p>
+        <p class="timeline__desc">
+          Published ML research in Springer LNNS. Teaching Assistant for Data Science courses.
+        </p>
+      </div>
+      
+      <div class="timeline__item">
+        <span class="timeline__year">2023 — 2024</span>
+        <h3 class="timeline__title">ML Developer</h3>
+        <p class="timeline__company">@ EvueMe Selection Robot</p>
+        <p class="timeline__desc">
+          Built deep learning models for AI-based HR bot. Developed Dashboard API and database pipeline.
+        </p>
+      </div>
+      
+      <div class="timeline__item">
+        <span class="timeline__year">2021 — 2023</span>
+        <h3 class="timeline__title">Data Scientist</h3>
+        <p class="timeline__company">@ Sirpi</p>
+        <p class="timeline__desc">
+          Led 7-member team building Proofify (Blockchain document transfer). 
+          Analytics for IUDX - Government of India.
+        </p>
+      </div>
+      
+      <div class="timeline__item">
+        <span class="timeline__year">2019 — 2023</span>
+        <h3 class="timeline__title">B.E. Computer Engineering</h3>
+        <p class="timeline__company">@ Pune University (SPPU)</p>
+        <p class="timeline__desc">
+          CGPA: 8.56/10 | Honors in AI/ML | Dr. D.Y. Patil Institute of Engineering
+        </p>
       </div>
     </div>
   </section>
 
   <!-- Skills Section -->
-  <section id="skills" class="py-5 bg-primary text-light">
-    <div class="container">
-      <h2 class="text-center mb-4">Skills</h2>
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Machine Learning</h5>
-              <p class="card-text">Experienced in building and deploying ML models.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Python</h5>
-              <p class="card-text">Proficient in Python programming and libraries.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-light shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">Presentation Skills</h5>
-              <p class="card-text">Skilled in delivering engaging presentations.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+  <section class="section" id="skills">
+    <div class="section__header">
+      <p class="section__tag">// tech.stack</p>
+      <h2 class="section__title">Skills</h2>
     </div>
-  </section>
-
-  <!-- Certifications Section -->
-  <section id="certifications" class="py-5 bg-dark text-light">
-    <div class="container">
-      <h2 class="text-center mb-4">Certifications</h2>
-      <ul class="list-group">
-        <li class="list-group-item bg-secondary text-light">SQL for Data Science</li>
-        <li class="list-group-item bg-secondary text-light">The Bits and Bytes of Computer Networking</li>
-        <li class="list-group-item bg-secondary text-light">Programming for Everybody (Getting Started with Python)</li>
-        <li class="list-group-item bg-secondary text-light">Capstone: Retrieving, Processing, and Visualizing Data with Python</li>
-        <li class="list-group-item bg-secondary text-light">Python Data Structures</li>
-      </ul>
+    
+    <div class="skills-grid">
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🐍</span>
+        <span class="skill-orb__name">Python</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🔥</span>
+        <span class="skill-orb__name">PyTorch</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🧠</span>
+        <span class="skill-orb__name">TensorFlow</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🦜</span>
+        <span class="skill-orb__name">LangChain</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🤗</span>
+        <span class="skill-orb__name">HuggingFace</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">⚡</span>
+        <span class="skill-orb__name">FastAPI</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🐳</span>
+        <span class="skill-orb__name">Docker</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">📊</span>
+        <span class="skill-orb__name">SQL</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🍃</span>
+        <span class="skill-orb__name">MongoDB</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">⚛️</span>
+        <span class="skill-orb__name">React</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">🔗</span>
+        <span class="skill-orb__name">Web3</span>
+      </div>
+      <div class="skill-orb">
+        <span class="skill-orb__icon">📨</span>
+        <span class="skill-orb__name">Kafka</span>
+      </div>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-5 bg-primary text-light">
-    <div class="container">
-      <h2 class="text-center mb-4">Contact</h2>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <p class="text-center"><i class="fas fa-envelope"></i> Email: <a href="mailto:ryansakhala@gmail.com" class="text-light">ryansakhala@gmail.com</a></p>
+  <section class="section" id="contact">
+    <div class="section__header">
+      <p class="section__tag">// let's connect</p>
+      <h2 class="section__title">Get in Touch</h2>
+    </div>
+    
+    <div class="bento" style="max-width: 600px; margin: 0 auto;">
+      <div class="bento__card" style="text-align: center;">
+        <div class="bento__icon bento__icon--pink" style="margin: 0 auto 1rem;">
+          <i class="fas fa-envelope"></i>
         </div>
-        <div class="col-md-6 mb-4">
-          <p class="text-center"><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://www.linkedin.com/in/aryan-sakhala-990b46176" class="text-light" target="_blank">www.linkedin.com/in/aryansakhala-990b46176</a></p>
+        <h3 class="bento__title">Email</h3>
+        <a href="mailto:ryansakhala@gmail.com" class="terminal__link">ryansakhala@gmail.com</a>
+      </div>
+      
+      <div class="bento__card" style="text-align: center;">
+        <div class="bento__icon bento__icon--blue" style="margin: 0 auto 1rem;">
+          <i class="fab fa-linkedin"></i>
         </div>
+        <h3 class="bento__title">LinkedIn</h3>
+        <a href="https://linkedin.com/in/aryan-sakhala-990b46176" target="_blank" class="terminal__link">aryan-sakhala</a>
+      </div>
+      
+      <div class="bento__card" style="text-align: center;">
+        <div class="bento__icon bento__icon--mauve" style="margin: 0 auto 1rem;">
+          <i class="fab fa-github"></i>
+        </div>
+        <h3 class="bento__title">GitHub</h3>
+        <a href="https://github.com/AryanSakhala" target="_blank" class="terminal__link">AryanSakhala</a>
       </div>
     </div>
   </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__socials">
+      <a href="mailto:ryansakhala@gmail.com" class="footer__social">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="https://linkedin.com/in/aryan-sakhala-990b46176" target="_blank" class="footer__social">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/AryanSakhala" target="_blank" class="footer__social">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://youtube.com/@AryanSakhala" target="_blank" class="footer__social">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://pypi.org/user/AryanSakhala/" target="_blank" class="footer__social">
+        <i class="fab fa-python"></i>
+      </a>
+    </div>
+    <p class="footer__text">
+      Crafted with <span class="footer__heart">♥</span> by Aryan Sakhala
+    </p>
+    <p class="footer__text" style="margin-top: 0.5rem;">
+      © 2026 — Building the future, one neural network at a time
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // NEURAL NETWORK PARTICLES
+    // ═══════════════════════════════════════════════════════════════
+    tsParticles.load("tsparticles", {
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800
+          }
+        },
+        color: {
+          value: ["#cba6f7", "#94e2d5", "#fab387", "#89b4fa"]
+        },
+        shape: {
+          type: "circle"
+        },
+        opacity: {
+          value: 0.5,
+          random: true,
+          animation: {
+            enable: true,
+            speed: 1,
+            minimumValue: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 3,
+          random: true,
+          animation: {
+            enable: true,
+            speed: 2,
+            minimumValue: 0.5,
+            sync: false
+          }
+        },
+        links: {
+          enable: true,
+          distance: 150,
+          color: "#6c7086",
+          opacity: 0.3,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          random: true,
+          straight: false,
+          outModes: {
+            default: "bounce"
+          },
+          attract: {
+            enable: true,
+            rotateX: 600,
+            rotateY: 1200
+          }
+        }
+      },
+      interactivity: {
+        detectsOn: "canvas",
+        events: {
+          onHover: {
+            enable: true,
+            mode: "grab"
+          },
+          onClick: {
+            enable: true,
+            mode: "push"
+          },
+          resize: true
+        },
+        modes: {
+          grab: {
+            distance: 200,
+            links: {
+              opacity: 0.8,
+              color: "#cba6f7"
+            }
+          },
+          push: {
+            quantity: 4
+          }
+        }
+      },
+      detectRetina: true,
+      background: {
+        color: "transparent"
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // GSAP ANIMATIONS
+    // ═══════════════════════════════════════════════════════════════
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Terminal typing animation
+    gsap.to(".terminal__line", {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.15,
+      ease: "power2.out",
+      delay: 0.5
+    });
+
+    // Bento cards animation
+    gsap.utils.toArray(".bento__card").forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top bottom-=100",
+          toggleActions: "play none none reverse"
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        delay: i * 0.1,
+        ease: "power3.out"
+      });
+    });
+
+    // Timeline animation
+    gsap.utils.toArray(".timeline__item").forEach((item, i) => {
+      gsap.to(item, {
+        scrollTrigger: {
+          trigger: item,
+          start: "top bottom-=50",
+          toggleActions: "play none none reverse"
+        },
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        delay: i * 0.15,
+        ease: "power3.out"
+      });
+    });
+
+    // Skill orbs animation
+    gsap.utils.toArray(".skill-orb").forEach((orb, i) => {
+      gsap.from(orb, {
+        scrollTrigger: {
+          trigger: orb,
+          start: "top bottom-=50",
+          toggleActions: "play none none reverse"
+        },
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.5,
+        delay: i * 0.05,
+        ease: "back.out(1.7)"
+      });
+    });
+
+    // Section headers
+    gsap.utils.toArray(".section__header").forEach(header => {
+      gsap.from(header, {
+        scrollTrigger: {
+          trigger: header,
+          start: "top bottom-=100",
+          toggleActions: "play none none reverse"
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+    });
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
