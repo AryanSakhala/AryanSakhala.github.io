@@ -1082,6 +1082,294 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       GRAPHICAL RESUME - MATRIX GLITCH THEME
+    ═══════════════════════════════════════════════════════════════ */
+    .resume-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 10000;
+      display: none;
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
+    }
+
+    .resume-modal.active {
+      display: block;
+      animation: matrix-fade-in 0.5s ease;
+    }
+
+    @keyframes matrix-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .resume-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      border-radius: 50%;
+      color: #0f0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10001;
+      transition: all 0.3s;
+    }
+
+    .resume-close:hover {
+      background: rgba(0, 255, 0, 0.2);
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    }
+
+    .resume-container {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 2rem;
+    }
+
+    /* Matrix rain background for resume */
+    .resume-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Resume header */
+    .resume-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+    }
+
+    .resume-header__name {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 800;
+      color: #0f0;
+      text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+      margin-bottom: 0.5rem;
+      animation: glitch-text 3s infinite;
+    }
+
+    @keyframes glitch-text {
+      0%, 90%, 100% { text-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+      92% { text-shadow: 2px 0 20px rgba(255, 0, 0, 0.5), -2px 0 20px rgba(0, 255, 255, 0.5); }
+      94% { text-shadow: -2px 0 20px rgba(255, 0, 0, 0.5), 2px 0 20px rgba(0, 255, 255, 0.5); }
+    }
+
+    .resume-header__title {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: rgba(0, 255, 0, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .resume-header__contact {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: rgba(0, 255, 0, 0.6);
+    }
+
+    .resume-header__contact a {
+      color: rgba(0, 255, 0, 0.8);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .resume-header__contact a:hover {
+      color: #0f0;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    /* Resume sections */
+    .resume-section {
+      margin-bottom: 2rem;
+    }
+
+    .resume-section__title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #0f0;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid #0f0;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    }
+
+    .resume-section__title::before {
+      content: '> ';
+      opacity: 0.6;
+    }
+
+    /* Experience cards */
+    .resume-exp {
+      background: rgba(0, 20, 0, 0.5);
+      border: 1px solid rgba(0, 255, 0, 0.2);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+
+    .resume-exp:hover {
+      border-color: rgba(0, 255, 0, 0.5);
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    }
+
+    .resume-exp__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .resume-exp__role {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .resume-exp__date {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: rgba(0, 255, 0, 0.8);
+      background: rgba(0, 255, 0, 0.1);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .resume-exp__company {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: rgba(0, 255, 0, 0.7);
+      margin-bottom: 0.75rem;
+    }
+
+    .resume-exp__bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .resume-exp__bullets li {
+      font-size: 0.85rem;
+      color: rgba(200, 255, 200, 0.8);
+      padding-left: 1.5rem;
+      margin-bottom: 0.4rem;
+      position: relative;
+    }
+
+    .resume-exp__bullets li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: #0f0;
+    }
+
+    /* Skills grid for resume */
+    .resume-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .resume-skill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.4rem 0.8rem;
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      border-radius: 4px;
+      color: rgba(0, 255, 0, 0.9);
+    }
+
+    /* Education */
+    .resume-edu {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: rgba(0, 20, 0, 0.5);
+      border: 1px solid rgba(0, 255, 0, 0.2);
+      border-radius: 8px;
+    }
+
+    .resume-edu__degree {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .resume-edu__school {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: rgba(0, 255, 0, 0.7);
+    }
+
+    .resume-edu__gpa {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #0f0;
+      background: rgba(0, 255, 0, 0.15);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .resume-container {
+        padding: 1rem;
+        margin: 1rem auto;
+      }
+      
+      .resume-header__name {
+        font-size: 2rem;
+      }
+      
+      .resume-header__contact {
+        gap: 0.75rem;
+        font-size: 0.65rem;
+      }
+      
+      .resume-exp {
+        padding: 1rem;
+      }
+      
+      .resume-exp__role {
+        font-size: 0.95rem;
+      }
+      
+      .resume-close {
+        width: 40px;
+        height: 40px;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.2rem;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        PANEL 5: CONTACT
     ═══════════════════════════════════════════════════════════════ */
     .contact-container {
@@ -1610,8 +1898,8 @@
         <a href="#contact" class="magnetic-btn">
           <i class="fas fa-paper-plane"></i> Get in Touch
         </a>
-        <a href="Aryan Sakhala Resume.pdf" class="magnetic-btn" target="_blank">
-          <i class="fas fa-file-alt"></i> Resume
+        <a href="#" class="magnetic-btn" onclick="openResume(); return false;">
+          <i class="fas fa-terminal"></i> Resume
         </a>
       </div>
       
@@ -1958,7 +2246,7 @@
             <i class="fab fa-github"></i>
             GitHub
           </a>
-          <a href="https://youtube.com/@AryanSakhala" target="_blank" class="contact__link">
+          <a href="https://youtube.com/@aryansakhala3930?si=JXhkkPE3LLON0EVE" target="_blank" class="contact__link">
             <i class="fab fa-youtube"></i>
             YouTube
           </a>
@@ -2350,6 +2638,146 @@
     gsap.from('.hero__badges .badge', { opacity: 0, y: 20, duration: 0.5, stagger: 0.1, delay: 1 });
     gsap.from('.magnetic-btn', { opacity: 0, y: 20, duration: 0.6, stagger: 0.1, delay: 1.4 });
     gsap.from('.scroll-indicator', { opacity: 0, duration: 1, delay: 2 });
+
+    // ═══════════════════════════════════════════════════════════════
+    // GRAPHICAL RESUME MODAL
+    // ═══════════════════════════════════════════════════════════════
+    function openResume() {
+      document.getElementById('resumeModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeResume() {
+      document.getElementById('resumeModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeResume();
+    });
   </script>
+
+  <!-- Graphical Resume Modal -->
+  <div class="resume-modal" id="resumeModal">
+    <button class="resume-close" onclick="closeResume()">✕</button>
+    
+    <div class="resume-container">
+      <!-- Header -->
+      <header class="resume-header">
+        <h1 class="resume-header__name">ARYAN SAKHALA</h1>
+        <p class="resume-header__title">Lead Software Engineer // AI & RAG Systems Architect</p>
+        <div class="resume-header__contact">
+          <a href="mailto:ryansakhala@gmail.com">📧 ryansakhala@gmail.com</a>
+          <a href="https://linkedin.com/in/aryan-sakhala-990b46176" target="_blank">💼 LinkedIn</a>
+          <a href="https://github.com/AryanSakhala" target="_blank">🔗 GitHub</a>
+          <span>📍 India</span>
+        </div>
+      </header>
+
+      <!-- Experience -->
+      <section class="resume-section">
+        <h2 class="resume-section__title">EXPERIENCE</h2>
+        
+        <div class="resume-exp">
+          <div class="resume-exp__header">
+            <span class="resume-exp__role">Lead Software Engineer</span>
+            <span class="resume-exp__date">2024 — Present</span>
+          </div>
+          <div class="resume-exp__company">@ Metrum AI</div>
+          <ul class="resume-exp__bullets">
+            <li>Leading RAG-based agentic workflow solutions for Dell & Intel</li>
+            <li>Architected multi-modal AI pipelines for enterprise clients</li>
+            <li>Presented at SuperCompute 2024 showcasing AI capabilities</li>
+          </ul>
+        </div>
+
+        <div class="resume-exp">
+          <div class="resume-exp__header">
+            <span class="resume-exp__role">Research Associate</span>
+            <span class="resume-exp__date">2023 — 2024</span>
+          </div>
+          <div class="resume-exp__company">@ Vidyashilp University</div>
+          <ul class="resume-exp__bullets">
+            <li>Published ESG + ML research in Springer LNNS (ISBM 2025, Bangkok)</li>
+            <li>Teaching Assistant for Data Science curriculum</li>
+          </ul>
+        </div>
+
+        <div class="resume-exp">
+          <div class="resume-exp__header">
+            <span class="resume-exp__role">ML Developer</span>
+            <span class="resume-exp__date">2023 — 2024</span>
+          </div>
+          <div class="resume-exp__company">@ EvueMe Selection Robot</div>
+          <ul class="resume-exp__bullets">
+            <li>Built deep learning models for AI-based HR automation</li>
+            <li>Developed real-time dashboard APIs and database pipelines</li>
+          </ul>
+        </div>
+
+        <div class="resume-exp">
+          <div class="resume-exp__header">
+            <span class="resume-exp__role">Data Scientist</span>
+            <span class="resume-exp__date">2021 — 2023</span>
+          </div>
+          <div class="resume-exp__company">@ Sirpi</div>
+          <ul class="resume-exp__bullets">
+            <li>Led 7-member team building Proofify (Blockchain document transfer)</li>
+            <li>Analytics solutions for IUDX - Government of India initiative</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="resume-section">
+        <h2 class="resume-section__title">TECH STACK</h2>
+        <div class="resume-skills">
+          <span class="resume-skill">Python</span>
+          <span class="resume-skill">PyTorch</span>
+          <span class="resume-skill">TensorFlow</span>
+          <span class="resume-skill">LangChain</span>
+          <span class="resume-skill">OpenAI</span>
+          <span class="resume-skill">HuggingFace</span>
+          <span class="resume-skill">RAG</span>
+          <span class="resume-skill">FastAPI</span>
+          <span class="resume-skill">Docker</span>
+          <span class="resume-skill">MongoDB</span>
+          <span class="resume-skill">PostgreSQL</span>
+          <span class="resume-skill">Pinecone</span>
+          <span class="resume-skill">React</span>
+          <span class="resume-skill">Web3</span>
+          <span class="resume-skill">Blockchain</span>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="resume-section">
+        <h2 class="resume-section__title">EDUCATION</h2>
+        <div class="resume-edu">
+          <div>
+            <div class="resume-edu__degree">B.E. Computer Engineering</div>
+            <div class="resume-edu__school">Dr. D.Y. Patil Institute • Pune University (SPPU) • 2019-2023</div>
+          </div>
+          <span class="resume-edu__gpa">CGPA: 8.56 | AI/ML Honors</span>
+        </div>
+      </section>
+
+      <!-- Publications -->
+      <section class="resume-section">
+        <h2 class="resume-section__title">PUBLICATIONS</h2>
+        <div class="resume-exp">
+          <div class="resume-exp__header">
+            <span class="resume-exp__role">Springer LNNS</span>
+            <span class="resume-exp__date">ISBM 2025</span>
+          </div>
+          <div class="resume-exp__company">Bangkok, Thailand</div>
+          <ul class="resume-exp__bullets">
+            <li>ESG + Machine Learning research publication</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
 </body>
 </html>
