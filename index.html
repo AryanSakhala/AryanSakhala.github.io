@@ -1164,9 +1164,187 @@
     }
 
     @keyframes glitch-text {
-      0%, 90%, 100% { text-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
-      92% { text-shadow: 2px 0 20px rgba(255, 0, 0, 0.5), -2px 0 20px rgba(0, 255, 255, 0.5); }
-      94% { text-shadow: -2px 0 20px rgba(255, 0, 0, 0.5), 2px 0 20px rgba(0, 255, 255, 0.5); }
+      0%, 80% { 
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        transform: translate(0);
+      }
+      81% { 
+        text-shadow: 3px 0 0 #ff0040, -3px 0 0 #00ffff;
+        transform: translate(-2px, 1px);
+      }
+      82% { 
+        text-shadow: -3px 0 0 #ff0040, 3px 0 0 #00ffff;
+        transform: translate(2px, -1px);
+      }
+      83% { 
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        transform: translate(0);
+      }
+      90% {
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        transform: translate(0);
+      }
+      91% {
+        text-shadow: 5px 0 0 #ff0040, -5px 0 0 #00ffff;
+        transform: translate(3px, 0) skewX(5deg);
+        clip-path: inset(20% 0 30% 0);
+      }
+      92% {
+        text-shadow: -5px 0 0 #ff0040, 5px 0 0 #00ffff;
+        transform: translate(-3px, 0) skewX(-3deg);
+        clip-path: inset(50% 0 10% 0);
+      }
+      93% {
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        transform: translate(0);
+        clip-path: none;
+      }
+    }
+
+    /* Glitch container effect */
+    .resume-header__name {
+      position: relative;
+    }
+
+    .resume-header__name::before,
+    .resume-header__name::after {
+      content: 'ARYAN SAKHALA';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+
+    .resume-header__name::before {
+      color: #ff0040;
+      animation: glitch-layer1 2s infinite;
+      z-index: -1;
+    }
+
+    .resume-header__name::after {
+      color: #00ffff;
+      animation: glitch-layer2 2s infinite;
+      z-index: -1;
+    }
+
+    @keyframes glitch-layer1 {
+      0%, 85%, 100% { transform: translate(0); opacity: 0; }
+      86% { transform: translate(-4px, -2px); opacity: 0.7; }
+      87% { transform: translate(4px, 2px); opacity: 0.7; }
+      88% { transform: translate(0); opacity: 0; }
+      92% { transform: translate(3px, -1px); opacity: 0.5; }
+      93% { transform: translate(-3px, 1px); opacity: 0.5; }
+      94% { transform: translate(0); opacity: 0; }
+    }
+
+    @keyframes glitch-layer2 {
+      0%, 85%, 100% { transform: translate(0); opacity: 0; }
+      86% { transform: translate(4px, 2px); opacity: 0.7; }
+      87% { transform: translate(-4px, -2px); opacity: 0.7; }
+      88% { transform: translate(0); opacity: 0; }
+      92% { transform: translate(-3px, 1px); opacity: 0.5; }
+      93% { transform: translate(3px, -1px); opacity: 0.5; }
+      94% { transform: translate(0); opacity: 0; }
+    }
+
+    /* Screen flicker */
+    .resume-modal.active {
+      animation: screen-flicker 0.1s infinite alternate;
+    }
+
+    @keyframes screen-flicker {
+      0% { opacity: 0.97; }
+      100% { opacity: 1; }
+    }
+
+    /* Glitch scan lines */
+    .resume-modal::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 0, 0.03) 2px,
+        rgba(0, 255, 0, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 10002;
+    }
+
+    /* Random glitch bar */
+    .resume-modal::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(0, 255, 0, 0.8);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10003;
+      animation: glitch-bar 4s infinite;
+    }
+
+    @keyframes glitch-bar {
+      0%, 90%, 100% { opacity: 0; top: 0; }
+      91% { opacity: 1; top: 20%; height: 3px; }
+      92% { opacity: 0; }
+      93% { opacity: 1; top: 60%; height: 2px; }
+      94% { opacity: 0; }
+      95% { opacity: 1; top: 35%; height: 4px; }
+      96% { opacity: 0; }
+    }
+
+    /* Glitch on section titles */
+    .resume-section__title {
+      animation: section-glitch 5s infinite;
+    }
+
+    @keyframes section-glitch {
+      0%, 95%, 100% { transform: translate(0); }
+      96% { transform: translate(-2px, 0); text-shadow: 2px 0 #ff0040, -2px 0 #00ffff; }
+      97% { transform: translate(2px, 0); text-shadow: -2px 0 #ff0040, 2px 0 #00ffff; }
+      98% { transform: translate(0); text-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
+    }
+
+    /* Glitch on skill tags */
+    .resume-skill {
+      transition: all 0.1s;
+    }
+
+    .resume-skill:hover {
+      animation: skill-glitch 0.3s;
+      background: rgba(0, 255, 0, 0.2);
+    }
+
+    @keyframes skill-glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 1px); box-shadow: 2px 0 #ff0040, -2px 0 #00ffff; }
+      40% { transform: translate(2px, -1px); box-shadow: -2px 0 #ff0040, 2px 0 #00ffff; }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: translate(0); }
+    }
+
+    /* Noise overlay */
+    .glitch-noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10001;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
     .resume-header__title {
@@ -2660,6 +2838,7 @@
 
   <!-- Graphical Resume Modal -->
   <div class="resume-modal" id="resumeModal">
+    <div class="glitch-noise"></div>
     <button class="resume-close" onclick="closeResume()">✕</button>
     
     <div class="resume-container">
