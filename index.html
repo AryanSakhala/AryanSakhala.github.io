@@ -826,332 +826,259 @@
     .exp-connector { display: none; }
 
     /* ═══════════════════════════════════════════════════════════════
-       PANEL 4: SKILLS - AUTHENTIC ARC REACTOR + NEURAL NETWORK
+       PANEL 4: SKILLS - NEURAL TERMINAL HUD
     ═══════════════════════════════════════════════════════════════ */
-    .arc-wrapper {
+    #skills {
+      background: #0a0a0f !important;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
+      overflow: hidden;
     }
 
-    .reactor-container {
-      position: relative;
-      width: 320px;
-      height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Outer black ring */
-    .arc-ring-outer {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: #0a0a12;
-      box-shadow: 
-        0 0 0 4px #1a1a25,
-        0 0 60px rgba(80, 180, 255, 0.3),
-        0 0 100px rgba(80, 180, 255, 0.2);
-    }
-
-    /* Blue glow ring (visible between segments) */
-    .arc-glow {
-      position: absolute;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(circle, 
-        rgba(80, 180, 255, 0.1) 60%, 
-        rgba(80, 180, 255, 0.4) 75%, 
-        rgba(80, 180, 255, 0.1) 85%);
-      box-shadow: 
-        inset 0 0 60px rgba(80, 180, 255, 0.5),
-        0 0 40px rgba(80, 180, 255, 0.3);
-      animation: glow-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes glow-pulse {
-      0%, 100% { opacity: 0.85; }
-      50% { opacity: 1; }
-    }
-
-    /* Segment container */
-    .arc-segments {
-      position: absolute;
-      width: 280px;
-      height: 280px;
-    }
-
-    /* Individual copper segments - 10 pieces */
-    .arc-seg {
-      position: absolute;
-      width: 42px;
-      height: 75px;
-      top: 50%;
-      left: 50%;
-      margin-left: -21px;
-      margin-top: -140px;
-      transform-origin: 21px 140px;
-      background: linear-gradient(180deg,
-        #2a2a35 0%,
-        #b87333 5%,
-        #cd853f 15%,
-        #daa520 25%,
-        #cd853f 40%,
-        #b87333 55%,
-        #8b5a2b 70%,
-        #5c4033 85%,
-        #2a2a35 100%);
-      border-radius: 4px;
-      box-shadow: 
-        inset 2px 0 4px rgba(255,255,255,0.2),
-        inset -2px 0 4px rgba(0,0,0,0.4),
-        0 0 10px rgba(80, 180, 255, 0.3);
-    }
-
-    /* Coil wire texture */
-    .arc-seg::before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 6px;
-      right: 6px;
-      bottom: 10px;
-      background: repeating-linear-gradient(0deg,
-        rgba(139, 90, 43, 0.8) 0px,
-        rgba(205, 133, 63, 0.9) 2px,
-        rgba(139, 90, 43, 0.8) 4px);
-      border-radius: 2px;
-    }
-
-    /* Blue LED strip on each segment */
-    .arc-seg::after {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: calc(100% - 16px);
-      background: linear-gradient(180deg,
-        rgba(80, 180, 255, 0.9),
-        rgba(150, 220, 255, 1),
-        rgba(80, 180, 255, 0.9));
-      border-radius: 2px;
-      box-shadow: 0 0 8px rgba(80, 180, 255, 0.8);
-    }
-
-    .arc-seg:nth-child(1) { transform: rotate(0deg); }
-    .arc-seg:nth-child(2) { transform: rotate(36deg); }
-    .arc-seg:nth-child(3) { transform: rotate(72deg); }
-    .arc-seg:nth-child(4) { transform: rotate(108deg); }
-    .arc-seg:nth-child(5) { transform: rotate(144deg); }
-    .arc-seg:nth-child(6) { transform: rotate(180deg); }
-    .arc-seg:nth-child(7) { transform: rotate(216deg); }
-    .arc-seg:nth-child(8) { transform: rotate(252deg); }
-    .arc-seg:nth-child(9) { transform: rotate(288deg); }
-    .arc-seg:nth-child(10) { transform: rotate(324deg); }
-
-    /* Inner ring */
-    .arc-ring-inner {
-      position: absolute;
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #15151f, #1f1f2e, #15151f);
-      box-shadow: 
-        inset 0 0 20px rgba(0,0,0,0.8),
-        0 0 30px rgba(80, 180, 255, 0.4);
-    }
-
-    /* Bright core */
-    .arc-core {
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%,
-        #ffffff 0%,
-        #e0f7ff 15%,
-        #7dd3fc 35%,
-        #38bdf8 55%,
-        #0ea5e9 75%,
-        #0284c7 100%);
-      box-shadow: 
-        0 0 30px #fff,
-        0 0 60px rgba(125, 211, 252, 1),
-        0 0 100px rgba(56, 189, 248, 0.8),
-        0 0 150px rgba(14, 165, 233, 0.5);
-      animation: core-breathe 2s ease-in-out infinite;
-    }
-
-    /* Inner core ring detail */
-    .arc-core::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50px;
-      height: 50px;
-      border: 3px solid rgba(255,255,255,0.6);
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(255,255,255,0.5);
-    }
-
-    .arc-core::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 20px #fff, 0 0 40px rgba(200,240,255,1);
-    }
-
-    @keyframes core-breathe {
-      0%, 100% { 
-        transform: scale(1);
-        filter: brightness(1);
-      }
-      50% { 
-        transform: scale(1.02);
-        filter: brightness(1.1);
-      }
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       NEURAL NETWORK SKILLS
-    ═══════════════════════════════════════════════════════════════ */
-    .neural-container {
-      position: absolute;
-      width: 700px;
-      height: 700px;
-    }
-
-    /* SVG for neural connections */
-    .neural-svg {
+    /* Scan lines overlay */
+    .hud-scanlines {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 200, 0.015) 2px,
+        rgba(0, 255, 200, 0.015) 4px
+      );
       pointer-events: none;
       z-index: 1;
     }
 
-    .neural-line {
-      stroke: url(#neural-grad);
-      stroke-width: 2;
-      fill: none;
-      opacity: 0.6;
-      filter: drop-shadow(0 0 3px rgba(80, 180, 255, 0.5));
-    }
-
-    .neural-line.active {
-      stroke-width: 3;
-      opacity: 1;
-      filter: drop-shadow(0 0 6px rgba(80, 180, 255, 0.8));
-    }
-
-    /* Skill nodes */
-    .skill-node {
+    /* Grid background */
+    .hud-grid {
       position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    .skills-container {
+      position: relative;
+      z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.3rem;
-      padding: 0.7rem 1rem;
-      background: rgba(10, 10, 20, 0.95);
-      border: 2px solid rgba(80, 180, 255, 0.4);
-      border-radius: 12px;
-      cursor: grab;
-      user-select: none;
-      z-index: 10;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 900px;
+      width: 100%;
     }
 
-    .skill-node::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: 14px;
-      background: transparent;
-      z-index: -1;
+    /* Terminal header */
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(0, 255, 200, 0.05);
+      border: 1px solid rgba(0, 255, 200, 0.2);
+      border-radius: 8px;
     }
 
-    .skill-node:hover {
-      border-color: rgba(80, 180, 255, 0.9);
-      box-shadow: 
-        0 0 20px rgba(80, 180, 255, 0.5),
-        inset 0 0 15px rgba(80, 180, 255, 0.1);
-    }
-
-    .skill-node.dragging {
-      cursor: grabbing;
-      border-color: #fff;
-      box-shadow: 
-        0 0 30px rgba(80, 180, 255, 0.8),
-        0 0 60px rgba(80, 180, 255, 0.4);
-      z-index: 100;
-    }
-
-    .skill-node__icon { font-size: 1.8rem; }
-    .skill-node__name { 
-      font-family: var(--font-mono); 
-      font-size: 0.65rem; 
-      color: rgba(180, 220, 255, 0.95);
-      letter-spacing: 0.5px;
-    }
-
-    /* Connection dots on nodes */
-    .skill-node__dot {
-      position: absolute;
+    .terminal-header__dot {
       width: 8px;
       height: 8px;
-      background: rgba(80, 180, 255, 0.8);
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(80, 180, 255, 0.6);
+      animation: pulse-dot 2s infinite;
     }
 
-    /* Title & hint */
-    .reactor-title {
-      position: absolute;
-      bottom: 10px;
+    .terminal-header__dot--green { background: #0f0; box-shadow: 0 0 10px #0f0; }
+    .terminal-header__dot--cyan { background: #0ff; box-shadow: 0 0 10px #0ff; animation-delay: 0.3s; }
+    .terminal-header__dot--purple { background: #c084fc; box-shadow: 0 0 10px #c084fc; animation-delay: 0.6s; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .terminal-header__text {
       font-family: var(--font-mono);
-      font-size: 0.9rem;
-      letter-spacing: 3px;
-      color: rgba(80, 180, 255, 0.7);
-      text-shadow: 0 0 15px rgba(80, 180, 255, 0.4);
+      font-size: 0.8rem;
+      color: rgba(0, 255, 200, 0.8);
+      letter-spacing: 2px;
     }
 
-    .neural-hint {
+    /* Skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      width: 100%;
+    }
+
+    /* Skill chip */
+    .skill-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: rgba(0, 20, 20, 0.8);
+      border: 1px solid rgba(0, 255, 200, 0.2);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-chip::before {
+      content: '';
       position: absolute;
-      bottom: 35px;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 200, 0.8), transparent);
+      animation: scan-line 3s linear infinite;
+    }
+
+    @keyframes scan-line {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .skill-chip:hover {
+      border-color: rgba(0, 255, 200, 0.6);
+      background: rgba(0, 40, 40, 0.9);
+      transform: translateY(-4px);
+      box-shadow: 
+        0 0 20px rgba(0, 255, 200, 0.2),
+        0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .skill-chip:hover .skill-chip__icon {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 10px rgba(0, 255, 200, 0.5));
+    }
+
+    .skill-chip__icon {
+      width: 36px;
+      height: 36px;
+      transition: all 0.3s ease;
+    }
+
+    .skill-chip__name {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: rgba(0, 255, 200, 0.9);
+      text-align: center;
+    }
+
+    .skill-chip__level {
+      display: flex;
+      gap: 3px;
+    }
+
+    .skill-chip__bar {
+      width: 6px;
+      height: 3px;
+      background: rgba(0, 255, 200, 0.2);
+      border-radius: 1px;
+    }
+
+    .skill-chip__bar.active {
+      background: rgba(0, 255, 200, 0.8);
+      box-shadow: 0 0 5px rgba(0, 255, 200, 0.5);
+    }
+
+    /* Category labels */
+    .skills-category {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .skills-category__label {
       font-family: var(--font-mono);
       font-size: 0.65rem;
-      color: rgba(80, 180, 255, 0.4);
-      animation: hint-fade 3s ease-in-out infinite;
+      color: rgba(0, 255, 200, 0.5);
+      letter-spacing: 2px;
+      margin-bottom: 0.75rem;
+      padding-left: 0.5rem;
+      border-left: 2px solid rgba(0, 255, 200, 0.3);
     }
 
-    @keyframes hint-fade {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.7; }
+    /* Status bar */
+    .hud-status {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 255, 200, 0.03);
+      border: 1px solid rgba(0, 255, 200, 0.1);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: rgba(0, 255, 200, 0.6);
     }
 
+    .hud-status__item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hud-status__value {
+      color: rgba(0, 255, 200, 0.9);
+    }
+
+    /* Mobile responsive */
     @media (max-width: 768px) {
-      .arc-wrapper { transform: scale(0.45); }
+      .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+      
+      .skill-chip {
+        padding: 0.75rem 0.5rem;
+      }
+      
+      .skill-chip__icon {
+        width: 28px;
+        height: 28px;
+      }
+      
+      .skill-chip__name {
+        font-size: 0.55rem;
+      }
+      
+      .terminal-header {
+        padding: 0.5rem 1rem;
+      }
+      
+      .terminal-header__text {
+        font-size: 0.65rem;
+      }
+      
+      .hud-status {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .skills-category__label {
+        font-size: 0.55rem;
+      }
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -1899,64 +1826,118 @@
       </div>
     </section>
 
-    <!-- Panel 4: Skills - Iron Man Arc Reactor -->
+    <!-- Panel 4: Skills - Neural Terminal HUD -->
     <section class="panel" id="skills">
-      <div class="section-label"><span>04</span> // tech arsenal</div>
+      <div class="hud-scanlines"></div>
+      <div class="hud-grid"></div>
       
-      <div class="arc-wrapper">
-        <!-- Neural network SVG connections -->
-        <svg class="neural-svg" id="neuralSvg">
-          <defs>
-            <linearGradient id="neural-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:rgba(80,180,255,0.1)"/>
-              <stop offset="50%" style="stop-color:rgba(80,180,255,0.8)"/>
-              <stop offset="100%" style="stop-color:rgba(80,180,255,0.1)"/>
-            </linearGradient>
-            <filter id="glow-line">
-              <feGaussianBlur stdDeviation="2" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-        </svg>
+      <div class="section-label" style="color: rgba(0,255,200,0.7);"><span style="color: rgba(0,255,200,0.9);">04</span> // tech_stack</div>
+      
+      <div class="skills-container">
+        <!-- Terminal Header -->
+        <div class="terminal-header">
+          <div class="terminal-header__dot terminal-header__dot--green"></div>
+          <div class="terminal-header__dot terminal-header__dot--cyan"></div>
+          <div class="terminal-header__dot terminal-header__dot--purple"></div>
+          <span class="terminal-header__text">NEURAL_INTERFACE.exe</span>
+        </div>
 
-        <!-- Arc Reactor -->
-        <div class="reactor-container">
-          <div class="arc-ring-outer"></div>
-          <div class="arc-glow"></div>
-          <div class="arc-segments">
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
-            <div class="arc-seg"></div>
+        <!-- AI/ML Category -->
+        <div class="skills-category">
+          <div class="skills-category__label">// AI & MACHINE LEARNING</div>
+          <div class="skills-grid">
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/python/00ffc8" alt="Python"/>
+              <span class="skill-chip__name">Python</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/pytorch/00ffc8" alt="PyTorch"/>
+              <span class="skill-chip__name">PyTorch</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/tensorflow/00ffc8" alt="TensorFlow"/>
+              <span class="skill-chip__name">TensorFlow</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/huggingface/00ffc8" alt="HuggingFace"/>
+              <span class="skill-chip__name">HuggingFace</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span></div>
+            </div>
           </div>
-          <div class="arc-ring-inner"></div>
-          <div class="arc-core"></div>
         </div>
 
-        <!-- Neural Network Skills -->
-        <div class="neural-container" id="neuralContainer">
-          <div class="skill-node" data-idx="0"><img class="skill-node__icon" src="https://cdn.simpleicons.org/python/3776AB" width="32"/><span class="skill-node__name">Python</span></div>
-          <div class="skill-node" data-idx="1"><img class="skill-node__icon" src="https://cdn.simpleicons.org/langchain/1C3C3C" width="32"/><span class="skill-node__name">LangChain</span></div>
-          <div class="skill-node" data-idx="2"><img class="skill-node__icon" src="https://cdn.simpleicons.org/react/61DAFB" width="32"/><span class="skill-node__name">React</span></div>
-          <div class="skill-node" data-idx="3"><img class="skill-node__icon" src="https://cdn.simpleicons.org/pytorch/EE4C2C" width="32"/><span class="skill-node__name">PyTorch</span></div>
-          <div class="skill-node" data-idx="4"><img class="skill-node__icon" src="https://cdn.simpleicons.org/apachekafka/fff" width="32"/><span class="skill-node__name">Kafka</span></div>
-          <div class="skill-node" data-idx="5"><img class="skill-node__icon" src="https://cdn.simpleicons.org/tensorflow/FF6F00" width="32"/><span class="skill-node__name">TensorFlow</span></div>
-          <div class="skill-node" data-idx="6"><img class="skill-node__icon" src="https://cdn.simpleicons.org/fastapi/009688" width="32"/><span class="skill-node__name">FastAPI</span></div>
-          <div class="skill-node" data-idx="7"><img class="skill-node__icon" src="https://cdn.simpleicons.org/huggingface/FFD21E" width="32"/><span class="skill-node__name">HuggingFace</span></div>
-          <div class="skill-node" data-idx="8"><img class="skill-node__icon" src="https://cdn.simpleicons.org/web3dotjs/F16822" width="32"/><span class="skill-node__name">Web3</span></div>
-          <div class="skill-node" data-idx="9"><img class="skill-node__icon" src="https://cdn.simpleicons.org/docker/2496ED" width="32"/><span class="skill-node__name">Docker</span></div>
-          <div class="skill-node" data-idx="10"><img class="skill-node__icon" src="https://cdn.simpleicons.org/mongodb/47A248" width="32"/><span class="skill-node__name">MongoDB</span></div>
-          <div class="skill-node" data-idx="11"><img class="skill-node__icon" src="https://cdn.simpleicons.org/mysql/4479A1" width="32"/><span class="skill-node__name">SQL</span></div>
+        <!-- LLM & RAG Category -->
+        <div class="skills-category">
+          <div class="skills-category__label">// LLM & RAG SYSTEMS</div>
+          <div class="skills-grid">
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/langchain/00ffc8" alt="LangChain"/>
+              <span class="skill-chip__name">LangChain</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/openai/00ffc8" alt="OpenAI"/>
+              <span class="skill-chip__name">OpenAI</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/pinecone/00ffc8" alt="Pinecone"/>
+              <span class="skill-chip__name">Pinecone</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/ollama/00ffc8" alt="Ollama"/>
+              <span class="skill-chip__name">Ollama</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+          </div>
         </div>
 
-        <p class="neural-hint">⟨ drag nodes • connections follow ⟩</p>
-        <h2 class="reactor-title">TECH ARSENAL</h2>
+        <!-- Backend Category -->
+        <div class="skills-category">
+          <div class="skills-category__label">// BACKEND & DATA</div>
+          <div class="skills-grid">
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/fastapi/00ffc8" alt="FastAPI"/>
+              <span class="skill-chip__name">FastAPI</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/docker/00ffc8" alt="Docker"/>
+              <span class="skill-chip__name">Docker</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/mongodb/00ffc8" alt="MongoDB"/>
+              <span class="skill-chip__name">MongoDB</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+            <div class="skill-chip">
+              <img class="skill-chip__icon" src="https://cdn.simpleicons.org/postgresql/00ffc8" alt="PostgreSQL"/>
+              <span class="skill-chip__name">PostgreSQL</span>
+              <div class="skill-chip__level"><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar active"></span><span class="skill-chip__bar"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="hud-status">
+          <div class="hud-status__item">
+            <span>STATUS:</span>
+            <span class="hud-status__value">ONLINE</span>
+          </div>
+          <div class="hud-status__item">
+            <span>SKILLS:</span>
+            <span class="hud-status__value">12 LOADED</span>
+          </div>
+          <div class="hud-status__item">
+            <span>UPTIME:</span>
+            <span class="hud-status__value">3+ YRS</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2355,145 +2336,8 @@
     matrixObserver.observe(expSection);
 
     // ═══════════════════════════════════════════════════════════════
-    // NEURAL NETWORK SKILLS - DRAGGABLE WITH CONNECTIONS
+    // SKILLS HUD ANIMATIONS (simple hover effects handled by CSS)
     // ═══════════════════════════════════════════════════════════════
-    const neuralContainer = document.getElementById('neuralContainer');
-    const neuralSvg = document.getElementById('neuralSvg');
-    const skillNodes = document.querySelectorAll('.skill-node');
-    const nodeCount = skillNodes.length;
-    
-    // Define neural network connections (which nodes connect)
-    const connections = [
-      [0, 1], [0, 10], [0, 11],  // Python connects to LangChain, MongoDB, SQL
-      [1, 2], [1, 3],           // LangChain connects to React, PyTorch
-      [2, 4],                   // React connects to Kafka
-      [3, 5], [3, 7],           // PyTorch connects to TensorFlow, HuggingFace
-      [5, 6],                   // TensorFlow connects to FastAPI
-      [6, 7], [6, 8],           // FastAPI connects to HuggingFace, Web3
-      [7, 9],                   // HuggingFace connects to Docker
-      [8, 10],                  // Web3 connects to MongoDB
-      [9, 10], [9, 11],         // Docker connects to MongoDB, SQL
-      [4, 5],                   // Kafka connects to TensorFlow
-      [10, 11],                 // MongoDB connects to SQL
-    ];
-
-    // Store node positions
-    const nodePositions = [];
-
-    // Position nodes in a circle around reactor
-    function positionNodes() {
-      const containerRect = neuralContainer.getBoundingClientRect();
-      const centerX = containerRect.width / 2;
-      const centerY = containerRect.height / 2;
-      const radius = 280;
-
-      skillNodes.forEach((node, i) => {
-        const angle = (i / nodeCount) * Math.PI * 2 - Math.PI / 2;
-        const x = centerX + Math.cos(angle) * radius - node.offsetWidth / 2;
-        const y = centerY + Math.sin(angle) * radius - node.offsetHeight / 2;
-        
-        node.style.left = x + 'px';
-        node.style.top = y + 'px';
-        
-        nodePositions[i] = { x: x + node.offsetWidth / 2, y: y + node.offsetHeight / 2 };
-      });
-      
-      drawConnections();
-    }
-
-    // Draw SVG lines between connected nodes
-    function drawConnections() {
-      // Clear existing lines
-      const existingLines = neuralSvg.querySelectorAll('line');
-      existingLines.forEach(l => l.remove());
-
-      // Get container position for SVG coordinates
-      const containerRect = neuralContainer.getBoundingClientRect();
-      const svgRect = neuralSvg.getBoundingClientRect();
-      const offsetX = containerRect.left - svgRect.left;
-      const offsetY = containerRect.top - svgRect.top;
-
-      connections.forEach(([fromIdx, toIdx]) => {
-        const from = nodePositions[fromIdx];
-        const to = nodePositions[toIdx];
-        
-        if (from && to) {
-          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          line.setAttribute('x1', from.x + offsetX);
-          line.setAttribute('y1', from.y + offsetY);
-          line.setAttribute('x2', to.x + offsetX);
-          line.setAttribute('y2', to.y + offsetY);
-          line.setAttribute('class', 'neural-line');
-          line.setAttribute('filter', 'url(#glow-line)');
-          neuralSvg.appendChild(line);
-        }
-      });
-    }
-
-    // Update single node position and redraw
-    function updateNodePosition(node, x, y) {
-      const idx = parseInt(node.dataset.idx);
-      nodePositions[idx] = { x: x + node.offsetWidth / 2, y: y + node.offsetHeight / 2 };
-      drawConnections();
-    }
-
-    // Draggable logic
-    skillNodes.forEach(node => {
-      let isDragging = false;
-      let startX, startY, nodeStartX, nodeStartY;
-
-      const startDrag = (clientX, clientY) => {
-        isDragging = true;
-        node.classList.add('dragging');
-        startX = clientX;
-        startY = clientY;
-        nodeStartX = parseFloat(node.style.left) || 0;
-        nodeStartY = parseFloat(node.style.top) || 0;
-      };
-
-      const moveDrag = (clientX, clientY) => {
-        if (!isDragging) return;
-        const dx = clientX - startX;
-        const dy = clientY - startY;
-        const newX = nodeStartX + dx;
-        const newY = nodeStartY + dy;
-        node.style.left = newX + 'px';
-        node.style.top = newY + 'px';
-        updateNodePosition(node, newX, newY);
-      };
-
-      const endDrag = () => {
-        if (isDragging) {
-          isDragging = false;
-          node.classList.remove('dragging');
-        }
-      };
-
-      // Mouse events
-      node.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        startDrag(e.clientX, e.clientY);
-      });
-      document.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
-      document.addEventListener('mouseup', endDrag);
-
-      // Touch events
-      node.addEventListener('touchstart', (e) => {
-        const touch = e.touches[0];
-        startDrag(touch.clientX, touch.clientY);
-      });
-      document.addEventListener('touchmove', (e) => {
-        if (isDragging) {
-          const touch = e.touches[0];
-          moveDrag(touch.clientX, touch.clientY);
-        }
-      });
-      document.addEventListener('touchend', endDrag);
-    });
-
-    // Initial positioning
-    setTimeout(positionNodes, 100);
-    window.addEventListener('resize', positionNodes);
 
     // ═══════════════════════════════════════════════════════════════
     // INIT
