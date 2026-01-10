@@ -1374,12 +1374,26 @@
       }
       
       /* Hero mobile */
+      .hero__name {
+        font-size: 2rem !important;
+      }
+      
       .hero__title {
-        font-size: 2.5rem;
+        font-size: 0.9rem;
       }
       
       .hero__subtitle {
-        font-size: 1rem;
+        font-size: 0.85rem;
+      }
+      
+      .hero__buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
       }
       
       .hero__badges {
@@ -2116,41 +2130,69 @@
     
     const panels = gsap.utils.toArray('.panel');
     const progressBar = document.querySelector('.progress-bar');
+    const isMobile = window.innerWidth <= 768;
     
-    const scrollTween = gsap.to(panels, {
-      xPercent: -100 * (panels.length - 1),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.horizontal-scroll',
-        pin: true,
-        scrub: 1,
-        end: () => '+=' + document.querySelector('.horizontal-scroll').offsetWidth,
-        onUpdate: (self) => {
-          // Update progress bar
-          progressBar.style.transform = `scaleX(${self.progress})`;
-          
-          // Update active dock item
-          const activeIndex = Math.round(self.progress * (panels.length - 1));
-          document.querySelectorAll('.dock__item').forEach((item, i) => {
-            item.classList.toggle('active', i === activeIndex);
-          });
+    if (!isMobile) {
+      // Desktop: Horizontal scroll
+      const scrollTween = gsap.to(panels, {
+        xPercent: -100 * (panels.length - 1),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.horizontal-scroll',
+          pin: true,
+          scrub: 1,
+          end: () => '+=' + document.querySelector('.horizontal-scroll').offsetWidth,
+          onUpdate: (self) => {
+            progressBar.style.transform = `scaleX(${self.progress})`;
+            const activeIndex = Math.round(self.progress * (panels.length - 1));
+            document.querySelectorAll('.dock__item').forEach((item, i) => {
+              item.classList.toggle('active', i === activeIndex);
+            });
+          }
         }
-      }
-    });
+      });
+    } else {
+      // Mobile: Vertical scroll
+      const mobileObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const panelId = entry.target.id;
+            const panelIndex = ['home', 'about', 'experience', 'skills', 'contact'].indexOf(panelId);
+            document.querySelectorAll('.dock__item').forEach((item, i) => {
+              item.classList.toggle('active', i === panelIndex);
+            });
+          }
+        });
+      }, { threshold: 0.3 });
+
+      panels.forEach(panel => mobileObserver.observe(panel));
+      
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        progressBar.style.transform = `scaleX(${scrolled})`;
+      });
+    }
     
     // Dock navigation
     document.querySelectorAll('.dock__item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
         const section = parseInt(item.dataset.section);
-        const targetProgress = section / (panels.length - 1);
-        const targetScroll = targetProgress * (document.querySelector('.horizontal-scroll').offsetWidth - window.innerWidth);
         
-        gsap.to(window, {
-          scrollTo: targetScroll,
-          duration: 1,
-          ease: 'power2.inOut'
-        });
+        if (!isMobile) {
+          const targetProgress = section / (panels.length - 1);
+          const targetScroll = targetProgress * (document.querySelector('.horizontal-scroll').offsetWidth - window.innerWidth);
+          gsap.to(window, {
+            scrollTo: targetScroll,
+            duration: 1,
+            ease: 'power2.inOut'
+          });
+        } else {
+          const targetPanel = panels[section];
+          if (targetPanel) {
+            targetPanel.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
       });
     });
 
