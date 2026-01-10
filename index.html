@@ -1343,8 +1343,251 @@
       height: 100%;
       pointer-events: none;
       z-index: 10001;
-      opacity: 0.05;
+      opacity: 0.08;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      animation: noise-shift 0.2s steps(10) infinite;
+    }
+
+    @keyframes noise-shift {
+      0% { transform: translate(0, 0); }
+      10% { transform: translate(-2%, -2%); }
+      20% { transform: translate(2%, 2%); }
+      30% { transform: translate(-1%, 1%); }
+      40% { transform: translate(1%, -1%); }
+      50% { transform: translate(-2%, 2%); }
+      60% { transform: translate(2%, -2%); }
+      70% { transform: translate(0, 2%); }
+      80% { transform: translate(-2%, 0); }
+      90% { transform: translate(2%, 1%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* Matrix rain canvas */
+    .resume-matrix-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    /* Intense screen tear */
+    .screen-tear {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 255, 0, 0.3) 20%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(0, 255, 0, 0.3) 80%,
+        transparent 100%);
+      z-index: 10004;
+      pointer-events: none;
+      animation: screen-tear 3s infinite;
+    }
+
+    @keyframes screen-tear {
+      0%, 85%, 100% { height: 0; top: 0; opacity: 0; }
+      86% { height: 4px; top: 15%; opacity: 1; }
+      87% { height: 2px; top: 45%; opacity: 1; }
+      88% { height: 6px; top: 70%; opacity: 1; }
+      89% { height: 3px; top: 30%; opacity: 1; }
+      90% { height: 0; opacity: 0; }
+    }
+
+    /* Chromatic aberration on container */
+    .resume-container {
+      animation: chromatic-shift 4s infinite;
+    }
+
+    @keyframes chromatic-shift {
+      0%, 90%, 100% { filter: none; }
+      91% { filter: drop-shadow(2px 0 0 rgba(255, 0, 64, 0.5)) drop-shadow(-2px 0 0 rgba(0, 255, 255, 0.5)); }
+      92% { filter: drop-shadow(-3px 0 0 rgba(255, 0, 64, 0.5)) drop-shadow(3px 0 0 rgba(0, 255, 255, 0.5)); }
+      93% { filter: none; }
+    }
+
+    /* Corrupted data blocks */
+    .resume-exp::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 0, 0.05) 50%,
+        transparent 100%);
+      animation: data-scan 2s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes data-scan {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .resume-exp {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Glitch on experience cards */
+    .resume-exp:hover {
+      animation: card-glitch 0.5s;
+    }
+
+    @keyframes card-glitch {
+      0%, 100% { transform: translate(0); border-color: rgba(0, 255, 0, 0.5); }
+      10% { transform: translate(-3px, 2px); border-color: #ff0040; }
+      20% { transform: translate(3px, -2px); border-color: #00ffff; }
+      30% { transform: translate(-2px, -1px); border-color: #0f0; }
+      40% { transform: translate(2px, 1px); }
+      50% { transform: translate(-1px, 2px); border-color: #ff0040; }
+      60% { transform: translate(1px, -1px); }
+      70% { transform: translate(0); }
+    }
+
+    /* Typing cursor on title */
+    .resume-header__title::after {
+      content: '█';
+      animation: blink-cursor 0.8s infinite;
+      color: #0f0;
+    }
+
+    @keyframes blink-cursor {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Intense name glitch - more frequent */
+    .resume-header__name {
+      animation: glitch-text 1.5s infinite;
+    }
+
+    /* Pulsing glow on sections */
+    .resume-section__title {
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      animation: section-glitch 3s infinite, pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { text-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
+      50% { text-shadow: 0 0 20px rgba(0, 255, 0, 0.8), 0 0 40px rgba(0, 255, 0, 0.4); }
+    }
+
+    /* Glitch on bullets */
+    .resume-exp__bullets li::before {
+      animation: bullet-glitch 2s infinite;
+    }
+
+    @keyframes bullet-glitch {
+      0%, 95%, 100% { color: #0f0; transform: translate(0); }
+      96% { color: #ff0040; transform: translate(-2px, 0); }
+      97% { color: #00ffff; transform: translate(2px, 0); }
+      98% { color: #0f0; transform: translate(0); }
+    }
+
+    /* VHS tracking lines */
+    .vhs-tracking {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10002;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.1) 3px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      animation: vhs-roll 10s linear infinite;
+    }
+
+    @keyframes vhs-roll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100px; }
+    }
+
+    /* Random block corruption */
+    .block-corrupt {
+      position: fixed;
+      width: 60px;
+      height: 20px;
+      background: rgba(0, 255, 0, 0.3);
+      z-index: 10003;
+      pointer-events: none;
+      opacity: 0;
+      animation: block-corrupt 5s infinite;
+    }
+
+    .block-corrupt:nth-child(2) { animation-delay: 1.5s; }
+    .block-corrupt:nth-child(3) { animation-delay: 3s; }
+
+    @keyframes block-corrupt {
+      0%, 90%, 100% { opacity: 0; }
+      91% { opacity: 1; top: 20%; left: 10%; width: 80px; }
+      92% { opacity: 0; }
+      93% { opacity: 1; top: 50%; left: 60%; width: 40px; }
+      94% { opacity: 1; top: 70%; left: 30%; width: 100px; }
+      95% { opacity: 0; }
+    }
+
+    /* Skills cascade animation */
+    .resume-skill {
+      opacity: 0;
+      animation: skill-cascade 0.5s forwards;
+    }
+
+    .resume-skill:nth-child(1) { animation-delay: 0.1s; }
+    .resume-skill:nth-child(2) { animation-delay: 0.15s; }
+    .resume-skill:nth-child(3) { animation-delay: 0.2s; }
+    .resume-skill:nth-child(4) { animation-delay: 0.25s; }
+    .resume-skill:nth-child(5) { animation-delay: 0.3s; }
+    .resume-skill:nth-child(6) { animation-delay: 0.35s; }
+    .resume-skill:nth-child(7) { animation-delay: 0.4s; }
+    .resume-skill:nth-child(8) { animation-delay: 0.45s; }
+    .resume-skill:nth-child(9) { animation-delay: 0.5s; }
+    .resume-skill:nth-child(10) { animation-delay: 0.55s; }
+    .resume-skill:nth-child(11) { animation-delay: 0.6s; }
+    .resume-skill:nth-child(12) { animation-delay: 0.65s; }
+    .resume-skill:nth-child(13) { animation-delay: 0.7s; }
+    .resume-skill:nth-child(14) { animation-delay: 0.75s; }
+    .resume-skill:nth-child(15) { animation-delay: 0.8s; }
+
+    @keyframes skill-cascade {
+      0% { opacity: 0; transform: translateY(-10px) scale(0.8); }
+      50% { transform: translateY(2px) scale(1.05); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Status bar at bottom */
+    .resume-status {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 10, 0, 0.95);
+      border-top: 1px solid rgba(0, 255, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: rgba(0, 255, 0, 0.7);
+      z-index: 10005;
+    }
+
+    .resume-status__blink {
+      animation: blink-cursor 1s infinite;
     }
 
     .resume-header__title {
@@ -2838,7 +3081,13 @@
 
   <!-- Graphical Resume Modal -->
   <div class="resume-modal" id="resumeModal">
+    <canvas class="resume-matrix-rain" id="resumeMatrixCanvas"></canvas>
     <div class="glitch-noise"></div>
+    <div class="vhs-tracking"></div>
+    <div class="screen-tear"></div>
+    <div class="block-corrupt"></div>
+    <div class="block-corrupt"></div>
+    <div class="block-corrupt"></div>
     <button class="resume-close" onclick="closeResume()">✕</button>
     
     <div class="resume-container">
@@ -2957,6 +3206,98 @@
         </div>
       </section>
     </div>
+
+    <!-- Status bar -->
+    <div class="resume-status">
+      <span>SYS://NEURAL_CORE <span class="resume-status__blink">●</span> ACTIVE</span>
+      <span>DECRYPT: 100% | BUFFER: OK | SIGNAL: STRONG</span>
+      <span>[ ESC TO EXIT ]</span>
+    </div>
   </div>
+
+  <script>
+    // Resume Matrix Rain
+    let resumeMatrixInterval;
+    
+    function initResumeMatrix() {
+      const canvas = document.getElementById('resumeMatrixCanvas');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/{}[]()=+-*&^%$#@!';
+      const charArray = chars.split('');
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = [];
+      
+      for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100;
+      }
+      
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#0f0';
+        ctx.font = fontSize + 'px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+          const char = charArray[Math.floor(Math.random() * charArray.length)];
+          const x = i * fontSize;
+          const y = drops[i] * fontSize;
+          
+          // Brighter leading character
+          if (Math.random() > 0.98) {
+            ctx.fillStyle = '#fff';
+          } else {
+            ctx.fillStyle = `rgba(0, ${150 + Math.random() * 105}, 0, ${0.5 + Math.random() * 0.5})`;
+          }
+          
+          ctx.fillText(char, x, y);
+          
+          if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }
+      
+      resumeMatrixInterval = setInterval(draw, 35);
+    }
+    
+    function stopResumeMatrix() {
+      if (resumeMatrixInterval) {
+        clearInterval(resumeMatrixInterval);
+        resumeMatrixInterval = null;
+      }
+    }
+    
+    // Override open/close functions
+    const originalOpenResume = openResume;
+    const originalCloseResume = closeResume;
+    
+    openResume = function() {
+      document.getElementById('resumeModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      initResumeMatrix();
+    };
+    
+    closeResume = function() {
+      document.getElementById('resumeModal').classList.remove('active');
+      document.body.style.overflow = '';
+      stopResumeMatrix();
+    };
+    
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('resumeMatrixCanvas');
+      if (canvas && document.getElementById('resumeModal').classList.contains('active')) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    });
+  </script>
 </body>
 </html>
