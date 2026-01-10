@@ -1372,6 +1372,197 @@
         height: 40px;
         font-size: 1rem;
       }
+      
+      /* Hero mobile */
+      .hero__title {
+        font-size: 2.5rem;
+      }
+      
+      .hero__subtitle {
+        font-size: 1rem;
+      }
+      
+      .hero__badges {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3rem;
+      }
+      
+      .hero__badges .badge {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.5rem;
+      }
+      
+      .scroll-indicator {
+        transform: scale(0.7);
+        bottom: 80px;
+      }
+      
+      /* Section labels */
+      .section-label {
+        font-size: 0.65rem;
+        top: 1rem;
+        left: 1rem;
+      }
+      
+      /* About cards mobile */
+      .float-card {
+        padding: 1rem;
+      }
+      
+      .float-card__title {
+        font-size: 0.9rem;
+      }
+      
+      .float-card__content {
+        font-size: 0.8rem;
+      }
+      
+      /* Experience/Matrix mobile */
+      .experience-container {
+        padding: 1rem;
+        overflow-y: auto;
+      }
+      
+      .exp-timeline {
+        gap: 1rem;
+        max-height: none;
+        overflow: visible;
+        padding-bottom: 2rem;
+      }
+      
+      .exp-card {
+        padding: 1rem;
+        min-height: auto;
+      }
+      
+      .exp-card__icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+      }
+      
+      .exp-card__title {
+        font-size: 1rem;
+      }
+      
+      .exp-card__desc {
+        font-size: 0.75rem;
+      }
+      
+      .terminal-title {
+        font-size: 0.7rem;
+      }
+      
+      .matrix-canvas {
+        opacity: 0.3 !important;
+      }
+      
+      /* Arc Reactor mobile */
+      .arc-wrapper {
+        transform: scale(0.4);
+      }
+      
+      .neural-container {
+        width: 600px;
+        height: 600px;
+      }
+      
+      .skill-node {
+        padding: 0.4rem 0.6rem;
+      }
+      
+      .skill-node__icon {
+        width: 24px !important;
+      }
+      
+      .skill-node__name {
+        font-size: 0.5rem;
+      }
+      
+      .reactor-title {
+        font-size: 0.7rem;
+      }
+      
+      .neural-hint {
+        font-size: 0.5rem;
+        bottom: 25px;
+      }
+      
+      /* Contact mobile */
+      .contact-container {
+        padding: 0 1rem;
+      }
+      
+      .contact__title {
+        font-size: 2rem;
+      }
+      
+      .contact__subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+      
+      .contact__links {
+        gap: 0.5rem;
+      }
+      
+      .contact__link {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .contact__email {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+      }
+      
+      /* Aurora mobile - less blur for performance */
+      .aurora-wave {
+        filter: blur(50px);
+      }
+    }
+    
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      .hero__title {
+        font-size: 2rem;
+      }
+      
+      .hero__subtitle {
+        font-size: 0.85rem;
+      }
+      
+      .hero__badges {
+        display: none;
+      }
+      
+      .float-card__title {
+        font-size: 0.8rem;
+      }
+      
+      .exp-card__title {
+        font-size: 0.9rem;
+      }
+      
+      .exp-card__badges {
+        display: none;
+      }
+      
+      .arc-wrapper {
+        transform: scale(0.32);
+      }
+      
+      .contact__links {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .contact__link {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
