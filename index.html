@@ -348,10 +348,12 @@
     }
 
     .hero__name {
-      font-size: clamp(3rem, 10vw, 8rem);
+      font-size: clamp(1.8rem, 8vw, 8rem);
       font-weight: 800;
       line-height: 1;
       text-align: center;
+      max-width: 100vw;
+      word-wrap: break-word;
     }
 
     .hero__name span {
@@ -1307,10 +1309,19 @@
         cursor: auto;
       }
       
+      html, body {
+        overflow-x: hidden !important;
+      }
+      
       .horizontal-scroll {
-        width: auto;
-        flex-direction: column;
-        height: auto;
+        width: 100% !important;
+        flex-direction: column !important;
+        height: auto !important;
+        transform: none !important;
+      }
+      
+      .panel {
+        transform: none !important;
       }
       
       .panel {
@@ -1374,26 +1385,40 @@
       }
       
       /* Hero mobile */
+      .hero {
+        padding: 2rem 1rem !important;
+      }
+      
       .hero__name {
-        font-size: 2rem !important;
+        font-size: 2.2rem !important;
+        line-height: 1.1;
       }
       
       .hero__title {
-        font-size: 0.9rem;
+        font-size: 0.75rem !important;
+        padding: 0 0.5rem;
       }
       
       .hero__subtitle {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
       }
       
       .hero__buttons {
         flex-direction: column;
         gap: 0.5rem;
+        width: 100%;
+        padding: 0 1rem;
       }
       
-      .btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.8rem;
+      .btn, .magnetic-btn {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.75rem !important;
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .scroll-indicator {
+        display: none;
       }
       
       .hero__badges {
