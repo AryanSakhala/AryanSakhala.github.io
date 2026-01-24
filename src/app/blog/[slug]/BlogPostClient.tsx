@@ -157,9 +157,8 @@ export default function BlogPostClient({
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <div
-            className="prose prose-lg max-w-none"
+            className="prose prose-lg max-w-none blog-content"
             style={{
-              fontFamily: "var(--font-serif)",
               "--tw-prose-body": "var(--blog-text)",
               "--tw-prose-headings": "var(--blog-text)",
               "--tw-prose-links": "var(--blog-accent)",
@@ -172,98 +171,119 @@ export default function BlogPostClient({
             } as React.CSSProperties}
           >
             <style jsx global>{`
-              .blog-theme .prose h2,
-              .blog-theme .prose h3 {
-                font-family: var(--font-mono);
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                margin-top: 2.5rem;
-                margin-bottom: 1rem;
+              /* Blog Content - Editorial Serif Style */
+              .blog-content {
+                font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
               }
 
-              .blog-theme .prose h2 {
-                font-size: 1.25rem;
-                border-left: 3px solid var(--blog-accent);
-                padding-left: 1rem;
-              }
-
-              .blog-theme .prose h3 {
-                font-size: 1rem;
-                color: var(--blog-text-muted);
-              }
-
-              .blog-theme .prose p {
-                text-align: justify;
-                line-height: 1.8;
+              .blog-content p,
+              .blog-content li {
+                font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+                font-size: 1.125rem;
+                line-height: 1.9;
+                color: var(--blog-text);
                 margin-bottom: 1.5rem;
               }
 
-              .blog-theme .prose p:first-of-type::first-letter {
-                font-size: 3.5rem;
-                font-weight: bold;
+              .blog-content h2,
+              .blog-content h3 {
+                font-family: var(--font-mono);
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                margin-top: 3rem;
+                margin-bottom: 1.25rem;
+                font-weight: 600;
+              }
+
+              .blog-content h2 {
+                font-size: 0.875rem;
+                border-left: 3px solid var(--blog-accent);
+                padding-left: 1rem;
+                color: var(--blog-text);
+              }
+
+              .blog-content h3 {
+                font-size: 0.8rem;
+                color: var(--blog-text-muted);
+              }
+
+              .blog-content p:first-of-type::first-letter {
+                font-size: 4rem;
+                font-weight: 600;
                 float: left;
                 line-height: 1;
-                margin-right: 0.5rem;
+                margin-right: 0.75rem;
                 margin-top: 0.1rem;
                 color: var(--blog-accent);
-                font-family: var(--font-mono);
+                font-family: var(--font-serif), Georgia, serif;
               }
 
-              .blog-theme .prose code {
+              .blog-content code {
                 font-family: var(--font-mono);
                 background: var(--blog-code-bg);
-                padding: 0.2rem 0.4rem;
+                padding: 0.15rem 0.4rem;
                 border-radius: 3px;
-                font-size: 0.9em;
+                font-size: 0.85em;
+                color: var(--blog-accent);
               }
 
-              .blog-theme .prose pre {
+              .blog-content pre {
                 background: var(--blog-code-bg);
                 border: 1px solid var(--blog-border);
                 border-radius: 0;
                 padding: 1.5rem;
                 overflow-x: auto;
+                margin: 2rem 0;
               }
 
-              .blog-theme .prose pre code {
+              .blog-content pre code {
                 background: transparent;
                 padding: 0;
-                font-size: 0.85rem;
+                font-size: 0.8rem;
                 color: var(--blog-text);
+                line-height: 1.6;
               }
 
-              .blog-theme .prose blockquote {
+              .blog-content blockquote {
                 border-left: 3px solid var(--blog-accent);
                 padding-left: 1.5rem;
                 font-style: italic;
                 color: var(--blog-text-muted);
+                font-family: var(--font-serif), Georgia, serif;
+                margin: 2rem 0;
               }
 
-              .blog-theme .prose ul,
-              .blog-theme .prose ol {
+              .blog-content ul,
+              .blog-content ol {
                 padding-left: 1.5rem;
+                margin: 1.5rem 0;
               }
 
-              .blog-theme .prose li {
-                margin-bottom: 0.5rem;
+              .blog-content li {
+                margin-bottom: 0.75rem;
               }
 
-              .blog-theme .prose li::marker {
+              .blog-content li::marker {
                 color: var(--blog-accent);
               }
 
-              .blog-theme .prose strong {
+              .blog-content strong {
                 color: var(--blog-text);
+                font-weight: 600;
               }
 
-              .blog-theme .prose a {
+              .blog-content em {
+                font-style: italic;
+              }
+
+              .blog-content a {
                 color: var(--blog-accent);
                 text-decoration: none;
                 border-bottom: 1px solid transparent;
                 transition: border-color 0.2s;
               }
 
-              .blog-theme .prose a:hover {
+              .blog-content a:hover {
                 border-bottom-color: var(--blog-accent);
               }
             `}</style>

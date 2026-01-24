@@ -44,11 +44,14 @@
   /* Blog Theme - Editorial style matching makingsoftware.com */
   --blog-bg: #0D1117;
   --blog-bg-alt: #161B22;
-  --blog-text: #E6EDF3;
+  --blog-text: #C9D1D9;
   --blog-text-muted: #8B949E;
   --blog-accent: #58A6FF;
   --blog-border: #30363D;
   --blog-code-bg: #161B22;
+  
+  /* Font stacks */
+  --font-serif-stack: var(--font-serif), Georgia, 'Times New Roman', Times, serif;
   
   /* Theme mapping */
   --radius: 0.5rem;
