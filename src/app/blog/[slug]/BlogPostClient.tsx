@@ -5,6 +5,7 @@ import Link from "next/link";
 import { use } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getPostBySlug, blogPosts } from "@/content/blog";
+import { BlogPostJsonLd } from "@/components/seo/JsonLd";
 
 // Dynamic import for blog content components
 import dynamic from "next/dynamic";
@@ -75,6 +76,15 @@ export default function BlogPostClient({
 
   return (
     <main className="min-h-screen">
+      {/* SEO JSON-LD */}
+      <BlogPostJsonLd
+        title={post.title}
+        description={post.description}
+        date={post.date}
+        slug={slug}
+        tags={post.tags}
+      />
+
       {/* Header */}
       <header className="border-b border-[var(--blog-border)] bg-[var(--blog-bg)] sticky top-0 z-40">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">

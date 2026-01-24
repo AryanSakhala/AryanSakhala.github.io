@@ -9,24 +9,84 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aryan Sakhala | Lead Software Engineer",
+  metadataBase: new URL("https://aryansakhala.netlify.app"),
+  title: {
+    default: "Aryan Sakhala | AI/ML Engineer & RAG Specialist | Dell & Intel",
+    template: "%s | Aryan Sakhala",
+  },
   description:
-    "Lead Software Engineer specializing in AI/ML, RAG-based Agentic Workflows, and cutting-edge technology solutions.",
+    "Aryan Sakhala - Lead Software Engineer specializing in RAG-based Agentic AI Workflows, LLM Systems, Multi-Agent Architecture. Working with Dell Technologies & Intel. Expert in Python, PyTorch, LangChain, FastAPI. Building production AI systems at scale.",
   keywords: [
     "Aryan Sakhala",
-    "Software Engineer",
-    "AI",
-    "Machine Learning",
-    "RAG",
-    "LLM",
+    "Lead Software Engineer",
+    "AI Engineer",
+    "Machine Learning Engineer",
+    "RAG Systems",
+    "Retrieval Augmented Generation",
+    "LLM Engineer",
+    "Large Language Models",
+    "Multi-Agent Systems",
+    "Dell Technologies",
+    "Intel",
+    "Intel AMX",
+    "Python Developer",
+    "PyTorch",
+    "TensorFlow",
+    "LangChain",
+    "LlamaIndex",
+    "Vector Databases",
+    "FastAPI",
     "Full Stack Developer",
+    "AI/ML Portfolio",
+    "Software Engineer India",
+    "Metrum AI",
+    "SuperCompute SC24",
+    "PPML Research",
+    "Privacy Preserving Machine Learning",
   ],
-  authors: [{ name: "Aryan Sakhala" }],
-  openGraph: {
-    title: "Aryan Sakhala | Lead Software Engineer",
-    description: "Lead Software Engineer specializing in AI/ML and RAG-based Agentic Workflows",
-    type: "website",
+  authors: [{ name: "Aryan Sakhala", url: "https://github.com/AryanSakhala" }],
+  creator: "Aryan Sakhala",
+  publisher: "Aryan Sakhala",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://aryansakhala.netlify.app",
+    siteName: "Aryan Sakhala Portfolio",
+    title: "Aryan Sakhala | AI/ML Engineer & RAG Specialist",
+    description:
+      "Lead Software Engineer building RAG-based AI systems for Dell & Intel. Expert in LLM, Multi-Agent workflows, Python, and production ML infrastructure.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Aryan Sakhala - AI/ML Engineer Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aryan Sakhala | AI/ML Engineer & RAG Specialist",
+    description:
+      "Lead Software Engineer building RAG-based AI systems for Dell & Intel. Expert in LLM, Multi-Agent workflows, and production ML.",
+    images: ["/og-image.png"],
+    creator: "@aryansakhala",
+  },
+  alternates: {
+    canonical: "https://aryansakhala.netlify.app",
+  },
+  category: "technology",
 };
 
 export default function RootLayout({

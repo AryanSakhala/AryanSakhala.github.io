@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { blogPosts } from "@/content/blog";
+import { BlogListJsonLd } from "@/components/seo/JsonLd";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,6 +30,9 @@ const itemVariants = {
 export default function BlogPage() {
   return (
     <main className="min-h-screen">
+      {/* SEO JSON-LD */}
+      <BlogListJsonLd />
+
       {/* Header */}
       <header className="border-b border-[var(--blog-border)] bg-[var(--blog-bg)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">

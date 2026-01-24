@@ -8,12 +8,17 @@ import { Journey } from "@/components/sections/Journey";
 import { Skills } from "@/components/sections/Skills";
 import { Contact } from "@/components/sections/Contact";
 import { ResumeModal } from "@/components/sections/ResumeModal";
+import { PersonJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-[var(--term-bg)]">
+      {/* SEO JSON-LD Structured Data */}
+      <PersonJsonLd />
+      <WebsiteJsonLd />
+
       {/* Navigation */}
       <Navigation onOpenResume={() => setIsResumeOpen(true)} />
 
