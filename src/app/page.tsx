@@ -8,15 +8,15 @@ import { Journey } from "@/components/sections/Journey";
 import { Skills } from "@/components/sections/Skills";
 import { Contact } from "@/components/sections/Contact";
 import { ResumeModal } from "@/components/sections/ResumeModal";
-import { AuroraBackground } from "@/components/effects/AuroraBackground";
+import { GeometricBackground } from "@/components/effects/GeometricBackground";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
     <main className="relative min-h-screen overflow-x-hidden">
-      {/* Aurora background */}
-      <AuroraBackground />
+      {/* Neural network geometric background */}
+      <GeometricBackground />
 
       {/* Navigation */}
       <Navigation onOpenResume={() => setIsResumeOpen(true)} />

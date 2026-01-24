@@ -94,19 +94,26 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
           </span>
         </motion.div>
 
-        {/* Name with refined typography */}
+        {/* Name with glow typography */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mb-6"
+          className="mb-6 relative"
         >
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter">
-            <span className="inline-block bg-gradient-to-r from-[var(--ctp-mauve)] via-[var(--ctp-blue)] to-[var(--ctp-sapphire)] bg-clip-text text-transparent">
+          {/* Glow backdrop */}
+          <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-[var(--ctp-mauve)] via-[var(--ctp-blue)] to-[var(--ctp-pink)] scale-150" />
+          
+          <h1 className="relative text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter">
+            <motion.span 
+              className="inline-block bg-gradient-to-r from-[var(--ctp-pink)] via-[var(--ctp-mauve)] to-[var(--ctp-blue)] bg-clip-text text-transparent bg-[length:200%_auto]"
+              animate={{ backgroundPosition: ["0% center", "200% center"] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            >
               Aryan
-            </span>
+            </motion.span>
             <br className="md:hidden" />
-            <span className="text-[var(--ctp-text)]"> Sakhala</span>
+            <span className="text-[var(--ctp-text)] text-glow-sm"> Sakhala</span>
           </h1>
         </motion.div>
 

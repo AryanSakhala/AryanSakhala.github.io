@@ -4,9 +4,22 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { MatrixRain } from "@/components/effects/MatrixRain";
-import { Building2, GraduationCap, Briefcase, Rocket, FlaskConical } from "lucide-react";
+import { Building2, GraduationCap, Briefcase, Rocket, FlaskConical, Sparkles } from "lucide-react";
 
 const experiences = [
+  {
+    year: "MAY 2026",
+    role: "Research Assistant - PPML",
+    company: "University of New Brunswick (CIC)",
+    icon: Sparkles,
+    color: "var(--ctp-pink)",
+    highlights: [
+      "Privacy-Preserving Machine Learning Research",
+      "Canadian Institute for Cybersecurity (CIC)",
+    ],
+    tags: ["PPML", "Privacy", "Research", "CIC", "UNB"],
+    isUpcoming: true,
+  },
   {
     year: "2024 - NOW",
     role: "Lead Software Engineer",
@@ -145,14 +158,35 @@ export function Journey() {
                 >
                   <motion.div
                     whileHover={{ scale: 1.02 }}
-                    className="p-6 rounded-xl bg-[var(--ctp-surface0)]/80 backdrop-blur-sm border border-[var(--ctp-surface1)] hover:border-[var(--ctp-surface2)] transition-all duration-300 group"
+                    className={`p-6 rounded-xl backdrop-blur-sm border transition-all duration-300 group relative overflow-hidden ${
+                      (exp as { isUpcoming?: boolean }).isUpcoming
+                        ? "bg-gradient-to-br from-[var(--ctp-surface0)]/90 to-[var(--ctp-pink)]/10 border-[var(--ctp-pink)]/30 hover:border-[var(--ctp-pink)]/50"
+                        : "bg-[var(--ctp-surface0)]/80 border-[var(--ctp-surface1)] hover:border-[var(--ctp-surface2)]"
+                    }`}
+                    style={(exp as { isUpcoming?: boolean }).isUpcoming ? {
+                      boxShadow: `0 0 30px ${exp.color}20, 0 0 60px ${exp.color}10`,
+                    } : {}}
                   >
+                    {/* Upcoming glow effect */}
+                    {(exp as { isUpcoming?: boolean }).isUpcoming && (
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--ctp-pink)]/10 to-transparent"
+                        animate={{ x: ["-100%", "100%"] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                      />
+                    )}
+                    
                     {/* Year badge */}
                     <div
                       className={`flex items-center gap-2 mb-3 ${
                         isLeft ? "md:justify-end" : ""
                       }`}
                     >
+                      {(exp as { isUpcoming?: boolean }).isUpcoming && (
+                        <Badge className="font-mono text-xs bg-[var(--ctp-pink)] text-[var(--ctp-crust)] animate-pulse">
+                          UPCOMING
+                        </Badge>
+                      )}
                       <Badge
                         className="font-mono text-xs"
                         style={{

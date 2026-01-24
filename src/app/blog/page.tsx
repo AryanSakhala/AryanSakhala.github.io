@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { blogPosts } from "@/content/blog";
 
 const containerVariants = {
@@ -17,10 +17,11 @@ const containerVariants = {
 } as const;
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: { duration: 0.5, ease: "easeOut" as const },
   },
 };
@@ -30,7 +31,7 @@ export default function BlogPage() {
     <main className="min-h-screen">
       {/* Header */}
       <header className="border-b border-[var(--blog-border)] bg-[var(--blog-bg)]">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-2 text-[var(--blog-text-muted)] hover:text-[var(--blog-text)] transition-colors text-sm"
@@ -51,41 +52,31 @@ export default function BlogPage() {
 
       {/* Hero section */}
       <section className="border-b border-[var(--blog-border)]">
-        <div className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-6 py-16 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Pixel-style title */}
             <h1
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-[var(--blog-text)] mb-6 uppercase tracking-wider"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--blog-text)] mb-4 uppercase tracking-wider"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               MY LEARNINGS
             </h1>
 
-            {/* Dotted separator */}
-            <div
-              className="text-[var(--blog-border)] text-xs mb-6 overflow-hidden"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {"░".repeat(80)}
-            </div>
-
             <p
-              className="text-lg md:text-xl text-[var(--blog-text-muted)] max-w-2xl leading-relaxed"
+              className="text-lg text-[var(--blog-text-muted)] max-w-2xl leading-relaxed"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              A reference collection of technical deep-dives, architecture
-              patterns, and lessons learned from building production systems.
+              Technical deep-dives, architecture patterns, and lessons learned from building production systems.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Blog posts list */}
-      <section className="max-w-4xl mx-auto px-6 py-12">
+      {/* Blog posts grid */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -94,7 +85,7 @@ export default function BlogPage() {
           {/* Section label */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4 mb-8"
+            className="flex items-center gap-4 mb-10"
           >
             <span
               className="text-xs text-[var(--blog-accent)] uppercase tracking-widest"
@@ -111,68 +102,63 @@ export default function BlogPage() {
             </span>
           </motion.div>
 
-          {/* Posts */}
-          <div className="space-y-0">
+          {/* Grid Layout - 3 columns on large, 2 on medium, 1 on mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {blogPosts.map((post, index) => (
               <motion.article
                 key={post.slug}
                 variants={itemVariants}
                 className="group"
               >
-                <Link href={`/blog/${post.slug}`} className="block">
-                  <div className="py-8 border-b border-[var(--blog-border)] hover:bg-[var(--blog-bg-alt)] transition-colors -mx-6 px-6">
-                    <div className="flex items-start gap-6">
-                      {/* Figure number */}
-                      <div
-                        className="shrink-0 text-[var(--blog-accent)] text-xs pt-1"
+                <Link href={`/blog/${post.slug}`} className="block h-full">
+                  <div className="h-full p-6 border border-[var(--blog-border)] rounded-lg bg-[var(--blog-bg)] hover:bg-[var(--blog-bg-alt)] hover:border-[var(--blog-accent)]/30 transition-all duration-300 flex flex-col">
+                    {/* Top row - figure number and arrow */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span
+                        className="text-[var(--blog-accent)] text-xs"
                         style={{ fontFamily: "var(--font-mono)" }}
                       >
                         FIG_{String(index + 1).padStart(3, "0")}
-                      </div>
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-[var(--blog-border)] group-hover:text-[var(--blog-accent)] transition-colors" />
+                    </div>
 
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <h2
-                          className="text-xl md:text-2xl font-bold text-[var(--blog-text)] mb-2 group-hover:text-[var(--blog-accent)] transition-colors"
+                    {/* Title */}
+                    <h2
+                      className="text-lg font-bold text-[var(--blog-text)] mb-3 group-hover:text-[var(--blog-accent)] transition-colors line-clamp-2"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      {post.title}
+                    </h2>
+
+                    {/* Description */}
+                    <p
+                      className="text-sm text-[var(--blog-text-muted)] mb-4 leading-relaxed line-clamp-3 flex-1"
+                      style={{ fontFamily: "var(--font-serif)" }}
+                    >
+                      {post.description}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {post.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs px-2 py-1 rounded bg-[var(--blog-bg-alt)] text-[var(--blog-text-muted)] border border-[var(--blog-border)]"
                           style={{ fontFamily: "var(--font-mono)" }}
                         >
-                          {post.title}
-                        </h2>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-                        <p
-                          className="text-[var(--blog-text-muted)] mb-4 leading-relaxed line-clamp-2"
-                          style={{ fontFamily: "var(--font-serif)" }}
-                        >
-                          {post.description}
-                        </p>
-
-                        <div
-                          className="flex items-center gap-4 text-xs text-[var(--blog-text-muted)]"
-                          style={{ fontFamily: "var(--font-mono)" }}
-                        >
-                          <span>{post.date}</span>
-                          <span className="text-[var(--blog-border)]">|</span>
-                          <span>{post.readTime}</span>
-                          <span className="text-[var(--blog-border)]">|</span>
-                          <span className="text-[var(--blog-accent)]">
-                            [{post.tags.slice(0, 2).join(", ")}]
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Arrow */}
-                      <div className="shrink-0 text-[var(--blog-border)] group-hover:text-[var(--blog-accent)] transition-colors pt-1">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                      </div>
+                    {/* Footer - date and read time */}
+                    <div
+                      className="flex items-center justify-between text-xs text-[var(--blog-text-muted)] pt-4 border-t border-[var(--blog-border)]"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      <span>{post.date}</span>
+                      <span className="text-[var(--blog-accent)]">{post.readTime}</span>
                     </div>
                   </div>
                 </Link>
@@ -184,20 +170,12 @@ export default function BlogPage() {
 
       {/* Footer */}
       <footer className="border-t border-[var(--blog-border)] mt-12">
-        <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto px-6 py-8">
           <div
-            className="flex items-center justify-between text-xs text-[var(--blog-text-muted)]"
+            className="text-center text-xs text-[var(--blog-text-muted)] uppercase tracking-widest"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            <span>
-              {"░".repeat(20)}
-            </span>
-            <span className="uppercase tracking-widest">
-              End of Entries
-            </span>
-            <span>
-              {"░".repeat(20)}
-            </span>
+            End of Entries
           </div>
         </div>
       </footer>
