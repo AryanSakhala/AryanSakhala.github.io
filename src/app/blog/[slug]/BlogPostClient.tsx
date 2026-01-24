@@ -3,11 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { use } from "react";
-import { ArrowLeft, Calendar, Clock, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getPostBySlug, blogPosts } from "@/content/blog";
-import { Badge } from "@/components/ui/badge";
-import { AuroraBackground } from "@/components/effects/AuroraBackground";
-import { Separator } from "@/components/ui/separator";
 
 // Dynamic import for blog content components
 import dynamic from "next/dynamic";
@@ -31,23 +28,6 @@ const blogContentComponents: Record<
   ),
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-  },
-} as const;
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
-  },
-};
-
 export default function BlogPostClient({
   params,
 }: {
@@ -65,151 +45,309 @@ export default function BlogPostClient({
 
   if (!post) {
     return (
-      <main className="relative min-h-screen flex items-center justify-center">
-        <AuroraBackground />
-        <div className="relative z-10 text-center">
-          <h1 className="text-4xl font-mono font-bold text-[var(--ctp-text)] mb-4">
+      <main className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1
+            className="text-6xl font-bold text-[var(--blog-text)] mb-4"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             404
           </h1>
-          <p className="text-[var(--ctp-subtext0)] mb-6">Post not found.</p>
+          <p
+            className="text-[var(--blog-text-muted)] mb-6"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Entry not found.
+          </p>
           <Link
             href="/blog"
-            className="text-[var(--ctp-mauve)] hover:underline font-mono"
+            className="text-[var(--blog-accent)] hover:underline"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
-            Back to blog
+            BACK TO ENTRIES
           </Link>
         </div>
       </main>
     );
   }
 
-  return (
-    <main className="relative min-h-screen">
-      <AuroraBackground />
+  const figureNumber = `FIG_${String(currentIndex + 1).padStart(3, "0")}`;
 
+  return (
+    <main className="min-h-screen">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-40 px-6 py-4 bg-[var(--ctp-base)]/80 backdrop-blur-xl border-b border-[var(--ctp-surface1)]/50">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
+      <header className="border-b border-[var(--blog-border)] bg-[var(--blog-bg)] sticky top-0 z-40">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/blog"
-            className="flex items-center gap-2 text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)] transition-colors"
+            className="flex items-center gap-2 text-[var(--blog-text-muted)] hover:text-[var(--blog-text)] transition-colors text-sm"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-mono">all posts</span>
+            <span>ALL ENTRIES</span>
           </Link>
 
-          <span className="text-sm font-mono text-[var(--ctp-overlay1)]">
-            {post.readTime} read
+          <span
+            className="text-sm text-[var(--blog-accent)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {figureNumber}
           </span>
         </div>
       </header>
 
-      {/* Article content */}
-      <article className="relative z-10 pt-24 pb-20 px-6">
-        <motion.div
-          className="max-w-4xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+      {/* Article */}
+      <article>
+        {/* Hero */}
+        <motion.header
+          className="border-b border-[var(--blog-border)]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          {/* Post header */}
-          <motion.header variants={itemVariants} className="mb-12">
-            <div className="flex flex-wrap gap-2 mb-6">
-              {post.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="bg-[var(--ctp-surface1)] text-[var(--ctp-subtext1)] border-none"
-                >
-                  {tag}
-                </Badge>
-              ))}
+          <div className="max-w-4xl mx-auto px-6 py-12 md:py-16">
+            {/* Meta info */}
+            <div
+              className="flex items-center gap-4 text-xs text-[var(--blog-text-muted)] mb-6"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              <span>{post.date}</span>
+              <span className="text-[var(--blog-border)]">|</span>
+              <span>{post.readTime} read</span>
+              <span className="text-[var(--blog-border)]">|</span>
+              <span className="text-[var(--blog-accent)]">
+                [{post.tags.join(", ")}]
+              </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold text-[var(--ctp-text)] mb-6 leading-tight">
+            {/* Title */}
+            <h1
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--blog-text)] mb-6 uppercase tracking-wide leading-tight"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               {post.title}
             </h1>
 
-            <div className="flex items-center gap-4 text-sm text-[var(--ctp-overlay1)] font-mono">
-              <span className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4" />
-                {post.date}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4" />
-                {post.readTime}
-              </span>
+            {/* Dotted separator */}
+            <div
+              className="text-[var(--blog-border)] text-xs overflow-hidden"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {"░".repeat(80)}
             </div>
-          </motion.header>
+          </div>
+        </motion.header>
 
-          <Separator className="mb-12 bg-[var(--ctp-surface1)]" />
-
-          {/* Post content - loaded from separate component */}
-          <motion.div
-            variants={itemVariants}
-            className="prose prose-invert prose-lg max-w-none
-              prose-headings:font-mono prose-headings:text-[var(--ctp-text)]
-              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-l-2 prose-h2:border-[var(--ctp-mauve)] prose-h2:pl-4
-              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-[var(--ctp-subtext1)]
-              prose-p:text-[var(--ctp-subtext0)] prose-p:leading-relaxed
-              prose-a:text-[var(--ctp-blue)] prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-[var(--ctp-text)]
-              prose-code:text-[var(--ctp-peach)] prose-code:bg-[var(--ctp-surface0)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-              prose-pre:bg-[var(--ctp-crust)] prose-pre:border prose-pre:border-[var(--ctp-surface1)]
-              prose-blockquote:border-[var(--ctp-mauve)] prose-blockquote:text-[var(--ctp-subtext1)]
-              prose-ul:text-[var(--ctp-subtext0)] prose-ol:text-[var(--ctp-subtext0)]
-              prose-li:marker:text-[var(--ctp-overlay0)]"
+        {/* Content */}
+        <motion.div
+          className="max-w-3xl mx-auto px-6 py-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <div
+            className="prose prose-lg max-w-none"
+            style={{
+              fontFamily: "var(--font-serif)",
+              "--tw-prose-body": "var(--blog-text)",
+              "--tw-prose-headings": "var(--blog-text)",
+              "--tw-prose-links": "var(--blog-accent)",
+              "--tw-prose-bold": "var(--blog-text)",
+              "--tw-prose-code": "var(--blog-accent)",
+              "--tw-prose-pre-bg": "var(--blog-code-bg)",
+              "--tw-prose-quotes": "var(--blog-text-muted)",
+              "--tw-prose-quote-borders": "var(--blog-accent)",
+              "--tw-prose-hr": "var(--blog-border)",
+            } as React.CSSProperties}
           >
+            <style jsx global>{`
+              .blog-theme .prose h2,
+              .blog-theme .prose h3 {
+                font-family: var(--font-mono);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-top: 2.5rem;
+                margin-bottom: 1rem;
+              }
+
+              .blog-theme .prose h2 {
+                font-size: 1.25rem;
+                border-left: 3px solid var(--blog-accent);
+                padding-left: 1rem;
+              }
+
+              .blog-theme .prose h3 {
+                font-size: 1rem;
+                color: var(--blog-text-muted);
+              }
+
+              .blog-theme .prose p {
+                text-align: justify;
+                line-height: 1.8;
+                margin-bottom: 1.5rem;
+              }
+
+              .blog-theme .prose p:first-of-type::first-letter {
+                font-size: 3.5rem;
+                font-weight: bold;
+                float: left;
+                line-height: 1;
+                margin-right: 0.5rem;
+                margin-top: 0.1rem;
+                color: var(--blog-accent);
+                font-family: var(--font-mono);
+              }
+
+              .blog-theme .prose code {
+                font-family: var(--font-mono);
+                background: var(--blog-code-bg);
+                padding: 0.2rem 0.4rem;
+                border-radius: 3px;
+                font-size: 0.9em;
+              }
+
+              .blog-theme .prose pre {
+                background: var(--blog-code-bg);
+                border: 1px solid var(--blog-border);
+                border-radius: 0;
+                padding: 1.5rem;
+                overflow-x: auto;
+              }
+
+              .blog-theme .prose pre code {
+                background: transparent;
+                padding: 0;
+                font-size: 0.85rem;
+                color: var(--blog-text);
+              }
+
+              .blog-theme .prose blockquote {
+                border-left: 3px solid var(--blog-accent);
+                padding-left: 1.5rem;
+                font-style: italic;
+                color: var(--blog-text-muted);
+              }
+
+              .blog-theme .prose ul,
+              .blog-theme .prose ol {
+                padding-left: 1.5rem;
+              }
+
+              .blog-theme .prose li {
+                margin-bottom: 0.5rem;
+              }
+
+              .blog-theme .prose li::marker {
+                color: var(--blog-accent);
+              }
+
+              .blog-theme .prose strong {
+                color: var(--blog-text);
+              }
+
+              .blog-theme .prose a {
+                color: var(--blog-accent);
+                text-decoration: none;
+                border-bottom: 1px solid transparent;
+                transition: border-color 0.2s;
+              }
+
+              .blog-theme .prose a:hover {
+                border-bottom-color: var(--blog-accent);
+              }
+            `}</style>
+
             {ContentComponent ? (
               <ContentComponent />
             ) : (
-              <p className="text-[var(--ctp-overlay0)]">
-                Content not found. Create the content component at{" "}
+              <p className="text-[var(--blog-text-muted)]">
+                Content component not found. Create it at{" "}
                 <code>@/content/blog/posts/{slug}.tsx</code>
               </p>
             )}
-          </motion.div>
-
-          <Separator className="my-12 bg-[var(--ctp-surface1)]" />
-
-          {/* Post navigation */}
-          <motion.nav
-            variants={itemVariants}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            {prevPost ? (
-              <Link
-                href={`/blog/${prevPost.slug}`}
-                className="group p-4 rounded-lg bg-[var(--ctp-surface0)]/40 border border-[var(--ctp-surface1)]/30 hover:border-[var(--ctp-mauve)]/40 transition-all"
-              >
-                <span className="text-xs font-mono text-[var(--ctp-overlay0)] mb-1 block">
-                  Previous
-                </span>
-                <span className="text-[var(--ctp-text)] group-hover:text-[var(--ctp-mauve)] transition-colors line-clamp-1">
-                  {prevPost.title}
-                </span>
-              </Link>
-            ) : (
-              <div />
-            )}
-
-            {nextPost && (
-              <Link
-                href={`/blog/${nextPost.slug}`}
-                className="group p-4 rounded-lg bg-[var(--ctp-surface0)]/40 border border-[var(--ctp-surface1)]/30 hover:border-[var(--ctp-mauve)]/40 transition-all text-right md:col-start-2"
-              >
-                <span className="text-xs font-mono text-[var(--ctp-overlay0)] mb-1 block">
-                  Next
-                </span>
-                <span className="text-[var(--ctp-text)] group-hover:text-[var(--ctp-mauve)] transition-colors flex items-center justify-end gap-1 line-clamp-1">
-                  {nextPost.title}
-                  <ArrowUpRight className="w-4 h-4 shrink-0" />
-                </span>
-              </Link>
-            )}
-          </motion.nav>
+          </div>
         </motion.div>
+
+        {/* Separator */}
+        <div className="max-w-4xl mx-auto px-6">
+          <div
+            className="text-center text-[var(--blog-border)] text-xs py-8"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {"░".repeat(40)}
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <motion.nav
+          className="border-t border-[var(--blog-border)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <div className="max-w-4xl mx-auto px-6 py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {prevPost ? (
+                <Link
+                  href={`/blog/${prevPost.slug}`}
+                  className="group p-4 border border-[var(--blog-border)] hover:border-[var(--blog-accent)] transition-colors"
+                >
+                  <span
+                    className="text-xs text-[var(--blog-text-muted)] mb-2 block uppercase"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    <ArrowLeft className="w-3 h-3 inline mr-1" />
+                    Previous
+                  </span>
+                  <span
+                    className="text-[var(--blog-text)] group-hover:text-[var(--blog-accent)] transition-colors line-clamp-1 text-sm"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {prevPost.title}
+                  </span>
+                </Link>
+              ) : (
+                <div />
+              )}
+
+              {nextPost && (
+                <Link
+                  href={`/blog/${nextPost.slug}`}
+                  className="group p-4 border border-[var(--blog-border)] hover:border-[var(--blog-accent)] transition-colors text-right md:col-start-2"
+                >
+                  <span
+                    className="text-xs text-[var(--blog-text-muted)] mb-2 block uppercase"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Next
+                    <ArrowRight className="w-3 h-3 inline ml-1" />
+                  </span>
+                  <span
+                    className="text-[var(--blog-text)] group-hover:text-[var(--blog-accent)] transition-colors line-clamp-1 text-sm"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {nextPost.title}
+                  </span>
+                </Link>
+              )}
+            </div>
+          </div>
+        </motion.nav>
       </article>
+
+      {/* Footer */}
+      <footer className="border-t border-[var(--blog-border)]">
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <div
+            className="flex items-center justify-center text-xs text-[var(--blog-text-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            <span className="uppercase tracking-widest">
+              End of {figureNumber}
+            </span>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

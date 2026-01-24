@@ -10,7 +10,7 @@ const navItems = [
   { label: "About", href: "#about" },
   { label: "Journey", href: "#journey" },
   { label: "Skills", href: "#skills" },
-  { label: "Learnings", href: "/blog", external: true },
+  { label: "Blogs", href: "/blog", external: true },
   { label: "Contact", href: "#contact" },
 ];
 
