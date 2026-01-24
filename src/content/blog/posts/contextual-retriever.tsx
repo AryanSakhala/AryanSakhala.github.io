@@ -134,7 +134,7 @@ function ChunkComparisonAnimation() {
       </div>
 
       <div className="mt-4 text-center text-xs text-[var(--blog-text-muted)] font-mono">
-        {showContext ? "Contextual retrieval improves relevance by 30-50%" : "Traditional chunks lose critical context"}
+        {showContext ? "Contextual retrieval significantly improves relevance" : "Traditional chunks lose critical context"}
       </div>
     </div>
   );
@@ -375,8 +375,8 @@ export default function ContextualRetriever() {
 
       <p>
         Instead of embedding raw chunks, we enrich each chunk with contextual metadata before 
-        creating the embedding. This preserves the document hierarchy and improves retrieval 
-        relevance by 30-50%.
+        creating the embedding. This preserves the document hierarchy and significantly improves 
+        retrieval relevance.
       </p>
 
       <ContextFlowAnimation />
@@ -384,8 +384,8 @@ export default function ContextualRetriever() {
       <h2>Architecture Overview</h2>
 
       <p>
-        My implementation uses <strong>Milvus</strong> as the vector store and <strong>VLLM</strong> for 
-        high-throughput context generation. The pipeline is built on <strong>LlamaIndex</strong> for 
+        My implementation uses <code>Milvus</code> as the vector store and <code>VLLM</code> for 
+        high-throughput context generation. The pipeline is built on <code>LlamaIndex</code> for 
         seamless integration.
       </p>
 
@@ -395,7 +395,7 @@ export default function ContextualRetriever() {
 
       <p>
         The key innovation is using a language model to generate contextual descriptions for each chunk. 
-        VLLM provides the throughput needed to process thousands of chunks efficiently.
+        <code>VLLM</code> provides the throughput needed to process thousands of chunks efficiently.
       </p>
 
       <VLLMPipelineAnimation />
@@ -424,7 +424,7 @@ context = llm.complete(prompt).text`}</code>
       <h2>Milvus Vector Store</h2>
 
       <p>
-        Milvus handles the vector similarity search with support for hybrid queries 
+        <code>Milvus</code> handles the vector similarity search with support for hybrid queries 
         combining dense vectors and sparse keyword matching.
       </p>
 
@@ -486,75 +486,45 @@ Answer only with the succinct context and nothing else.
 
       <ul>
         <li>
-          <strong>Batch Processing</strong> - Process chunks in batches of 50-100 for optimal VLLM throughput
+          <strong>Batch Processing</strong> — Process chunks in batches for optimal <code>VLLM</code> throughput
         </li>
         <li>
-          <strong>Caching</strong> - Cache generated contexts to avoid regenerating for unchanged documents
+          <strong>Caching</strong> — Cache generated contexts to avoid regenerating for unchanged documents
         </li>
         <li>
-          <strong>Fallback</strong> - If context generation fails, use document title + section header as fallback
+          <strong>Fallback</strong> — If context generation fails, use document title + section header as fallback
         </li>
         <li>
-          <strong>Token Limits</strong> - Keep context generation prompts under 512 tokens for speed
+          <strong>Token Limits</strong> — Keep context generation prompts concise for speed
         </li>
       </ul>
 
-      <h2>Performance Gains</h2>
+      <h2>Why This Matters</h2>
 
       <p>
-        In production testing, contextual retrieval showed significant improvements:
+        In production testing, contextual retrieval showed significant improvements across 
+        all key metrics—<strong>Top-K Recall</strong>, <strong>Mean Reciprocal Rank</strong>, and 
+        <strong>Answer Accuracy</strong>. The enriched context allows the embedding model to capture 
+        the true semantic meaning of each chunk, leading to more relevant search results.
       </p>
-
-      <div className="my-6 overflow-x-auto">
-        <table className="w-full text-sm border-collapse font-mono">
-          <thead>
-            <tr className="border-b border-[var(--blog-border)]">
-              <th className="text-left py-2 text-[var(--blog-accent)]">Metric</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">Traditional RAG</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">Contextual RAG</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">Improvement</th>
-            </tr>
-          </thead>
-          <tbody className="text-[var(--blog-text-muted)]">
-            <tr className="border-b border-[var(--blog-border)]">
-              <td className="py-2">Top-5 Recall</td>
-              <td className="py-2">62%</td>
-              <td className="py-2 text-[#3FB950]">84%</td>
-              <td className="py-2 text-[#3FB950]">+35%</td>
-            </tr>
-            <tr className="border-b border-[var(--blog-border)]">
-              <td className="py-2">MRR@10</td>
-              <td className="py-2">0.45</td>
-              <td className="py-2 text-[#3FB950]">0.68</td>
-              <td className="py-2 text-[#3FB950]">+51%</td>
-            </tr>
-            <tr className="border-b border-[var(--blog-border)]">
-              <td className="py-2">Answer Accuracy</td>
-              <td className="py-2">71%</td>
-              <td className="py-2 text-[#3FB950]">89%</td>
-              <td className="py-2 text-[#3FB950]">+25%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <h2>Key Takeaways</h2>
 
       <ol>
         <li>
-          <strong>Context is king</strong> - Raw chunks lose critical information needed for accurate retrieval
+          <strong>Context is king</strong> — Raw chunks lose critical information needed for accurate retrieval
         </li>
         <li>
-          <strong>LLM-generated context</strong> - Use VLLM to create rich contextual descriptions at scale
+          <strong>LLM-generated context</strong> — Use <code>VLLM</code> to create rich contextual descriptions at scale
         </li>
         <li>
-          <strong>Milvus for production</strong> - Handles millions of vectors with sub-second latency
+          <strong>Milvus for production</strong> — <code>Milvus</code> handles millions of vectors with sub-second latency
         </li>
         <li>
-          <strong>Hybrid approach</strong> - Combine contextual + traditional embeddings for best results
+          <strong>Hybrid approach</strong> — Combine contextual + traditional embeddings for best results
         </li>
         <li>
-          <strong>Domain adaptation</strong> - Tailor the context prompt to your specific use case
+          <strong>Domain adaptation</strong> — Tailor the context prompt to your specific use case
         </li>
       </ol>
 

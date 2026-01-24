@@ -16,12 +16,12 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     slug: "intel-amx-cpu-acceleration",
-    title: "Intel AMX: CPU-Based AI Acceleration for Computer Vision",
+    title: "Intel AMX: Understanding CPU-Based Matrix Acceleration",
     description:
-      "Leveraging Intel Advanced Matrix Extensions (AMX) for significant ML inference optimization in computer vision workloads. Deep dive into oneDNN, BF16, AVX-512, and OpenVINO's AsyncInferQueue for production deployments.",
+      "A deep exploration of Intel's Advanced Matrix Extensions—how tile-based operations differ from vector processing, the role of BF16, and how oneDNN bridges hardware and software for AI inference.",
     date: "2026-01-23",
     readTime: "15 min",
-    tags: ["Intel AMX", "CPU", "ML Inference", "Computer Vision", "oneDNN", "OpenVINO", "BF16"],
+    tags: ["Intel AMX", "CPU", "Matrix Computation", "oneDNN", "BF16", "AVX-512"],
     featured: true,
   },
   {

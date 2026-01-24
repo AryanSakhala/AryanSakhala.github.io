@@ -6,6 +6,7 @@ import { use } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getPostBySlug, blogPosts } from "@/content/blog";
 import { BlogPostJsonLd } from "@/components/seo/JsonLd";
+import { NewsletterSignup } from "@/components/blog/NewsletterSignup";
 
 // Dynamic import for blog content components
 import dynamic from "next/dynamic";
@@ -85,8 +86,8 @@ export default function BlogPostClient({
         tags={post.tags}
       />
 
-      {/* Header */}
-      <header className="border-b border-[var(--blog-border)] bg-[var(--blog-bg)] sticky top-0 z-40">
+      {/* Header - Sticky with solid background to prevent content overlap */}
+      <header className="border-b border-[var(--blog-border)] sticky top-0 z-50" style={{ backgroundColor: '#0D1117' }}>
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/blog"
@@ -277,6 +278,11 @@ export default function BlogPostClient({
             )}
           </div>
         </motion.div>
+
+        {/* Newsletter Signup */}
+        <div className="max-w-3xl mx-auto px-6">
+          <NewsletterSignup />
+        </div>
 
         {/* Separator */}
         <div className="max-w-4xl mx-auto px-6">

@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Crimson_Pro } from "next/font/google";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Serif font for blog content - matching makingsoftware.com editorial style
+const crimsonPro = Crimson_Pro({
+  variable: "--font-serif",
   subsets: ["latin"],
   display: "swap",
 });
@@ -96,7 +103,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${jetbrainsMono.variable} font-mono antialiased`}>
+      <body className={`${jetbrainsMono.variable} ${crimsonPro.variable} font-mono antialiased`}>
         {children}
       </body>
     </html>

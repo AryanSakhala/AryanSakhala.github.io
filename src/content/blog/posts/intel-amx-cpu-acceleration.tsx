@@ -3,370 +3,457 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
-// Animated Matrix Multiplication Visualization
-function MatrixMultiplyAnimation() {
+// Animated AMX Tile Visualization - No numbers, pure concept
+function AMXTileVisualization() {
   const [step, setStep] = useState(0);
-  
+
   useEffect(() => {
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % 4);
-    }, 1500);
+    }, 2000);
     return () => clearInterval(timer);
   }, []);
 
+  const steps = [
+    { label: "Load Tile A", desc: "BF16 matrix loaded into tile register", color: "#58A6FF" },
+    { label: "Load Tile B", desc: "Second matrix ready for multiplication", color: "#3FB950" },
+    { label: "TMUL Execute", desc: "Single instruction multiplies entire tiles", color: "#F0883E" },
+    { label: "Result Tile C", desc: "Complete matrix result in one operation", color: "#A371F7" },
+  ];
+
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <div className="text-center mb-6">
+        <span className="text-xs text-[#58A6FF] uppercase tracking-[0.2em] font-mono">
           AMX Tile Matrix Multiplication
         </span>
       </div>
-      
-      <div className="flex items-center justify-center gap-4 flex-wrap">
-        {/* Matrix A */}
+
+      <div className="flex items-center justify-center gap-4 flex-wrap mb-8">
+        {/* Tile A */}
         <motion.div
-          animate={{ 
+          animate={{
             scale: step === 0 ? 1.05 : 1,
-            borderColor: step === 0 ? "#58A6FF" : "#30363D"
+            borderColor: step === 0 ? "#58A6FF" : "#30363D",
+            boxShadow: step === 0 ? "0 0 20px rgba(88, 166, 255, 0.3)" : "none",
           }}
-          className="grid grid-cols-4 gap-1 p-3 border-2 rounded-lg bg-[#0D1117]"
+          className="w-24 h-24 border-2 rounded-lg bg-[#161B22] flex flex-col items-center justify-center"
         >
-          <span className="text-[10px] text-[var(--blog-accent)] col-span-4 mb-1 font-mono">Tile A (16x32)</span>
-          {Array(16).fill(0).map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ 
-                backgroundColor: step === 0 ? "#58A6FF" : "#21262D",
-                scale: step === 0 ? [1, 1.1, 1] : 1
-              }}
-              transition={{ delay: i * 0.02 }}
-              className="w-4 h-4 rounded-sm flex items-center justify-center text-[8px] text-white"
-            >
-              {i + 1}
-            </motion.div>
-          ))}
+          <span className="text-xs text-[#58A6FF] font-mono mb-1">Tile A</span>
+          <div className="grid grid-cols-4 gap-0.5">
+            {Array(16).fill(0).map((_, i) => (
+              <motion.div
+                key={i}
+                animate={{ opacity: step >= 0 ? 1 : 0.3 }}
+                className="w-3 h-3 bg-[#58A6FF]/30 rounded-sm"
+              />
+            ))}
+          </div>
         </motion.div>
 
-        {/* Operator */}
-        <motion.span 
-          animate={{ scale: step === 1 ? 1.3 : 1 }}
-          className="text-2xl text-[var(--blog-accent)]"
+        <motion.span
+          animate={{ scale: step === 1 ? 1.3 : 1, color: step === 1 ? "#3FB950" : "#6E7681" }}
+          className="text-2xl font-mono"
         >
-          x
+          ×
         </motion.span>
 
-        {/* Matrix B */}
+        {/* Tile B */}
         <motion.div
-          animate={{ 
+          animate={{
             scale: step === 1 ? 1.05 : 1,
-            borderColor: step === 1 ? "#3FB950" : "#30363D"
+            borderColor: step === 1 ? "#3FB950" : "#30363D",
+            boxShadow: step === 1 ? "0 0 20px rgba(63, 185, 80, 0.3)" : "none",
           }}
-          className="grid grid-cols-4 gap-1 p-3 border-2 rounded-lg bg-[#0D1117]"
+          className="w-24 h-24 border-2 rounded-lg bg-[#161B22] flex flex-col items-center justify-center"
         >
-          <span className="text-[10px] text-[#3FB950] col-span-4 mb-1 font-mono">Tile B (32x16)</span>
-          {Array(16).fill(0).map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ 
-                backgroundColor: step === 1 ? "#3FB950" : "#21262D",
-                scale: step === 1 ? [1, 1.1, 1] : 1
-              }}
-              transition={{ delay: i * 0.02 }}
-              className="w-4 h-4 rounded-sm flex items-center justify-center text-[8px] text-white"
-            >
-              {String.fromCharCode(65 + i)}
-            </motion.div>
-          ))}
+          <span className="text-xs text-[#3FB950] font-mono mb-1">Tile B</span>
+          <div className="grid grid-cols-4 gap-0.5">
+            {Array(16).fill(0).map((_, i) => (
+              <motion.div
+                key={i}
+                animate={{ opacity: step >= 1 ? 1 : 0.3 }}
+                className="w-3 h-3 bg-[#3FB950]/30 rounded-sm"
+              />
+            ))}
+          </div>
         </motion.div>
 
-        {/* Equals */}
-        <motion.span 
-          animate={{ scale: step === 2 ? 1.3 : 1 }}
-          className="text-2xl text-[var(--blog-text-muted)]"
+        <motion.span
+          animate={{ scale: step === 2 ? 1.3 : 1, color: step >= 2 ? "#F0883E" : "#6E7681" }}
+          className="text-2xl font-mono"
         >
           =
         </motion.span>
 
-        {/* Result Matrix */}
+        {/* Result Tile */}
         <motion.div
-          animate={{ 
+          animate={{
             scale: step >= 2 ? 1.05 : 1,
-            borderColor: step >= 2 ? "#F0883E" : "#30363D"
+            borderColor: step >= 2 ? "#F0883E" : "#30363D",
+            boxShadow: step >= 2 ? "0 0 20px rgba(240, 136, 62, 0.3)" : "none",
           }}
-          className="grid grid-cols-4 gap-1 p-3 border-2 rounded-lg bg-[#0D1117]"
+          className="w-24 h-24 border-2 rounded-lg bg-[#161B22] flex flex-col items-center justify-center"
         >
-          <span className="text-[10px] text-[#F0883E] col-span-4 mb-1 font-mono">Tile C (16x16)</span>
-          {Array(16).fill(0).map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ 
-                backgroundColor: step >= 2 ? "#F0883E" : "#21262D",
-                scale: step === 2 ? [1, 1.2, 1] : 1
-              }}
-              transition={{ delay: i * 0.03 }}
-              className="w-4 h-4 rounded-sm flex items-center justify-center text-[8px] text-white font-bold"
-            >
-              {step >= 2 ? "R" : "?"}
-            </motion.div>
-          ))}
+          <span className="text-xs text-[#F0883E] font-mono mb-1">Result</span>
+          <div className="grid grid-cols-4 gap-0.5">
+            {Array(16).fill(0).map((_, i) => (
+              <motion.div
+                key={i}
+                animate={{
+                  opacity: step >= 2 ? 1 : 0.3,
+                  backgroundColor: step >= 2 ? "rgba(240, 136, 62, 0.5)" : "rgba(240, 136, 62, 0.2)",
+                }}
+                transition={{ delay: step === 2 ? i * 0.03 : 0 }}
+                className="w-3 h-3 rounded-sm"
+              />
+            ))}
+          </div>
         </motion.div>
       </div>
 
+      {/* Step indicator */}
       <motion.div
         key={step}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mt-4 text-sm text-[var(--blog-text-muted)] font-mono"
+        className="text-center"
       >
-        {step === 0 && "Loading Tile A (BF16 values)..."}
-        {step === 1 && "Loading Tile B (BF16 values)..."}
-        {step === 2 && "TMUL instruction executing..."}
-        {step === 3 && "One AMX instruction = 512 operations!"}
+        <span className="text-sm font-medium" style={{ color: steps[step].color }}>
+          {steps[step].label}
+        </span>
+        <p className="text-xs text-[#8B949E] mt-1">{steps[step].desc}</p>
       </motion.div>
     </div>
   );
 }
 
-// Performance Comparison Bar Chart
-function PerformanceChart() {
-  const [animate, setAnimate] = useState(false);
-  
+// AVX-512 vs AMX Comparison - Conceptual, no numbers
+function AVXvsAMXComparison() {
+  const [showAMX, setShowAMX] = useState(false);
+
   useEffect(() => {
-    const timer = setTimeout(() => setAnimate(true), 500);
-    return () => clearTimeout(timer);
+    const timer = setInterval(() => {
+      setShowAMX((prev) => !prev);
+    }, 3500);
+    return () => clearInterval(timer);
   }, []);
 
-  const data = [
-    { label: "CPU (No AMX)", fps: 156, color: "#8B949E", width: "17%" },
-    { label: "CPU + AMX", fps: 864, color: "#58A6FF", width: "95%" },
-    { label: "GPU (RTX)", fps: 3600, color: "#3FB950", width: "100%" },
-  ];
-
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
       <div className="text-center mb-6">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          Real-World YOLOv11 Inference Performance
+        <span className="text-xs text-[#58A6FF] uppercase tracking-[0.2em] font-mono">
+          Vector vs Matrix Processing
         </span>
       </div>
-      
-      <div className="space-y-4">
-        {data.map((item, i) => (
-          <div key={item.label} className="flex items-center gap-4">
-            <span className="w-28 text-xs text-[var(--blog-text-muted)] font-mono text-right">
-              {item.label}
-            </span>
-            <div className="flex-1 h-8 bg-[#0D1117] rounded overflow-hidden relative">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: animate ? item.width : 0 }}
-                transition={{ duration: 1.5, delay: i * 0.3, ease: "easeOut" }}
-                style={{ backgroundColor: item.color }}
-                className="h-full rounded flex items-center justify-end pr-2"
-              >
-                <span className="text-xs font-bold text-white font-mono">
-                  {item.fps} FPS
-                </span>
-              </motion.div>
-            </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* AVX-512 */}
+        <motion.div
+          animate={{ opacity: showAMX ? 0.5 : 1 }}
+          className="p-5 bg-[#161B22] rounded-lg border border-[#30363D]"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 rounded-full bg-[#F85149]" />
+            <span className="text-sm font-mono text-[#E6EDF3]">AVX-512</span>
           </div>
-        ))}
+          <div className="space-y-2 mb-4">
+            <div className="flex gap-1">
+              {Array(16).fill(0).map((_, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ opacity: !showAMX ? [0.3, 1, 0.3] : 0.3 }}
+                  transition={{ delay: i * 0.1, duration: 0.5, repeat: !showAMX ? Infinity : 0 }}
+                  className="w-4 h-4 bg-[#8B949E]/40 rounded-sm"
+                />
+              ))}
+            </div>
+            <p className="text-xs text-[#8B949E]">Processes one row at a time</p>
+          </div>
+          <div className="text-xs text-[#F85149]">
+            Multiple instructions needed for matrix operations
+          </div>
+        </motion.div>
+
+        {/* AMX */}
+        <motion.div
+          animate={{
+            opacity: showAMX ? 1 : 0.5,
+            borderColor: showAMX ? "#3FB950" : "#30363D",
+          }}
+          className="p-5 bg-[#161B22] rounded-lg border-2"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 rounded-full bg-[#3FB950]" />
+            <span className="text-sm font-mono text-[#E6EDF3]">AMX</span>
+          </div>
+          <div className="space-y-2 mb-4">
+            <motion.div
+              animate={{
+                boxShadow: showAMX ? "0 0 15px rgba(63, 185, 80, 0.4)" : "none",
+              }}
+              className="grid grid-cols-4 gap-1 w-fit"
+            >
+              {Array(16).fill(0).map((_, i) => (
+                <motion.div
+                  key={i}
+                  animate={{
+                    backgroundColor: showAMX ? "rgba(63, 185, 80, 0.5)" : "rgba(139, 148, 158, 0.3)",
+                  }}
+                  className="w-4 h-4 rounded-sm"
+                />
+              ))}
+            </motion.div>
+            <p className="text-xs text-[#8B949E]">Processes entire tile at once</p>
+          </div>
+          <div className="text-xs text-[#3FB950]">
+            Single instruction for complete matrix multiply
+          </div>
+        </motion.div>
       </div>
 
-      <div className="mt-6 flex justify-center gap-6 text-xs font-mono">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded" style={{ backgroundColor: "#58A6FF" }} />
-          <span className="text-[var(--blog-text-muted)]">4.6x AMX Speedup</span>
+      <div className="mt-6 text-center">
+        <p className="text-xs text-[#8B949E] font-mono">
+          {showAMX ? "AMX: Native matrix operations" : "AVX-512: Sequential vector operations"}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// BF16 Data Flow Animation
+function BF16DataFlowAnimation() {
+  const [stage, setStage] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStage((prev) => (prev + 1) % 3);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <div className="text-center mb-6">
+        <span className="text-xs text-[#58A6FF] uppercase tracking-[0.2em] font-mono">
+          BF16 Processing Comparison
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Without AMX */}
+        <div className="p-4 bg-[#161B22] rounded-lg">
+          <div className="text-xs text-[#F85149] font-mono mb-4 text-center">Without AMX</div>
+          <div className="space-y-3">
+            <motion.div
+              animate={{ opacity: stage === 0 ? 1 : 0.4 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-16 text-right text-[10px] text-[#8B949E]">BF16</div>
+              <div className="h-6 flex-1 bg-[#58A6FF]/20 rounded flex items-center justify-center text-[10px] text-[#58A6FF]">
+                Input Data
+              </div>
+            </motion.div>
+            <motion.div animate={{ opacity: stage === 1 ? 1 : 0.4 }} className="text-center">
+              <span className="text-[10px] text-[#F85149]">↓ Convert to FP32 ↓</span>
+            </motion.div>
+            <motion.div
+              animate={{ opacity: stage === 1 ? 1 : 0.4 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-16 text-right text-[10px] text-[#8B949E]">FP32</div>
+              <div className="h-8 flex-1 bg-[#F85149]/20 rounded flex items-center justify-center text-[10px] text-[#F85149]">
+                Compute (2x memory)
+              </div>
+            </motion.div>
+            <motion.div animate={{ opacity: stage === 2 ? 1 : 0.4 }} className="text-center">
+              <span className="text-[10px] text-[#F85149]">↓ Convert back to BF16 ↓</span>
+            </motion.div>
+            <motion.div
+              animate={{ opacity: stage === 2 ? 1 : 0.4 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-16 text-right text-[10px] text-[#8B949E]">BF16</div>
+              <div className="h-6 flex-1 bg-[#8B949E]/20 rounded flex items-center justify-center text-[10px] text-[#8B949E]">
+                Output
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* With AMX */}
+        <div className="p-4 bg-[#161B22] rounded-lg border border-[#3FB950]/30">
+          <div className="text-xs text-[#3FB950] font-mono mb-4 text-center">With AMX</div>
+          <div className="space-y-4">
+            <motion.div
+              animate={{ opacity: stage === 0 ? 1 : 0.6 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-16 text-right text-[10px] text-[#8B949E]">BF16</div>
+              <div className="h-6 flex-1 bg-[#58A6FF]/20 rounded flex items-center justify-center text-[10px] text-[#58A6FF]">
+                Input Data
+              </div>
+            </motion.div>
+            <motion.div
+              animate={{
+                opacity: stage === 1 ? 1 : 0.6,
+                boxShadow: stage === 1 ? "0 0 15px rgba(63, 185, 80, 0.4)" : "none",
+              }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-16 text-right text-[10px] text-[#8B949E]">BF16</div>
+              <div className="h-8 flex-1 bg-[#3FB950]/30 rounded flex items-center justify-center text-[10px] text-[#3FB950] border border-[#3FB950]/50">
+                Native BF16 Compute
+              </div>
+            </motion.div>
+            <motion.div
+              animate={{ opacity: stage === 2 ? 1 : 0.6 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-16 text-right text-[10px] text-[#8B949E]">BF16</div>
+              <div className="h-6 flex-1 bg-[#3FB950]/20 rounded flex items-center justify-center text-[10px] text-[#3FB950]">
+                Direct Output
+              </div>
+            </motion.div>
+          </div>
+          <div className="mt-4 text-center text-[10px] text-[#3FB950]">
+            No conversion overhead
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// ISA Hierarchy Diagram
-function ISAHierarchy() {
+// oneDNN ISA Selection Visualization
+function OneDNNISAVisualization() {
   const [hoveredLevel, setHoveredLevel] = useState<number | null>(null);
 
   const levels = [
-    { name: "AMX-BF16", desc: "Tile Matrix Operations", color: "#58A6FF", enabled: true },
-    { name: "AVX-512 VNNI", desc: "Vector Neural Network", color: "#3FB950", enabled: true },
-    { name: "AVX-512", desc: "512-bit SIMD", color: "#F0883E", enabled: true },
-    { name: "AVX2", desc: "256-bit SIMD", color: "#A371F7", enabled: true },
+    { name: "AMX-BF16", desc: "Tile Matrix Operations", color: "#58A6FF", icon: "◆" },
+    { name: "AVX-512 VNNI", desc: "Vector Neural Network Instructions", color: "#3FB950", icon: "▲" },
+    { name: "AVX-512", desc: "Wide Vector Processing", color: "#F0883E", icon: "●" },
+    { name: "AVX2", desc: "Standard Vector Instructions", color: "#A371F7", icon: "■" },
   ];
 
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          ONEDNN_MAX_CPU_ISA Instruction Set Hierarchy
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <div className="text-center mb-6">
+        <span className="text-xs text-[#58A6FF] uppercase tracking-[0.2em] font-mono">
+          oneDNN Instruction Set Hierarchy
         </span>
       </div>
 
-      <div className="flex flex-col gap-2 max-w-md mx-auto">
+      <div className="max-w-md mx-auto space-y-3">
         {levels.map((level, i) => (
           <motion.div
             key={level.name}
             onHoverStart={() => setHoveredLevel(i)}
             onHoverEnd={() => setHoveredLevel(null)}
             animate={{
-              scale: hoveredLevel === i ? 1.02 : 1,
+              x: hoveredLevel === i ? 10 : 0,
               borderColor: hoveredLevel !== null && hoveredLevel < i ? "#F85149" : level.color,
+              opacity: hoveredLevel !== null && hoveredLevel < i ? 0.4 : 1,
             }}
-            className="flex items-center justify-between p-3 rounded border-2 bg-[#0D1117] cursor-pointer"
-            style={{ borderColor: level.color }}
+            className="flex items-center gap-4 p-3 rounded-lg border bg-[#161B22] cursor-pointer transition-colors"
           >
-            <div className="flex items-center gap-3">
-              <motion.div
-                animate={{
-                  backgroundColor: hoveredLevel !== null && hoveredLevel < i ? "#F85149" : level.color,
-                }}
-                className="w-3 h-3 rounded-full"
-              />
-              <span className="font-mono text-sm text-[var(--blog-text)]">{level.name}</span>
+            <span style={{ color: level.color }}>{level.icon}</span>
+            <div className="flex-1">
+              <span className="text-sm font-mono text-[#E6EDF3]">{level.name}</span>
+              <p className="text-xs text-[#8B949E]">{level.desc}</p>
             </div>
-            <span className="text-xs text-[var(--blog-text-muted)]">{level.desc}</span>
+            {hoveredLevel !== null && hoveredLevel < i && (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-xs text-[#F85149]"
+              >
+                disabled
+              </motion.span>
+            )}
           </motion.div>
         ))}
       </div>
 
-      <div className="mt-4 text-center text-xs text-[var(--blog-text-muted)] font-mono">
-        Hover to see disabled instructions when limiting ISA
+      <div className="mt-6 text-center">
+        <p className="text-xs text-[#8B949E]">
+          Hover to see how <code className="text-[#58A6FF]">ONEDNN_MAX_CPU_ISA</code> restricts available instructions
+        </p>
       </div>
     </div>
   );
 }
 
-// Async Queue Animation
-function AsyncQueueAnimation() {
-  const [frames, setFrames] = useState<number[]>([]);
-  const [processing, setProcessing] = useState<number[]>([]);
-  const [completed, setCompleted] = useState<number[]>([]);
+// AsyncInferQueue Concept Animation
+function AsyncQueueConceptAnimation() {
+  const [activeSlots, setActiveSlots] = useState<boolean[]>(Array(8).fill(false));
 
   useEffect(() => {
-    let frameId = 0;
-    const interval = setInterval(() => {
-      // Add new frame
-      if (frames.length < 8) {
-        setFrames(prev => [...prev, frameId++]);
-      }
-      
-      // Move to processing (simulate queue)
-      if (frames.length > 0 && processing.length < 4) {
-        setFrames(prev => prev.slice(1));
-        setProcessing(prev => [...prev, frameId - frames.length]);
-      }
-      
-      // Complete processing
-      if (processing.length > 0) {
-        setProcessing(prev => prev.slice(1));
-        setCompleted(prev => [...prev.slice(-7), prev.length]);
-      }
+    const timer = setInterval(() => {
+      setActiveSlots((prev) => {
+        const next = [...prev];
+        const inactiveIndices = prev.map((v, i) => (!v ? i : -1)).filter((i) => i !== -1);
+        const activeIndices = prev.map((v, i) => (v ? i : -1)).filter((i) => i !== -1);
+
+        // Randomly activate one
+        if (inactiveIndices.length > 0 && Math.random() > 0.3) {
+          const idx = inactiveIndices[Math.floor(Math.random() * inactiveIndices.length)];
+          next[idx] = true;
+        }
+
+        // Randomly complete one
+        if (activeIndices.length > 0 && Math.random() > 0.5) {
+          const idx = activeIndices[Math.floor(Math.random() * activeIndices.length)];
+          next[idx] = false;
+        }
+
+        return next;
+      });
     }, 400);
 
-    return () => clearInterval(interval);
-  }, [frames.length, processing.length]);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          AsyncInferQueue Pipeline
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <div className="text-center mb-6">
+        <span className="text-xs text-[#58A6FF] uppercase tracking-[0.2em] font-mono">
+          AsyncInferQueue: Parallel Inference Slots
         </span>
       </div>
 
-      <div className="flex items-center justify-between gap-4">
-        {/* Input Queue */}
-        <div className="flex-1">
-          <div className="text-[10px] text-[var(--blog-text-muted)] font-mono mb-2">Input Queue</div>
-          <div className="flex gap-1 h-8">
-            {[0,1,2,3,4,5,6,7].map((i) => (
-              <motion.div
-                key={i}
-                animate={{
-                  backgroundColor: frames.includes(i) ? "#58A6FF" : "#21262D",
-                  scale: frames.includes(i) ? 1 : 0.8,
-                }}
-                className="w-6 h-6 rounded flex items-center justify-center text-[10px] text-white font-mono"
+      <div className="flex justify-center gap-2 mb-6">
+        {activeSlots.map((active, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              backgroundColor: active ? "#3FB950" : "#21262D",
+              scale: active ? 1.1 : 1,
+              boxShadow: active ? "0 0 10px rgba(63, 185, 80, 0.5)" : "none",
+            }}
+            className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-mono"
+          >
+            {active && (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1, rotate: 360 }}
+                className="text-white"
               >
-                {frames.includes(i) ? "F" : ""}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        <motion.div animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1 }} className="text-[var(--blog-accent)]">
-          {">"}
-        </motion.div>
-
-        {/* Processing */}
-        <div className="flex-1">
-          <div className="text-[10px] text-[#3FB950] font-mono mb-2">Processing (4 slots)</div>
-          <div className="flex gap-1 h-8">
-            {[0,1,2,3].map((i) => (
-              <motion.div
-                key={i}
-                animate={{
-                  backgroundColor: processing.length > i ? "#3FB950" : "#21262D",
-                  rotate: processing.length > i ? [0, 180, 360] : 0,
-                }}
-                transition={{ duration: 0.5 }}
-                className="w-6 h-6 rounded flex items-center justify-center text-[10px] text-white font-mono"
-              >
-                {processing.length > i ? "P" : ""}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        <motion.div animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.5 }} className="text-[#3FB950]">
-          {">"}
-        </motion.div>
-
-        {/* Completed */}
-        <div className="flex-1">
-          <div className="text-[10px] text-[#F0883E] font-mono mb-2">Completed</div>
-          <div className="flex gap-1 h-8 items-center">
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 0.5 }}
-              className="text-[#F0883E] font-mono text-lg"
-            >
-              {completed.length}
-            </motion.div>
-            <span className="text-[10px] text-[var(--blog-text-muted)]">frames</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Architecture Diagram
-function ArchitectureDiagram() {
-  return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)] overflow-x-auto">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          CV Benchmark System Architecture
-        </span>
+                ⟳
+              </motion.span>
+            )}
+          </motion.div>
+        ))}
       </div>
 
-      <div className="min-w-[600px] font-mono text-xs">
-        <pre className="text-[var(--blog-text-muted)] leading-relaxed">
-{`+------------------+     HTTP/REST      +------------------+     Redis/Celery    +------------------+
-|                  |  ----------------> |                  |  ----------------> |                  |
-|   Frontend UI    |                    |   FastAPI        |                    |  Celery Workers  |
-|   (React/Next)   |  <---------------- |   Control Plane  |  <---------------- |  (Python)        |
-|   localhost:5173 |     JSON Response  |   localhost:8080 |     Task Results   |                  |
-+------------------+                    +------------------+                    +------------------+
-                                                |                                      |
-                                                v                                      v
-                                        +------------------+                   +------------------+
-                                        |   Valkey/Redis   |                   |  Inference       |
-                                        |   Task Broker    |                   |  Backends        |
-                                        |   localhost:6379 |                   |  OpenVINO/PyTorch|
-                                        +------------------+                   +------------------+`}
-        </pre>
+      <div className="text-center space-y-2">
+        <p className="text-sm text-[#E6EDF3]">
+          Active: <span className="text-[#3FB950] font-mono">{activeSlots.filter(Boolean).length}</span> / 
+          Available: <span className="text-[#8B949E] font-mono">{activeSlots.length}</span>
+        </p>
+        <p className="text-xs text-[#8B949E]">
+          Multiple inference requests execute in parallel at C++ level, bypassing Python's GIL
+        </p>
       </div>
     </div>
   );
@@ -376,204 +463,211 @@ export default function IntelAmxCpuAcceleration() {
   return (
     <>
       <p>
-        When we think of AI acceleration, GPUs typically dominate the conversation. 
-        However, Intel's <strong>Advanced Matrix Extensions (AMX)</strong> have changed the game 
-        for CPU-based inference. After building a complete CV benchmarking system for 
-        <strong> Dell Technologies</strong>, I've witnessed firsthand how AMX delivers 
-        <strong> 4.6x performance gains</strong> for real-time computer vision.
+        When we think about AI acceleration, dedicated GPUs dominate the conversation. However, Intel's 
+        <strong> Advanced Matrix Extensions (AMX)</strong> represent a fundamental shift—bringing specialized 
+        matrix multiplication hardware directly into the CPU silicon. This deep dive explores how AMX works, 
+        why it matters, and the supporting technologies that make it possible.
       </p>
 
-      <h2>The Problem: GPU vs CPU Trade-offs</h2>
+      <h2>The Matrix Multiplication Bottleneck</h2>
 
       <p>
-        Most enterprises face a dilemma: GPUs offer unmatched throughput but come with 
-        significant costs - hardware acquisition, power consumption, and infrastructure 
-        complexity. CPUs are ubiquitous but traditionally too slow for real-time AI. 
-        AMX bridges this gap.
+        Neural networks are, at their core, layers of matrix multiplications. Every convolution, 
+        every fully-connected layer, every attention mechanism—they all reduce to matrices multiplied 
+        together. Traditional CPUs handle these operations one element at a time, which creates a 
+        fundamental performance bottleneck for AI workloads.
       </p>
-
-      <PerformanceChart />
-
-      <h2>What is Intel AMX?</h2>
 
       <p>
-        AMX introduces dedicated matrix multiplication units (TMUL) directly into the CPU silicon. 
-        Unlike traditional SIMD instructions that process vectors, AMX operates on 
-        <strong> entire matrix tiles</strong> - performing 16x32 x 32x16 operations 
-        in a single instruction.
+        Before AMX, Intel introduced <strong>AVX-512</strong> (Advanced Vector Extensions), which 
+        processes data in parallel using wide vector registers. While powerful for many workloads, 
+        AVX-512 still operates on vectors—one-dimensional arrays of data—requiring multiple 
+        instructions to complete a matrix operation.
       </p>
 
-      <MatrixMultiplyAnimation />
+      <AVXvsAMXComparison />
+
+      <h2>What Makes AMX Different</h2>
 
       <p>
-        The key insight is that neural networks are fundamentally matrix operations. 
-        Convolutions, fully-connected layers, and attention mechanisms all reduce to 
-        matrix multiplications. By accelerating this primitive, AMX accelerates everything.
+        AMX introduces a new paradigm: <strong>tile-based matrix operations</strong>. Instead of 
+        processing vectors, AMX operates on two-dimensional tiles—small matrix blocks that fit 
+        entirely within dedicated tile registers. A single AMX instruction can multiply two 
+        tiles and accumulate the result, replacing what would otherwise require hundreds of 
+        traditional instructions.
       </p>
 
-      <h2>BF16: The Secret Sauce</h2>
+      <AMXTileVisualization />
 
       <p>
-        AMX pairs with Brain Float 16 (BF16), a numeric format that maintains the dynamic 
-        range of FP32 while using half the memory. This enables:
+        The key innovation is the <strong>TMUL (Tile Matrix Multiply) unit</strong>—specialized 
+        silicon dedicated exclusively to matrix operations. When you load matrices into tile registers 
+        and execute a <code>TDPBF16PS</code> instruction, the TMUL unit performs the entire 
+        tile multiplication in parallel, fundamentally changing how the CPU handles matrix math.
       </p>
 
-      <ul>
-        <li><strong>2x memory bandwidth</strong> - More data per cache line</li>
-        <li><strong>Native tile operations</strong> - 32 BF16 values per tile row</li>
-        <li><strong>No conversion overhead</strong> - Direct BF16 computation</li>
-      </ul>
-
-      <blockquote>
-        Without AMX, BF16 operations require software emulation: convert to FP32, 
-        compute, convert back. With AMX, it's a single native instruction.
-      </blockquote>
-
-      <h2>Controlling ISA Selection</h2>
+      <h2>The BF16 Advantage</h2>
 
       <p>
-        The <code>ONEDNN_MAX_CPU_ISA</code> environment variable controls which instruction 
-        sets oneDNN (Intel's deep learning library) can use. This is crucial for 
-        fair benchmarking - we need to isolate AMX's contribution.
+        AMX is designed to work natively with <strong>Brain Float 16 (BF16)</strong>, a 16-bit 
+        floating-point format specifically optimized for neural networks. BF16 maintains the same 
+        dynamic range as standard 32-bit floats but uses half the memory, enabling more data to 
+        fit in cache and registers.
       </p>
 
-      <ISAHierarchy />
+      <BF16DataFlowAnimation />
+
+      <p>
+        The critical insight is this: without AMX hardware, BF16 operations must be emulated. 
+        The CPU converts BF16 to FP32, performs the computation, then converts back—tripling 
+        the work and negating the memory benefits. AMX eliminates this overhead entirely by 
+        processing BF16 natively in hardware.
+      </p>
+
+      <h2>oneDNN: The Software Layer</h2>
+
+      <p>
+        Intel's <strong>oneAPI Deep Neural Network Library (oneDNN)</strong> serves as the bridge 
+        between neural network frameworks and hardware capabilities. When you run inference with 
+        PyTorch, TensorFlow, or OpenVINO on Intel CPUs, oneDNN automatically selects the optimal 
+        implementation based on available instruction sets.
+      </p>
+
+      <OneDNNISAVisualization />
+
+      <p>
+        The <code>ONEDNN_MAX_CPU_ISA</code> environment variable controls which instructions 
+        oneDNN can use. Setting it to <code>DEFAULT</code> enables AMX; restricting it to 
+        <code>AVX512_CORE_VNNI</code> forces oneDNN to fall back to vector operations. This 
+        is essential for benchmarking—it lets you isolate exactly what AMX contributes to performance.
+      </p>
 
       <pre>
-        <code>{`# Enable AMX (maximum performance)
-ONEDNN_MAX_CPU_ISA=DEFAULT
+        <code>{`# Enable all instructions including AMX
+export ONEDNN_MAX_CPU_ISA=DEFAULT
 
-# Disable AMX (baseline comparison)  
-ONEDNN_MAX_CPU_ISA=AVX512_CORE_VNNI`}</code>
+# Disable AMX, use only AVX-512
+export ONEDNN_MAX_CPU_ISA=AVX512_CORE_VNNI`}</code>
       </pre>
 
-      <h2>The AsyncInferQueue Pattern</h2>
+      <h2>Bypassing Python's Limitations</h2>
 
       <p>
-        Raw AMX speed means nothing if you can't feed it fast enough. Python's Global 
-        Interpreter Lock (GIL) would normally bottleneck inference. The solution is 
-        OpenVINO's <code>AsyncInferQueue</code>.
+        Python's <strong>Global Interpreter Lock (GIL)</strong> prevents true multi-threaded 
+        execution of Python code. For AI inference, this creates a bottleneck—even with fast 
+        AMX hardware, if only one Python thread can execute at a time, you can't saturate 
+        the CPU's capabilities.
       </p>
 
-      <AsyncQueueAnimation />
+      <p>
+        The solution is <strong>AsyncInferQueue</strong> from OpenVINO. This pattern submits 
+        inference requests to a queue managed at the C++ level, completely bypassing Python's 
+        threading limitations. Multiple requests execute in parallel on the actual hardware 
+        while Python simply waits for results.
+      </p>
+
+      <AsyncQueueConceptAnimation />
 
       <pre>
-        <code>{`# Create queue with 16 parallel inference slots
-async_queue = AsyncInferQueue(compiled_model, num_requests=16)
+        <code>{`# Create queue with multiple parallel inference slots
+async_queue = AsyncInferQueue(compiled_model, jobs=16)
 
-# Submit all frames (non-blocking, GIL released!)
+# Submit requests (non-blocking, GIL released)
 for frame in preprocessed_frames:
     async_queue.start_async({0: frame})
 
-# Wait for completion
-async_queue.wait_all()
-
-# Result: 128 concurrent inferences (8 threads x 16 requests)`}</code>
+# Wait for all completions
+async_queue.wait_all()`}</code>
       </pre>
 
-      <h2>System Architecture</h2>
+      <h2>The Instruction Set Hierarchy</h2>
 
       <p>
-        The complete benchmarking system uses Celery for distributed task execution, 
-        with separate worker containers for AMX and non-AMX scenarios. This ensures 
-        true hardware isolation.
+        Understanding the CPU instruction hierarchy clarifies why AMX matters. Each generation 
+        builds on the previous:
       </p>
 
-      <ArchitectureDiagram />
-
-      <h2>Worker Specialization</h2>
+      <ul>
+        <li>
+          <strong>AVX2</strong> — Standard vector operations, processing multiple values per instruction
+        </li>
+        <li>
+          <strong>AVX-512</strong> — Wider vectors, more values per instruction
+        </li>
+        <li>
+          <strong>AVX-512 VNNI</strong> — Vector Neural Network Instructions, optimized dot products
+        </li>
+        <li>
+          <strong>AMX</strong> — Tile-based matrix operations, native matrix multiplication
+        </li>
+      </ul>
 
       <p>
-        We use separate Docker containers because <code>ONEDNN_MAX_CPU_ISA</code> is read at 
-        process startup and cached. You cannot toggle AMX dynamically within a running Python process.
+        Each level provides capabilities the previous cannot match. AVX-512 VNNI accelerates 
+        specific neural network patterns, but AMX provides a fundamentally different approach—
+        operating on entire matrix tiles rather than vectors of individual values.
       </p>
 
-      <pre>
-        <code>{`# docker-compose.yaml
-
-worker-amx:
-  environment:
-    - ONEDNN_MAX_CPU_ISA=DEFAULT        # AMX enabled
-    - OPENVINO_PRECISION=bf16
-  command: celery worker --queues=cv_amx
-
-worker-no-amx:
-  environment:
-    - ONEDNN_MAX_CPU_ISA=AVX512_CORE_VNNI  # AMX disabled
-    - OPENVINO_PRECISION=bf16
-  command: celery worker --queues=cv_no_amx`}</code>
-      </pre>
-
-      <h2>Real-World Results</h2>
+      <h2>When to Use AMX</h2>
 
       <p>
-        Running YOLOv11 segmentation (640x640 input) on race car detection:
+        AMX excels in scenarios where matrix operations dominate the workload:
       </p>
 
-      <div className="my-6 overflow-x-auto">
-        <table className="w-full text-sm border-collapse font-mono">
-          <thead>
-            <tr className="border-b border-[var(--blog-border)]">
-              <th className="text-left py-2 text-[var(--blog-accent)]">Scenario</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">Hardware</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">Precision</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">FPS</th>
-              <th className="text-left py-2 text-[var(--blog-accent)]">Speedup</th>
-            </tr>
-          </thead>
-          <tbody className="text-[var(--blog-text-muted)]">
-            <tr className="border-b border-[var(--blog-border)]">
-              <td className="py-2">CPU</td>
-              <td className="py-2">Intel (no AMX)</td>
-              <td className="py-2">BF16</td>
-              <td className="py-2">156</td>
-              <td className="py-2">1x (baseline)</td>
-            </tr>
-            <tr className="border-b border-[var(--blog-border)] text-[var(--blog-accent)]">
-              <td className="py-2 font-bold">CPU_OPTIMIZED</td>
-              <td className="py-2">Intel AMX</td>
-              <td className="py-2">BF16</td>
-              <td className="py-2 font-bold">864</td>
-              <td className="py-2 font-bold">4.6x</td>
-            </tr>
-            <tr className="border-b border-[var(--blog-border)]">
-              <td className="py-2">GPU</td>
-              <td className="py-2">NVIDIA RTX</td>
-              <td className="py-2">FP16</td>
-              <td className="py-2">3600</td>
-              <td className="py-2">23x</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <ul>
+        <li>
+          <strong>Inference workloads</strong> — The matrix multiplications in neural networks map 
+          directly to AMX tile operations
+        </li>
+        <li>
+          <strong>BF16 precision</strong> — When your model can operate at reduced precision without 
+          quality loss, AMX's native BF16 support shines
+        </li>
+        <li>
+          <strong>Throughput-oriented deployments</strong> — When processing many requests in parallel, 
+          AMX's high throughput per core maximizes utilization
+        </li>
+        <li>
+          <strong>CPU-only environments</strong> — When GPUs aren't available or cost-effective, 
+          AMX brings matrix acceleration to standard server CPUs
+        </li>
+      </ul>
+
+      <blockquote>
+        AMX transforms modern Intel CPUs into capable AI inference engines. It doesn't replace GPUs 
+        for training or highest-throughput scenarios, but it fundamentally changes the economics of 
+        CPU-based inference.
+      </blockquote>
 
       <h2>Key Takeaways</h2>
 
       <ol>
         <li>
-          <strong>AMX delivers real gains</strong> - 4.6x isn't marketing hype, it's measured 
-          production performance
+          <strong>AMX operates on tiles, not vectors</strong> — This is a fundamental architectural 
+          difference that enables massive parallelism for matrix operations
         </li>
         <li>
-          <strong>BF16 is essential</strong> - Without it, you're leaving performance on the table
+          <strong>BF16 is native</strong> — No conversion overhead means AMX fully leverages 
+          reduced-precision benefits
         </li>
         <li>
-          <strong>AsyncInferQueue unlocks parallelism</strong> - Bypass Python's GIL 
-          with OpenVINO's async API
+          <strong>oneDNN abstracts the complexity</strong> — Frameworks automatically use AMX when 
+          available through the oneDNN library
         </li>
         <li>
-          <strong>Container isolation matters</strong> - ISA selection is process-level, 
-          use separate containers
+          <strong>AsyncInferQueue unlocks parallelism</strong> — Bypassing Python's GIL is essential 
+          to saturate AMX capabilities
         </li>
         <li>
-          <strong>CPU can compete</strong> - For many workloads, AMX makes GPUs optional
+          <strong>Environment variables control behavior</strong> — ONEDNN_MAX_CPU_ISA lets you 
+          enable, disable, or benchmark AMX specifically
         </li>
       </ol>
 
       <p>
-        This work was presented at <strong>SuperCompute 2024 (SC24)</strong> as part of 
-        Dell Technologies' multi-modal AI showcase, demonstrating enterprise-grade 
-        CPU-based inference at scale.
+        Understanding these concepts transforms how you approach CPU-based AI deployments. AMX isn't 
+        just a faster instruction set—it's a different way of thinking about matrix computation, 
+        bringing dedicated matrix hardware to the ubiquitous x86 architecture.
       </p>
     </>
   );
