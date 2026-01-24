@@ -96,35 +96,36 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden"
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden px-2 sm:px-0"
           >
             {/* Actions bar */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-[var(--term-text-muted)]">
+            <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
+              <div className="text-[var(--term-text-muted)] text-sm sm:text-base truncate">
                 <span className="text-[var(--term-green)]">$</span> cat resume.txt
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                 <a
                   href="/Aryan Sakhala Resume.pdf"
                   download
-                  className="flex items-center gap-2 px-4 py-2 text-sm bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded hover:border-[var(--term-green)] hover:text-[var(--term-green)] transition-colors"
+                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded hover:border-[var(--term-green)] hover:text-[var(--term-green)] transition-colors"
                 >
-                  <Download className="w-4 h-4" />
-                  wget resume.pdf
+                  <Download className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">wget resume.pdf</span>
+                  <span className="sm:hidden">PDF</span>
                 </a>
                 <button
                   onClick={onClose}
-                  className="p-2 text-[var(--term-text-muted)] hover:text-[var(--term-red)] transition-colors"
+                  className="p-1.5 sm:p-2 text-[var(--term-text-muted)] hover:text-[var(--term-red)] transition-colors"
                   aria-label="Close"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
 
             {/* Terminal with resume */}
-            <TerminalWindow title="less resume.txt" className="max-h-[75vh] overflow-y-auto">
-              <pre className="text-sm leading-relaxed whitespace-pre-wrap">
+            <TerminalWindow title="less resume.txt" className="max-h-[70vh] sm:max-h-[75vh] overflow-y-auto">
+              <pre className="text-[10px] sm:text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">
                 {resumeContent.split("\n").map((line, i) => {
                   if (line.includes("===")) {
                     return <div key={i} className="text-[var(--term-cyan)]">{line}</div>;
@@ -162,8 +163,9 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             </TerminalWindow>
 
             {/* Footer */}
-            <div className="mt-4 text-center text-[var(--term-text-subtle)] text-sm">
-              Press <span className="text-[var(--term-yellow)]">q</span> to quit or <span className="text-[var(--term-yellow)]">ESC</span> to close
+            <div className="mt-3 sm:mt-4 text-center text-[var(--term-text-subtle)] text-xs sm:text-sm">
+              <span className="hidden sm:inline">Press <span className="text-[var(--term-yellow)]">ESC</span> to close</span>
+              <span className="sm:hidden">Tap outside to close</span>
             </div>
           </motion.div>
         </motion.div>

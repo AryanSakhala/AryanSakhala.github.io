@@ -302,6 +302,67 @@
   opacity: 0.3;
 }
 
+/* Enhanced text glow for daemon name */
+.text-glow-daemon {
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    0 0 60px currentColor;
+}
+
+/* Neon border effect */
+.neon-border {
+  box-shadow:
+    0 0 5px var(--term-cyan),
+    0 0 10px var(--term-cyan),
+    inset 0 0 5px rgba(88, 166, 255, 0.1);
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(88, 166, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(88, 166, 255, 0.8), 0 0 30px rgba(88, 166, 255, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Tag badge base */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.tech-badge:hover {
+  transform: translateY(-1px);
+}
+
+/* Company badge special styling */
+.company-badge {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.company-badge:hover {
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
 /* Typing animation */
 @keyframes typing {
   from { width: 0; }
@@ -368,4 +429,118 @@
   );
   pointer-events: none;
   z-index: 10;
+}
+
+/* ======================================
+   MOBILE RESPONSIVE STYLES
+   ====================================== */
+
+/* Mobile terminal adjustments */
+@media (max-width: 640px) {
+  body {
+    font-size: 12px;
+  }
+  
+  .terminal-header {
+    padding: 8px 12px;
+  }
+  
+  .terminal-title {
+    font-size: 10px;
+  }
+  
+  .terminal-body {
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .terminal-dots {
+    gap: 4px;
+  }
+  
+  .section-padding {
+    padding: 3rem 1rem;
+  }
+  
+  /* Hide complex decorations on mobile */
+  .grid-bg {
+    background-size: 30px 30px;
+  }
+  
+  .text-glow-daemon {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor;
+  }
+  
+  /* Tags smaller on mobile */
+  .tech-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 4rem 1.5rem;
+  }
+  
+  .terminal-body {
+    padding: 14px 16px;
+  }
+}
+
+/* Large phone adjustments */
+@media (max-width: 480px) {
+  .terminal-body {
+    font-size: 11px;
+    padding: 10px 12px;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+  
+  .terminal-header {
+    padding: 6px 10px;
+  }
+  
+  /* Ensure pre tags don't break layout */
+  pre {
+    font-size: inherit;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  /* Compact spacing */
+  .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+}
+
+/* Touch-friendly targets */
+@media (pointer: coarse) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .terminal-body a,
+  .terminal-body button {
+    min-height: auto;
+    min-width: auto;
+  }
+}
+
+/* Safe area for notched phones */
+@supports (padding: max(0px)) {
+  .section-padding {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
 }

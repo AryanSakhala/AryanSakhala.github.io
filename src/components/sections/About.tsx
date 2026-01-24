@@ -65,11 +65,12 @@ export function About() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
-          <span className="text-[var(--term-text-subtle)]"># About</span>
-          <h2 className="text-3xl text-[var(--term-text)] mt-2">
-            <span className="text-[var(--term-green)]">$</span> cat <span className="text-[var(--term-orange)]">~/.config/aryan/profile.yaml</span>
+          <span className="text-[var(--term-text-subtle)] text-sm">// About</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-[var(--term-text)] mt-2 break-words">
+            <span className="text-[var(--term-green)]">$</span> cat{" "}
+            <span className="text-[var(--term-orange)] text-sm sm:text-base md:text-xl break-all">~/.config/aryan/profile.yaml</span>
           </h2>
         </motion.div>
 

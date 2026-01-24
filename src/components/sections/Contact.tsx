@@ -31,10 +31,10 @@ export function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
-          <span className="text-[var(--term-text-subtle)]"># Contact</span>
-          <h2 className="text-3xl text-[var(--term-text)] mt-2">
+          <span className="text-[var(--term-text-subtle)] text-sm">// Contact</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-[var(--term-text)] mt-2">
             <span className="text-[var(--term-green)]">$</span> ping <span className="text-[var(--term-cyan)]">aryan.sakhala</span>
           </h2>
         </motion.div>
@@ -49,7 +49,7 @@ export function Contact() {
             </div>
 
             {/* Contact list */}
-            <div className="space-y-2">
+            <div className="space-y-1 sm:space-y-2">
               {contacts.map((contact, index) => (
                 <motion.div
                   key={contact.label}
@@ -62,23 +62,24 @@ export function Contact() {
                     href={contact.protocol === "mailto" ? `mailto:${contact.address}` : `https://${contact.address}`}
                     target={contact.protocol === "mailto" ? undefined : "_blank"}
                     rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-3 rounded border border-transparent hover:border-[var(--term-border)] hover:bg-[var(--term-bg-surface)] transition-all"
+                    className="flex flex-wrap sm:flex-nowrap items-center gap-1 sm:gap-4 p-2 sm:p-3 rounded border border-transparent hover:border-[var(--term-border)] hover:bg-[var(--term-bg-surface)] transition-all"
                   >
-                    <span className="text-[var(--term-purple)] w-16">[{String(index).padStart(2, "0")}]</span>
-                    <span className="text-[var(--term-yellow)]">{contact.protocol}://</span>
-                    <span className="text-[var(--term-cyan)] flex-1 group-hover:underline">{contact.address}</span>
+                    <span className="text-[var(--term-purple)] text-xs sm:text-base w-10 sm:w-16">[{String(index).padStart(2, "0")}]</span>
+                    <span className="text-[var(--term-yellow)] text-xs sm:text-base hidden sm:inline">{contact.protocol}://</span>
+                    <span className="text-[var(--term-cyan)] flex-1 group-hover:underline text-xs sm:text-base break-all">{contact.address}</span>
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         handleCopy(contact.protocol === "mailto" ? contact.address : `https://${contact.address}`, index);
                       }}
-                      className="text-[var(--term-text-subtle)] hover:text-[var(--term-green)] transition-colors"
+                      className="text-[var(--term-text-subtle)] hover:text-[var(--term-green)] transition-colors text-xs sm:text-sm ml-auto sm:ml-0"
                     >
                       {copiedIndex === index ? (
-                        <span className="text-[var(--term-green)]">copied!</span>
+                        <span className="text-[var(--term-green)]">✓</span>
                       ) : (
-                        <span>[copy]</span>
+                        <span className="hidden sm:inline">[copy]</span>
                       )}
+                      {copiedIndex !== index && <span className="sm:hidden">📋</span>}
                     </button>
                   </a>
                 </motion.div>

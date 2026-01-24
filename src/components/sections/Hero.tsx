@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { TerminalWindow, Prompt, Command, Flag, StringVal, Cursor, Output, Success } from "@/components/ui/TerminalWindow";
+import { TerminalWindow, Prompt, Command, Flag, Cursor, Output } from "@/components/ui/TerminalWindow";
 
 const commands = [
   { prompt: "$ ", command: "whoami", output: "aryan.sakhala" },
@@ -10,9 +10,35 @@ const commands = [
   { prompt: "$ ", command: "echo", args: "$EXPERTISE", output: "RAG | LLM | Multi-Agent Systems | Dell | Intel" },
 ];
 
+// Enhanced ASCII art with daemon-style visibility
+const daemonAscii = `
+ ██████╗ ██████╗ ██╗   ██╗ █████╗ ███╗   ██╗
+██╔═══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗████╗  ██║
+███████║██████╔╝ ╚████╔╝ ███████║██╔██╗ ██║
+██╔══██║██╔══██╗  ╚██╔╝  ██╔══██║██║╚██╗██║
+██║  ██║██║  ██║   ██║   ██║  ██║██║ ╚████║
+╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝
+                                            
+███████╗ █████╗ ██╗  ██╗██╗  ██╗ █████╗ ██╗     █████╗ 
+██╔════╝██╔══██╗██║ ██╔╝██║  ██║██╔══██╗██║    ██╔══██╗
+███████╗███████║█████╔╝ ███████║███████║██║    ███████║
+╚════██║██╔══██║██╔═██╗ ██╔══██║██╔══██║██║    ██╔══██║
+███████║██║  ██║██║  ██╗██║  ██║██║  ██║███████╗██║  ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝`;
+
+// Fun easter egg facts
+const easterEggs = [
+  "// 3.5+ years building production AI systems",
+  "// Contributed to systems used by 1000+ enterprises",
+  "// Currently researching PPML @ UNB",
+  "// vim > emacs (fight me)",
+];
+
 export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
   const [visibleLines, setVisibleLines] = useState(0);
   const [typingComplete, setTypingComplete] = useState(false);
+  const [easterEgg, setEasterEgg] = useState(0);
+  const [showSecret, setShowSecret] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,41 +54,137 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
     return () => clearInterval(timer);
   }, []);
 
-  return (
-    <section className="min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden grid-bg">
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--term-bg)]/50 to-[var(--term-bg)]" />
+  // Easter egg rotation
+  useEffect(() => {
+    const eggTimer = setInterval(() => {
+      setEasterEgg((prev) => (prev + 1) % easterEggs.length);
+    }, 4000);
+    return () => clearInterval(eggTimer);
+  }, []);
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto">
-        {/* ASCII Art Header */}
-        <motion.pre
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
-          transition={{ duration: 1 }}
-          className="text-[var(--term-green)] text-[8px] sm:text-[10px] leading-tight mb-8 text-center hidden sm:block"
+  return (
+    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 relative overflow-hidden">
+      {/* Grid background */}
+      <div className="absolute inset-0 grid-bg opacity-50" />
+      
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--term-cyan)]/5 via-transparent to-[var(--term-bg)]" />
+
+      {/* Floating daemon indicator */}
+      <motion.div
+        className="absolute top-8 left-8 flex items-center gap-2"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1 }}
+      >
+        <motion.div
+          className="w-2 h-2 rounded-full bg-[var(--term-green)]"
+          animate={{ 
+            boxShadow: ["0 0 0 0 rgba(63, 185, 80, 0.5)", "0 0 0 8px rgba(63, 185, 80, 0)", "0 0 0 0 rgba(63, 185, 80, 0)"],
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+        <span className="text-xs text-[var(--term-green)]">PID: 31337</span>
+        <span className="text-xs text-[var(--term-text-subtle)]">|</span>
+        <span className="text-xs text-[var(--term-cyan)]">daemon active</span>
+      </motion.div>
+
+      <div className="relative z-10 w-full max-w-5xl mx-auto">
+        {/* Daemon-style ASCII Art Header - HIGHLY VISIBLE */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-8 sm:mb-12 text-center"
         >
-{`
-    _                            ____        _    _           _       
-   / \\   _ __ _   _  __ _ _ __  / ___|  __ _| | _| |__   __ _| | __ _ 
-  / _ \\ | '__| | | |/ _\` | '_ \\ \\___ \\ / _\` | |/ / '_ \\ / _\` | |/ _\` |
- / ___ \\| |  | |_| | (_| | | | | ___) | (_| |   <| | | | (_| | | (_| |
-/_/   \\_\\_|   \\__, |\\__,_|_| |_||____/ \\__,_|_|\\_\\_| |_|\\__,_|_|\\__,_|
-              |___/                                                    
-`}
-        </motion.pre>
+          {/* Mobile: Simple text */}
+          <h1 className="sm:hidden text-4xl font-bold text-glow-cyan">
+            <span className="text-[var(--term-cyan)]">ARYAN</span>{" "}
+            <span className="text-[var(--term-green)]">SAKHALA</span>
+          </h1>
+          
+          {/* Desktop: ASCII Art */}
+          <motion.pre
+            className="hidden sm:block text-[6px] md:text-[8px] lg:text-[10px] leading-[1.1] font-bold overflow-x-auto"
+            style={{ 
+              fontFamily: "monospace",
+              letterSpacing: "-0.5px",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            {daemonAscii.split("\n").map((line, i) => (
+              <motion.span
+                key={i}
+                className="block"
+                style={{
+                  background: "linear-gradient(90deg, var(--term-cyan), var(--term-green))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  textShadow: "0 0 30px rgba(88, 166, 255, 0.4), 0 0 60px rgba(63, 185, 80, 0.2)",
+                  filter: "drop-shadow(0 0 2px rgba(88, 166, 255, 0.5))",
+                }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+              >
+                {line}
+              </motion.span>
+            ))}
+          </motion.pre>
+          
+          {/* Subtitle with typing effect */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="mt-4"
+          >
+            <span className="text-[var(--term-text-subtle)] text-sm sm:text-base">
+              <span className="text-[var(--term-purple)]">const</span>{" "}
+              <span className="text-[var(--term-cyan)]">role</span>{" "}
+              <span className="text-[var(--term-text-subtle)]">=</span>{" "}
+              <span className="text-[var(--term-orange)]">"Lead Software Engineer"</span>
+              <span className="text-[var(--term-text-subtle)]">;</span>
+            </span>
+          </motion.div>
+        </motion.div>
 
         {/* Main Terminal */}
         <TerminalWindow title="aryan@portfolio:~" className="glow-cyan">
           <div className="space-y-4">
             {/* Status line */}
-            <div className="flex items-center gap-2 pb-4 border-b border-[var(--term-border)]">
+            <div className="flex flex-wrap items-center gap-2 pb-4 border-b border-[var(--term-border)]">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[var(--term-green)] animate-pulse" />
+                <motion.span 
+                  className="w-2 h-2 rounded-full bg-[var(--term-green)]"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
                 <span className="text-[var(--term-green)]">ONLINE</span>
               </span>
               <span className="text-[var(--term-text-subtle)]">|</span>
               <span className="text-[var(--term-text-muted)]">Available for opportunities</span>
+              <span className="text-[var(--term-text-subtle)]">|</span>
+              <button
+                onClick={() => setShowSecret(!showSecret)}
+                className="text-[var(--term-purple)] hover:text-[var(--term-pink)] transition-colors text-sm cursor-pointer"
+              >
+                [?]
+              </button>
             </div>
+
+            {/* Easter egg comment - rotating */}
+            <motion.div
+              key={easterEgg}
+              initial={{ opacity: 0, x: -5 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-[var(--term-text-subtle)] text-sm italic"
+            >
+              {easterEggs[easterEgg]}
+            </motion.div>
 
             {/* Command history */}
             {commands.slice(0, visibleLines).map((cmd, index) => (
@@ -97,6 +219,23 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
                 <Cursor />
               </motion.div>
             )}
+
+            {/* Secret panel */}
+            {showSecret && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="mt-4 pt-4 border-t border-dashed border-[var(--term-pink)]/50"
+              >
+                <p className="text-[var(--term-pink)] text-sm mb-2">// Hidden achievements unlocked:</p>
+                <ul className="text-sm space-y-1">
+                  <li className="text-[var(--term-text-muted)]"><span className="text-[var(--term-green)]">+</span> Published in Springer LNNS</li>
+                  <li className="text-[var(--term-text-muted)]"><span className="text-[var(--term-green)]">+</span> SuperCompute 2024 Demo Lead</li>
+                  <li className="text-[var(--term-text-muted)]"><span className="text-[var(--term-green)]">+</span> Built systems for Fortune 500</li>
+                  <li className="text-[var(--term-text-muted)]"><span className="text-[var(--term-green)]">+</span> Led 7-member dev team</li>
+                </ul>
+              </motion.div>
+            )}
           </div>
         </TerminalWindow>
 
@@ -105,11 +244,11 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.5 }}
-          className="mt-8 flex flex-wrap justify-center gap-4"
+          className="mt-8 flex flex-wrap justify-center gap-3 sm:gap-4"
         >
           <button
             onClick={onOpenResume}
-            className="group flex items-center gap-2 px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-cyan)] hover:glow-cyan transition-all"
+            className="group flex items-center gap-2 px-4 sm:px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-cyan)] hover:glow-cyan transition-all text-sm sm:text-base"
           >
             <span className="text-[var(--term-green)]">$</span>
             <span className="text-[var(--term-cyan)]">cat</span>
@@ -118,7 +257,7 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
 
           <a
             href="mailto:aryansakhala@gmail.com"
-            className="group flex items-center gap-2 px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-green)] hover:glow-green transition-all"
+            className="group flex items-center gap-2 px-4 sm:px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-green)] hover:glow-green transition-all text-sm sm:text-base"
           >
             <span className="text-[var(--term-green)]">$</span>
             <span className="text-[var(--term-cyan)]">mail</span>
@@ -130,7 +269,7 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
             href="https://github.com/AryanSakhala"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-purple)] transition-all"
+            className="group flex items-center gap-2 px-4 sm:px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-purple)] transition-all text-sm sm:text-base"
           >
             <span className="text-[var(--term-green)]">$</span>
             <span className="text-[var(--term-cyan)]">git</span>
@@ -144,7 +283,7 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 3 }}
-          className="mt-16 text-center"
+          className="mt-12 sm:mt-16 text-center"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
