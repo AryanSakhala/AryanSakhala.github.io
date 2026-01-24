@@ -2,12 +2,12 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Badge } from "@/components/ui/badge";
+import { playHoverSound } from "@/lib/sounds";
 
 const skillCategories = [
   {
     title: "AI & Machine Learning",
-    color: "var(--ctp-mauve)",
+    gradient: "from-violet-500 to-purple-600",
     skills: [
       { name: "PyTorch", level: 95 },
       { name: "TensorFlow", level: 90 },
@@ -19,7 +19,7 @@ const skillCategories = [
   },
   {
     title: "LLM & RAG Systems",
-    color: "var(--ctp-blue)",
+    gradient: "from-blue-500 to-cyan-500",
     skills: [
       { name: "LangChain", level: 95 },
       { name: "LlamaIndex", level: 90 },
@@ -31,7 +31,7 @@ const skillCategories = [
   },
   {
     title: "Backend & Infrastructure",
-    color: "var(--ctp-green)",
+    gradient: "from-emerald-500 to-teal-500",
     skills: [
       { name: "Python", level: 98 },
       { name: "FastAPI", level: 95 },
@@ -43,7 +43,7 @@ const skillCategories = [
   },
   {
     title: "Frontend & Tools",
-    color: "var(--ctp-peach)",
+    gradient: "from-orange-500 to-amber-500",
     skills: [
       { name: "React", level: 85 },
       { name: "TypeScript", level: 82 },
@@ -59,56 +59,38 @@ export function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-
   return (
-    <section ref={ref} className="py-24 px-6 relative" id="skills">
-      {/* Background grid */}
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `
-            linear-gradient(var(--ctp-green) 1px, transparent 1px),
-            linear-gradient(90deg, var(--ctp-green) 1px, transparent 1px)
-          `,
-          backgroundSize: "40px 40px",
-        }}
-      />
+    <section ref={ref} className="py-32 px-6 relative" id="skills">
+      {/* Subtle background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--ctp-blue)]/[0.02] to-transparent pointer-events-none" />
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="max-w-6xl mx-auto relative z-10"
-      >
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
-        <motion.div variants={itemVariants} className="text-center mb-16">
-          <Badge
-            variant="outline"
-            className="mb-4 border-[var(--ctp-surface2)] text-[var(--ctp-subtext0)] font-mono"
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.2 }}
+            className="inline-block text-sm font-mono text-[var(--ctp-blue)] uppercase tracking-[0.2em] mb-4"
           >
-            NEURAL_INTERFACE.exe
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-            Tech Arsenal
+            Expertise
+          </motion.span>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="text-[var(--ctp-text)]">Technical</span>
+            <br />
+            <span className="bg-gradient-to-r from-[var(--ctp-blue)] to-[var(--ctp-teal)] bg-clip-text text-transparent">
+              Proficiency
+            </span>
           </h2>
-          <p className="text-[var(--ctp-subtext1)] max-w-xl mx-auto">
-            Core technologies and frameworks powering my solutions
+          
+          <p className="text-lg text-[var(--ctp-subtext0)] max-w-xl mx-auto">
+            Core technologies and frameworks powering production-grade solutions
           </p>
         </motion.div>
 
@@ -117,33 +99,18 @@ export function Skills() {
           {skillCategories.map((category, catIndex) => (
             <motion.div
               key={category.title}
-              variants={itemVariants}
-              className="p-6 rounded-2xl bg-[var(--ctp-surface0)]/50 border border-[var(--ctp-surface1)] backdrop-blur-sm relative overflow-hidden group"
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: catIndex * 0.1 }}
+              onMouseEnter={() => playHoverSound()}
+              className="p-6 rounded-2xl bg-[var(--ctp-surface0)]/30 border border-[var(--ctp-surface1)]/50 backdrop-blur-sm hover:border-[var(--ctp-surface2)] transition-all duration-500 group"
             >
-              {/* Scan line effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: `linear-gradient(180deg, transparent 0%, ${category.color}05 50%, transparent 100%)`,
-                    animation: "scan 2s ease-in-out infinite",
-                  }}
-                />
-              </div>
-
               {/* Category header */}
               <div className="flex items-center gap-3 mb-6">
                 <div
-                  className="w-3 h-3 rounded-full"
-                  style={{
-                    background: category.color,
-                    boxShadow: `0 0 10px ${category.color}`,
-                  }}
+                  className={`w-1 h-8 rounded-full bg-gradient-to-b ${category.gradient}`}
                 />
-                <h3
-                  className="font-mono font-semibold text-lg"
-                  style={{ color: category.color }}
-                >
+                <h3 className="font-semibold text-lg text-[var(--ctp-text)]">
                   {category.title}
                 </h3>
               </div>
@@ -158,17 +125,16 @@ export function Skills() {
                     transition={{
                       delay: catIndex * 0.1 + skillIndex * 0.05 + 0.3,
                     }}
-                    className="group/skill"
                   >
-                    <div className="flex justify-between items-center mb-1">
+                    <div className="flex justify-between items-center mb-1.5">
                       <span className="text-[var(--ctp-text)] text-sm font-medium">
                         {skill.name}
                       </span>
-                      <span className="text-[var(--ctp-subtext0)] text-xs font-mono">
+                      <span className="text-[var(--ctp-overlay0)] text-xs font-mono">
                         {skill.level}%
                       </span>
                     </div>
-                    <div className="h-2 bg-[var(--ctp-surface1)] rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-[var(--ctp-surface1)] rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={isInView ? { width: `${skill.level}%` } : {}}
@@ -177,17 +143,8 @@ export function Skills() {
                           duration: 0.8,
                           ease: "easeOut",
                         }}
-                        className="h-full rounded-full relative"
-                        style={{
-                          background: `linear-gradient(90deg, ${category.color}60, ${category.color})`,
-                        }}
-                      >
-                        {/* Glow effect */}
-                        <div
-                          className="absolute right-0 top-0 bottom-0 w-4 blur-sm"
-                          style={{ background: category.color }}
-                        />
-                      </motion.div>
+                        className={`h-full rounded-full bg-gradient-to-r ${category.gradient}`}
+                      />
                     </div>
                   </motion.div>
                 ))}
@@ -196,34 +153,32 @@ export function Skills() {
           ))}
         </div>
 
-        {/* Status bar */}
+        {/* Summary stats */}
         <motion.div
-          variants={itemVariants}
-          className="mt-8 flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-12 grid grid-cols-3 gap-4 max-w-2xl mx-auto"
         >
-          <div className="px-6 py-3 rounded-full glass font-mono text-xs text-[var(--ctp-subtext0)] flex items-center gap-4">
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[var(--ctp-green)] animate-pulse" />
-              SYSTEMS ONLINE
-            </span>
-            <span className="text-[var(--ctp-surface2)]">|</span>
-            <span>PROFICIENCY: 92%</span>
-            <span className="text-[var(--ctp-surface2)]">|</span>
-            <span>MODULES: 24</span>
-          </div>
+          {[
+            { label: "Technologies", value: "24+" },
+            { label: "Frameworks", value: "12+" },
+            { label: "Platforms", value: "8+" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="text-center p-4 rounded-xl bg-[var(--ctp-surface0)]/30 border border-[var(--ctp-surface1)]/30"
+            >
+              <div className="text-2xl font-bold text-[var(--ctp-text)] mb-1">
+                {stat.value}
+              </div>
+              <div className="text-xs text-[var(--ctp-overlay0)] uppercase tracking-wider">
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </motion.div>
-      </motion.div>
-
-      <style jsx>{`
-        @keyframes scan {
-          0%, 100% {
-            transform: translateY(-100%);
-          }
-          50% {
-            transform: translateY(100%);
-          }
-        }
-      `}</style>
+      </div>
     </section>
   );
 }

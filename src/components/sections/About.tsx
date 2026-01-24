@@ -1,48 +1,59 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Cpu, Brain, Database, Rocket, BookOpen, Award } from "lucide-react";
+import { playHoverSound } from "@/lib/sounds";
 
 const highlights = [
   {
     icon: Cpu,
     title: "RAG-based Agentic Workflows",
-    description: "Building production-grade AI systems for Dell & Intel",
-    color: "var(--ctp-blue)",
+    description: "Building production-grade AI systems for Dell & Intel with multi-agent orchestration",
+    stat: "3+",
+    statLabel: "Enterprise Deployments",
+    gradient: "from-blue-500/20 to-cyan-500/10",
   },
   {
     icon: Brain,
     title: "Multi-Modal AI",
-    description: "SuperCompute 2024 showcase with cutting-edge architectures",
-    color: "var(--ctp-mauve)",
+    description: "SuperCompute 2024 showcase featuring cutting-edge architectures and inference optimization",
+    stat: "SC24",
+    statLabel: "Conference Demo",
+    gradient: "from-purple-500/20 to-pink-500/10",
   },
   {
     icon: Database,
     title: "Full-Stack Engineering",
-    description: "End-to-end pipelines from data to deployment",
-    color: "var(--ctp-teal)",
+    description: "End-to-end pipelines from data ingestion to production deployment with MLOps best practices",
+    stat: "10+",
+    statLabel: "Production Systems",
+    gradient: "from-teal-500/20 to-emerald-500/10",
   },
   {
     icon: Rocket,
     title: "5+ Years Experience",
-    description: "From startups to enterprise-scale solutions",
-    color: "var(--ctp-peach)",
+    description: "From early-stage startups to Fortune 500 enterprise-scale solutions",
+    stat: "5+",
+    statLabel: "Years in Industry",
+    gradient: "from-orange-500/20 to-amber-500/10",
   },
   {
     icon: BookOpen,
     title: "Research & Publications",
-    description: "Springer LNNS publication on ESG + ML",
-    color: "var(--ctp-green)",
+    description: "Springer LNNS publication on ESG metrics analysis using machine learning techniques",
+    stat: "1",
+    statLabel: "Published Paper",
+    gradient: "from-green-500/20 to-lime-500/10",
   },
   {
     icon: Award,
-    title: "Leadership",
-    description: "Led cross-functional teams of 7+ engineers",
-    color: "var(--ctp-pink)",
+    title: "Technical Leadership",
+    description: "Led cross-functional teams delivering high-impact AI/ML solutions across multiple domains",
+    stat: "7+",
+    statLabel: "Engineers Mentored",
+    gradient: "from-pink-500/20 to-rose-500/10",
   },
 ];
 
@@ -50,126 +61,94 @@ export function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.5, ease: "easeOut" as const },
-    },
-  };
-
   return (
-    <section ref={ref} className="py-24 px-6" id="about">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="max-w-6xl mx-auto"
-      >
+    <section ref={ref} className="py-32 px-6 relative" id="about">
+      {/* Background accent */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--ctp-mauve)]/[0.02] to-transparent pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto relative">
         {/* Section header */}
-        <motion.div variants={itemVariants} className="text-center mb-16">
-          <Badge
-            variant="outline"
-            className="mb-4 border-[var(--ctp-surface2)] text-[var(--ctp-subtext0)]"
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.2 }}
+            className="inline-block text-sm font-mono text-[var(--ctp-mauve)] uppercase tracking-[0.2em] mb-4"
           >
-            <span className="text-[var(--ctp-green)] mr-2">//</span>
-            about.me
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-            Building the Future
+            About Me
+          </motion.span>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="text-[var(--ctp-text)]">Building </span>
+            <span className="bg-gradient-to-r from-[var(--ctp-mauve)] to-[var(--ctp-blue)] bg-clip-text text-transparent">
+              Intelligent
+            </span>
+            <br />
+            <span className="text-[var(--ctp-text)]">Systems</span>
           </h2>
-          <p className="text-[var(--ctp-subtext1)] max-w-2xl mx-auto text-lg">
+          
+          <p className="text-lg text-[var(--ctp-subtext0)] max-w-2xl mx-auto leading-relaxed">
             Lead Software Engineer specializing in AI/ML infrastructure,
-            RAG-based systems, and scalable software architecture.
+            RAG-based agentic systems, and scalable software architecture.
           </p>
         </motion.div>
 
-        {/* Bento Grid */}
-        <motion.div
-          variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-        >
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {highlights.map((item, index) => {
             const Icon = item.icon;
-            const isLarge = index === 0 || index === 3;
-
+            
             return (
               <motion.div
                 key={item.title}
-                variants={itemVariants}
-                className={isLarge ? "md:col-span-2 lg:col-span-1" : ""}
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                onMouseEnter={() => playHoverSound()}
               >
-                <Card className="h-full bg-[var(--ctp-surface0)]/50 border-[var(--ctp-surface1)] hover:border-[var(--ctp-surface2)] transition-all duration-500 group overflow-hidden">
-                  <CardContent className="p-6 relative">
-                    {/* Gradient blob on hover */}
+                <Card className="group h-full bg-[var(--ctp-surface0)]/30 border-[var(--ctp-surface1)]/50 hover:border-[var(--ctp-surface2)] backdrop-blur-sm transition-all duration-500 overflow-hidden">
+                  <CardContent className="p-6 relative h-full flex flex-col">
+                    {/* Gradient background on hover */}
                     <div
-                      className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
-                      style={{ background: item.color }}
+                      className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                     />
+                    
+                    {/* Content */}
+                    <div className="relative z-10 flex-1">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="p-3 rounded-xl bg-[var(--ctp-surface1)]/50 group-hover:bg-[var(--ctp-surface1)] transition-colors">
+                          <Icon className="w-6 h-6 text-[var(--ctp-mauve)]" />
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-[var(--ctp-text)]">
+                            {item.stat}
+                          </div>
+                          <div className="text-xs text-[var(--ctp-overlay0)] uppercase tracking-wider">
+                            {item.statLabel}
+                          </div>
+                        </div>
+                      </div>
 
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110"
-                      style={{
-                        background: `linear-gradient(135deg, ${item.color}20, ${item.color}10)`,
-                        border: `1px solid ${item.color}30`,
-                      }}
-                    >
-                      <Icon
-                        className="w-6 h-6"
-                        style={{ color: item.color }}
-                      />
+                      <h3 className="text-lg font-semibold text-[var(--ctp-text)] mb-2 group-hover:text-[var(--ctp-mauve)] transition-colors">
+                        {item.title}
+                      </h3>
+                      
+                      <p className="text-sm text-[var(--ctp-subtext0)] leading-relaxed">
+                        {item.description}
+                      </p>
                     </div>
-
-                    <h3 className="text-lg font-semibold text-[var(--ctp-text)] mb-2 group-hover:text-[var(--ctp-mauve)] transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-[var(--ctp-subtext0)] text-sm">
-                      {item.description}
-                    </p>
                   </CardContent>
                 </Card>
               </motion.div>
             );
           })}
-        </motion.div>
-
-        {/* Stats bar */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4"
-        >
-          {[
-            { value: "5+", label: "Years Experience" },
-            { value: "10+", label: "Projects Delivered" },
-            { value: "7+", label: "Team Members Led" },
-            { value: "1", label: "Research Publication" },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="text-center p-4 rounded-xl glass"
-            >
-              <div className="text-3xl font-bold text-[var(--ctp-mauve)] mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs text-[var(--ctp-subtext0)] uppercase tracking-wider">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }
