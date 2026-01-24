@@ -13,7 +13,7 @@ export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[var(--warm-50)]">
+    <main className="relative min-h-screen overflow-x-hidden bg-[var(--term-bg)]">
       {/* Navigation */}
       <Navigation onOpenResume={() => setIsResumeOpen(true)} />
 

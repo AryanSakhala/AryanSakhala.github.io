@@ -1,119 +1,128 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Mail, Github, Linkedin, ExternalLink, Youtube, ArrowUpRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
-const socialLinks = [
-  {
-    name: "GitHub",
-    icon: Github,
-    href: "https://github.com/AryanSakhala",
-    handle: "@AryanSakhala",
-  },
-  {
-    name: "LinkedIn",
-    icon: Linkedin,
-    href: "https://linkedin.com/in/AryanSakhala",
-    handle: "AryanSakhala",
-  },
-  {
-    name: "Email",
-    icon: Mail,
-    href: "mailto:aryansakhala@gmail.com",
-    handle: "aryansakhala@gmail.com",
-  },
-  {
-    name: "PyPI",
-    icon: ExternalLink,
-    href: "https://pypi.org/user/AryanSakhala/",
-    handle: "AryanSakhala",
-  },
-  {
-    name: "YouTube",
-    icon: Youtube,
-    href: "https://youtube.com/@aryansakhala3930",
-    handle: "@aryansakhala3930",
-  },
+const contacts = [
+  { protocol: "mailto", address: "aryansakhala@gmail.com", label: "Email" },
+  { protocol: "https", address: "github.com/AryanSakhala", label: "GitHub" },
+  { protocol: "https", address: "linkedin.com/in/AryanSakhala", label: "LinkedIn" },
+  { protocol: "https", address: "pypi.org/user/AryanSakhala", label: "PyPI" },
+  { protocol: "https", address: "youtube.com/@aryansakhala3930", label: "YouTube" },
 ];
 
 export function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const handleCopy = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   return (
-    <section ref={ref} className="section-padding bg-[var(--warm-100)]" id="contact">
-      <div className="container-narrow text-center">
+    <section ref={ref} className="section-padding" id="contact">
+      <div className="max-w-3xl mx-auto">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <span className="text-sm font-medium text-[var(--accent-500)] uppercase tracking-widest mb-4 block">
-            Contact
-          </span>
-          <h2 className="text-[var(--warm-900)] mb-4">
-            Let's Build Together
+          <span className="text-[var(--term-text-subtle)]"># Contact</span>
+          <h2 className="text-3xl text-[var(--term-text)] mt-2">
+            <span className="text-[var(--term-green)]">$</span> ping <span className="text-[var(--term-cyan)]">aryan.sakhala</span>
           </h2>
-          <p className="text-[var(--warm-500)] text-lg mb-8">
-            Open for collaborations, opportunities, and interesting conversations
-            about AI, software, and innovation.
-          </p>
-
-          <a
-            href="mailto:aryansakhala@gmail.com"
-            className="btn btn-primary shadow-soft inline-flex"
-          >
-            <Mail className="w-4 h-4" />
-            Get in Touch
-          </a>
         </motion.div>
 
-        {/* Social links */}
+        {/* Terminal */}
+        <TerminalWindow title="contact --list">
+          <div className="space-y-4">
+            {/* Ping header */}
+            <div className="pb-4 border-b border-[var(--term-border)]">
+              <div className="text-[var(--term-green)]">PING aryan.sakhala - Connection established</div>
+              <div className="text-[var(--term-text-muted)]">Ready for incoming connections...</div>
+            </div>
+
+            {/* Contact list */}
+            <div className="space-y-2">
+              {contacts.map((contact, index) => (
+                <motion.div
+                  key={contact.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="group"
+                >
+                  <a
+                    href={contact.protocol === "mailto" ? `mailto:${contact.address}` : `https://${contact.address}`}
+                    target={contact.protocol === "mailto" ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-3 rounded border border-transparent hover:border-[var(--term-border)] hover:bg-[var(--term-bg-surface)] transition-all"
+                  >
+                    <span className="text-[var(--term-purple)] w-16">[{String(index).padStart(2, "0")}]</span>
+                    <span className="text-[var(--term-yellow)]">{contact.protocol}://</span>
+                    <span className="text-[var(--term-cyan)] flex-1 group-hover:underline">{contact.address}</span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleCopy(contact.protocol === "mailto" ? contact.address : `https://${contact.address}`, index);
+                      }}
+                      className="text-[var(--term-text-subtle)] hover:text-[var(--term-green)] transition-colors"
+                    >
+                      {copiedIndex === index ? (
+                        <span className="text-[var(--term-green)]">copied!</span>
+                      ) : (
+                        <span>[copy]</span>
+                      )}
+                    </button>
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="pt-4 border-t border-[var(--term-border)] text-[var(--term-text-subtle)]">
+              <span className="text-[var(--term-green)]">$</span> echo "Let's build something great together"
+              <div className="text-[var(--term-text)] mt-1">Let's build something great together</div>
+            </div>
+          </div>
+        </TerminalWindow>
+
+        {/* Quick action */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-8 text-center"
         >
-          {socialLinks.map((link, index) => {
-            const Icon = link.icon;
-            return (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[var(--warm-200)] hover:border-[var(--accent-300)] hover:bg-[var(--accent-50)] transition-all duration-200 group"
-              >
-                <Icon className="w-4 h-4 text-[var(--warm-500)] group-hover:text-[var(--accent-600)]" />
-                <span className="text-sm text-[var(--warm-600)] group-hover:text-[var(--accent-600)]">
-                  {link.name}
-                </span>
-                <ArrowUpRight className="w-3 h-3 text-[var(--warm-400)] group-hover:text-[var(--accent-500)]" />
-              </motion.a>
-            );
-          })}
+          <a
+            href="mailto:aryansakhala@gmail.com"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--term-green)]/10 border border-[var(--term-green)]/30 rounded-lg hover:bg-[var(--term-green)]/20 hover:border-[var(--term-green)]/50 transition-all text-[var(--term-green)]"
+          >
+            <span className="text-[var(--term-text-muted)]">$</span>
+            <span>ssh aryan@collaborate</span>
+            <span className="text-[var(--term-text-subtle)]">--now</span>
+          </a>
         </motion.div>
 
         {/* Footer */}
         <motion.footer
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 pt-8 border-t border-[var(--warm-300)]"
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mt-16 pt-8 border-t border-[var(--term-border)] text-center"
         >
-          <p className="text-sm text-[var(--warm-500)]">
-            Designed & Built by Aryan Sakhala
-          </p>
-          <p className="text-xs text-[var(--warm-400)] mt-1">
-            Next.js + Tailwind CSS + Framer Motion
-          </p>
+          <div className="text-[var(--term-text-subtle)] text-sm">
+            <span className="text-[var(--term-green)]">#</span> Built by Aryan Sakhala
+          </div>
+          <div className="text-[var(--term-text-subtle)] text-xs mt-1">
+            Next.js + TypeScript + Tailwind + Framer Motion
+          </div>
         </motion.footer>
       </div>
     </section>

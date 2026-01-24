@@ -1,195 +1,218 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Building2, GraduationCap, Briefcase, Rocket, FlaskConical, Sparkles } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 const experiences = [
   {
-    year: "May 2026",
+    id: "unb",
+    date: "2026-05",
     role: "Research Assistant - PPML",
-    company: "University of New Brunswick (CIC)",
-    icon: Sparkles,
-    highlights: [
-      "Privacy-Preserving Machine Learning Research",
-      "Canadian Institute for Cybersecurity",
-    ],
-    tags: ["PPML", "Privacy", "Research"],
-    isUpcoming: true,
+    org: "University of New Brunswick",
+    dept: "CIC",
+    status: "UPCOMING",
+    desc: ["Privacy-Preserving ML Research", "Canadian Institute for Cybersecurity"],
+    tags: ["ppml", "privacy", "research"],
   },
   {
-    year: "2024 - Present",
+    id: "metrum",
+    date: "2024-NOW",
     role: "Lead Software Engineer",
-    company: "Metrum AI",
-    icon: Rocket,
-    highlights: [
-      "RAG-based Agentic Workflows for Dell & Intel",
-      "SuperCompute 2024 Multi-Modal AI Showcase",
-    ],
-    tags: ["LangChain", "RAG", "Dell", "Intel"],
+    org: "Metrum AI",
+    dept: "Engineering",
+    status: "ACTIVE",
+    desc: ["RAG Agentic Workflows (Dell, Intel)", "SuperCompute 2024 Demo"],
+    tags: ["rag", "llm", "dell", "intel"],
   },
   {
-    year: "2023 - 2024",
+    id: "vidyashilp",
+    date: "2023-2024",
     role: "Research Associate",
-    company: "Vidyashilp University",
-    icon: FlaskConical,
-    highlights: [
-      "ML/DS Research Publications (Springer LNNS)",
-      "Teaching Assistant for Data Science",
-    ],
-    tags: ["Research", "Springer", "Teaching"],
+    org: "Vidyashilp University",
+    dept: "Research",
+    status: "COMPLETED",
+    desc: ["Springer LNNS Publication", "DS Teaching Assistant"],
+    tags: ["research", "springer", "ml"],
   },
   {
-    year: "2023 - 2024",
+    id: "evueme",
+    date: "2023-2024",
     role: "ML Developer",
-    company: "EvueMe Selection Robot",
-    icon: Building2,
-    highlights: [
-      "Deep Learning for AI-based HR Bot",
-      "Dashboard API & Database Pipeline",
-    ],
-    tags: ["Deep Learning", "NLP", "FastAPI"],
+    org: "EvueMe",
+    dept: "AI",
+    status: "COMPLETED",
+    desc: ["AI HR Bot Development", "Dashboard API Pipeline"],
+    tags: ["dl", "nlp", "fastapi"],
   },
   {
-    year: "2021 - 2023",
+    id: "sirpi",
+    date: "2021-2023",
     role: "Data Scientist",
-    company: "Sirpi",
-    icon: Briefcase,
-    highlights: [
-      "Led 7-member team for Proofify (Blockchain)",
-      "Analytics for IUDX (Gov. of India)",
-    ],
-    tags: ["Blockchain", "Team Lead"],
-  },
-  {
-    year: "2019 - 2023",
-    role: "B.E. Computer Engineering",
-    company: "Pune University",
-    icon: GraduationCap,
-    highlights: ["CGPA: 8.56", "AI/ML Specialization"],
-    tags: ["CS", "AI/ML"],
+    org: "Sirpi",
+    dept: "Data",
+    status: "COMPLETED",
+    desc: ["Team Lead - Proofify (Blockchain)", "IUDX Analytics (Gov. India)"],
+    tags: ["blockchain", "analytics", "lead"],
   },
 ];
 
 export function Journey() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [visibleItems, setVisibleItems] = useState(0);
+
+  useEffect(() => {
+    if (isInView) {
+      const timer = setInterval(() => {
+        setVisibleItems((prev) => {
+          if (prev >= experiences.length) {
+            clearInterval(timer);
+            return prev;
+          }
+          return prev + 1;
+        });
+      }, 300);
+      return () => clearInterval(timer);
+    }
+  }, [isInView]);
 
   return (
-    <section ref={ref} className="section-padding bg-[var(--warm-100)]" id="journey">
-      <div className="container-wide">
+    <section ref={ref} className="section-padding bg-[var(--term-bg-elevated)] relative" id="journey">
+      <div className="max-w-5xl mx-auto">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <span className="text-sm font-medium text-[var(--accent-500)] uppercase tracking-widest mb-4 block">
-            Experience
-          </span>
-          <h2 className="text-[var(--warm-900)] mb-4">
-            Professional Journey
+          <span className="text-[var(--term-text-subtle)]"># Experience</span>
+          <h2 className="text-3xl text-[var(--term-text)] mt-2">
+            <span className="text-[var(--term-green)]">$</span> history <span className="text-[var(--term-yellow)]">--career</span>
           </h2>
-          <p className="text-[var(--warm-500)] max-w-2xl mx-auto text-lg">
-            From research to production, building intelligent systems across industries.
-          </p>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="max-w-3xl mx-auto">
-          {experiences.map((exp, index) => {
-            const Icon = exp.icon;
-            
-            return (
+        {/* Terminal with history */}
+        <TerminalWindow title="history --career | less">
+          <div className="space-y-1">
+            {/* Header row */}
+            <div className="text-[var(--term-text-subtle)] border-b border-[var(--term-border)] pb-2 mb-4 grid grid-cols-12 gap-2 text-sm">
+              <span className="col-span-2">DATE</span>
+              <span className="col-span-3">ROLE</span>
+              <span className="col-span-2">ORG</span>
+              <span className="col-span-2">STATUS</span>
+              <span className="col-span-3">TAGS</span>
+            </div>
+
+            {/* Experience rows */}
+            {experiences.slice(0, visibleItems).map((exp, index) => (
               <motion.div
-                key={exp.year + exp.company}
-                initial={{ opacity: 0, x: -30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative pl-8 pb-12 last:pb-0"
+                key={exp.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-12 gap-2 py-3 border-b border-[var(--term-border)]/50 hover:bg-[var(--term-bg-surface)] transition-colors group cursor-pointer"
               >
-                {/* Timeline line */}
-                {index !== experiences.length - 1 && (
-                  <div className="absolute left-[11px] top-12 bottom-0 w-[2px] bg-[var(--warm-300)]" />
-                )}
-
-                {/* Timeline dot */}
-                <div 
-                  className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${
-                    exp.isUpcoming 
-                      ? 'bg-[var(--accent-500)] ring-4 ring-[var(--accent-100)]' 
-                      : 'bg-[var(--warm-300)]'
-                  }`}
-                >
-                  <div className={`w-2 h-2 rounded-full ${exp.isUpcoming ? 'bg-white' : 'bg-[var(--warm-500)]'}`} />
-                </div>
-
-                {/* Content */}
-                <div 
-                  className={`p-6 rounded-xl bg-white border transition-all duration-300 hover:shadow-soft ${
-                    exp.isUpcoming 
-                      ? 'border-[var(--accent-300)] ring-1 ring-[var(--accent-100)]' 
-                      : 'border-[var(--warm-200)] hover:border-[var(--warm-300)]'
-                  }`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
-                      exp.isUpcoming 
-                        ? 'bg-[var(--accent-100)]' 
-                        : 'bg-[var(--warm-100)]'
-                    }`}>
-                      <Icon className={`w-5 h-5 ${exp.isUpcoming ? 'text-[var(--accent-600)]' : 'text-[var(--warm-500)]'}`} />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-1 flex-wrap">
-                        <span className={`text-sm font-medium ${
-                          exp.isUpcoming ? 'text-[var(--accent-600)]' : 'text-[var(--warm-500)]'
-                        }`}>
-                          {exp.year}
-                        </span>
-                        {exp.isUpcoming && (
-                          <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-[var(--accent-500)] text-white">
-                            Upcoming
-                          </span>
-                        )}
-                      </div>
-
-                      <h3 className="text-lg font-semibold text-[var(--warm-800)] mb-1">
-                        {exp.role}
-                      </h3>
-                      
-                      <p className="text-[var(--warm-500)] text-sm mb-3">
-                        {exp.company}
-                      </p>
-
-                      <ul className="space-y-1 mb-4">
-                        {exp.highlights.map((h) => (
-                          <li key={h} className="text-sm text-[var(--warm-600)] flex items-start gap-2">
-                            <span className="w-1 h-1 rounded-full bg-[var(--warm-400)] mt-2 shrink-0" />
-                            {h}
-                          </li>
-                        ))}
-                      </ul>
-
-                      <div className="flex flex-wrap gap-2">
-                        {exp.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-1 text-xs rounded-md bg-[var(--warm-100)] text-[var(--warm-600)] border border-[var(--warm-200)]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <span className={`col-span-2 ${exp.status === "UPCOMING" ? "text-[var(--term-pink)]" : exp.status === "ACTIVE" ? "text-[var(--term-green)]" : "text-[var(--term-text-muted)]"}`}>
+                  {exp.date}
+                </span>
+                <span className="col-span-3 text-[var(--term-cyan)] group-hover:text-[var(--term-text)]">
+                  {exp.role}
+                </span>
+                <span className="col-span-2 text-[var(--term-text-muted)]">
+                  {exp.org}
+                </span>
+                <span className={`col-span-2 ${
+                  exp.status === "UPCOMING" ? "text-[var(--term-pink)]" : 
+                  exp.status === "ACTIVE" ? "text-[var(--term-green)]" : 
+                  "text-[var(--term-text-subtle)]"
+                }`}>
+                  [{exp.status}]
+                </span>
+                <span className="col-span-3 text-[var(--term-yellow)] text-sm">
+                  {exp.tags.map((t) => `#${t}`).join(" ")}
+                </span>
               </motion.div>
-            );
-          })}
-        </div>
+            ))}
+
+            {/* Loading indicator */}
+            {visibleItems < experiences.length && (
+              <div className="text-[var(--term-text-subtle)] animate-pulse py-2">
+                Loading...
+              </div>
+            )}
+
+            {/* Footer */}
+            {visibleItems >= experiences.length && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="pt-4 text-[var(--term-text-subtle)]"
+              >
+                <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-text-muted)]">{experiences.length} entries displayed</span>
+              </motion.div>
+            )}
+          </div>
+        </TerminalWindow>
+
+        {/* Expanded details - horizontal scroll */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-8"
+        >
+          <div className="text-[var(--term-text-subtle)] mb-4">
+            <span className="text-[var(--term-green)]">$</span> cat details/*.md <span className="text-[var(--term-yellow)]">| head</span>
+          </div>
+          
+          <div className="scroll-horizontal pb-4">
+            <div className="flex gap-4" style={{ width: "max-content" }}>
+              {experiences.map((exp) => (
+                <div
+                  key={exp.id}
+                  className={`w-[300px] p-4 border rounded-lg bg-[var(--term-bg)] flex-shrink-0 ${
+                    exp.status === "UPCOMING" 
+                      ? "border-[var(--term-pink)]/50" 
+                      : exp.status === "ACTIVE" 
+                      ? "border-[var(--term-green)]/50" 
+                      : "border-[var(--term-border)]"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`px-2 py-0.5 text-xs rounded ${
+                      exp.status === "UPCOMING" 
+                        ? "bg-[var(--term-pink)]/20 text-[var(--term-pink)]" 
+                        : exp.status === "ACTIVE" 
+                        ? "bg-[var(--term-green)]/20 text-[var(--term-green)]" 
+                        : "bg-[var(--term-bg-surface)] text-[var(--term-text-subtle)]"
+                    }`}>
+                      {exp.status}
+                    </span>
+                    <span className="text-[var(--term-text-subtle)] text-sm">{exp.date}</span>
+                  </div>
+                  
+                  <h3 className="text-[var(--term-cyan)] font-medium mb-1">{exp.role}</h3>
+                  <p className="text-[var(--term-text-muted)] text-sm mb-3">@ {exp.org} / {exp.dept}</p>
+                  
+                  <ul className="space-y-1">
+                    {exp.desc.map((d, i) => (
+                      <li key={i} className="text-sm text-[var(--term-text)] flex items-start gap-2">
+                        <span className="text-[var(--term-green)]">-</span>
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="text-center text-[var(--term-text-subtle)] text-sm mt-2">
+            <span className="text-[var(--term-yellow)]">Scroll horizontally</span> to view all
+          </div>
+        </motion.div>
       </div>
     </section>
   );
