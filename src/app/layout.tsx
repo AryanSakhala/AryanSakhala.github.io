@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono, Fira_Code } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const firaCode = Fira_Code({
-  variable: "--font-fira",
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -47,9 +41,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${outfit.variable} ${jetbrainsMono.variable} ${firaCode.variable} font-sans antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
         {children}
       </body>

@@ -8,16 +8,12 @@ import { Journey } from "@/components/sections/Journey";
 import { Skills } from "@/components/sections/Skills";
 import { Contact } from "@/components/sections/Contact";
 import { ResumeModal } from "@/components/sections/ResumeModal";
-import { GeometricBackground } from "@/components/effects/GeometricBackground";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
-      {/* Neural network geometric background */}
-      <GeometricBackground />
-
+    <main className="relative min-h-screen overflow-x-hidden bg-[var(--warm-50)]">
       {/* Navigation */}
       <Navigation onOpenResume={() => setIsResumeOpen(true)} />
 

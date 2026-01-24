@@ -1,10 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Download, ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { MatrixRain } from "@/components/effects/MatrixRain";
+import { X, Download, Mail, MapPin, Calendar, ExternalLink } from "lucide-react";
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -13,13 +10,19 @@ interface ResumeModalProps {
 
 const experiences = [
   {
+    role: "Research Assistant - PPML",
+    company: "University of New Brunswick (CIC)",
+    period: "May 2026",
+    highlights: ["Privacy-Preserving Machine Learning Research"],
+    isUpcoming: true,
+  },
+  {
     role: "Lead Software Engineer",
     company: "Metrum AI",
     period: "2024 - Present",
     highlights: [
       "RAG-based Agentic Workflows for Dell & Intel",
       "SuperCompute 2024 Multi-Modal AI Showcase",
-      "Production-grade LLM pipeline architecture",
     ],
   },
   {
@@ -51,19 +54,9 @@ const experiences = [
   },
 ];
 
-const techStack = [
-  "Python",
-  "PyTorch",
-  "TensorFlow",
-  "LangChain",
-  "LlamaIndex",
-  "FastAPI",
-  "React",
-  "TypeScript",
-  "PostgreSQL",
-  "Docker",
-  "AWS",
-  "Git",
+const skills = [
+  "Python", "PyTorch", "TensorFlow", "LangChain", "LlamaIndex",
+  "FastAPI", "React", "TypeScript", "PostgreSQL", "Docker", "AWS"
 ];
 
 export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
@@ -82,139 +75,107 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[var(--ctp-crust)]/95 backdrop-blur-md"
-          >
-            <MatrixRain opacity={0.1} />
-          </motion.div>
-
-          {/* Scan line overlay */}
-          <div
-            className="fixed inset-0 pointer-events-none z-[51]"
-            style={{
-              background: `repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.1) 2px,
-                rgba(0, 0, 0, 0.1) 4px
-              )`,
-            }}
+            className="absolute inset-0 bg-[var(--warm-900)]/40 backdrop-blur-sm"
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25 }}
-            className="relative z-[52] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[var(--ctp-base)] border border-[var(--ctp-green)]/30 shadow-2xl"
-            style={{
-              boxShadow: `0 0 60px rgba(166, 227, 161, 0.15)`,
-            }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-soft-lg"
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-center justify-between p-6 border-b border-[var(--ctp-surface1)] bg-[var(--ctp-base)]/95 backdrop-blur-sm">
-              <div>
-                <h2 className="text-2xl font-bold text-[var(--ctp-text)] glitch-text">
-                  ARYAN SAKHALA
-                </h2>
-                <p className="text-[var(--ctp-green)] font-mono text-sm mt-1">
-                  Lead Software Engineer | AI/ML Architect
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="border-[var(--ctp-green)]/30 text-[var(--ctp-green)] hover:bg-[var(--ctp-green)]/10"
+            <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-[var(--warm-200)] px-6 py-4 flex items-center justify-between z-10">
+              <h2 className="text-xl font-semibold text-[var(--warm-800)]">Resume</h2>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/Aryan Sakhala Resume.pdf"
+                  download
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[var(--accent-500)] rounded-lg hover:bg-[var(--accent-600)] transition-colors"
                 >
-                  <a
-                    href="/Aryan Sakhala Resume.pdf"
-                    download
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    PDF
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </a>
+                <button
                   onClick={onClose}
-                  className="text-[var(--ctp-subtext0)] hover:text-[var(--ctp-text)] hover:bg-[var(--ctp-surface0)]"
+                  className="p-2 rounded-lg hover:bg-[var(--warm-100)] transition-colors"
+                  aria-label="Close"
                 >
-                  <X className="w-5 h-5" />
-                </Button>
+                  <X className="w-5 h-5 text-[var(--warm-500)]" />
+                </button>
               </div>
             </div>
 
             {/* Content */}
             <div className="p-6 space-y-8">
-              {/* Contact bar */}
-              <div className="flex flex-wrap gap-4 text-sm font-mono text-[var(--ctp-subtext1)]">
-                <a
-                  href="mailto:aryansakhala@gmail.com"
-                  className="hover:text-[var(--ctp-green)] transition-colors flex items-center gap-1"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  aryansakhala@gmail.com
-                </a>
-                <a
-                  href="https://linkedin.com/in/AryanSakhala"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[var(--ctp-green)] transition-colors flex items-center gap-1"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  LinkedIn
-                </a>
-                <a
-                  href="https://github.com/AryanSakhala"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[var(--ctp-green)] transition-colors flex items-center gap-1"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  GitHub
-                </a>
-              </div>
+              {/* Personal Info */}
+              <section>
+                <h1 className="text-3xl font-bold text-[var(--warm-900)] mb-2">
+                  Aryan Sakhala
+                </h1>
+                <p className="text-lg text-[var(--accent-600)] font-medium mb-4">
+                  Lead Software Engineer
+                </p>
+                <div className="flex flex-wrap gap-4 text-sm text-[var(--warm-500)]">
+                  <span className="flex items-center gap-1">
+                    <Mail className="w-4 h-4" />
+                    aryansakhala@gmail.com
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <MapPin className="w-4 h-4" />
+                    India / Canada
+                  </span>
+                </div>
+              </section>
+
+              {/* Summary */}
+              <section>
+                <h3 className="text-sm font-semibold text-[var(--warm-400)] uppercase tracking-widest mb-3">
+                  Summary
+                </h3>
+                <p className="text-[var(--warm-600)] leading-relaxed">
+                  Lead Software Engineer with 5+ years of experience specializing in AI/ML infrastructure,
+                  RAG-based agentic systems, and scalable software architecture. Built production-grade
+                  AI systems for Dell, Intel, and enterprise clients.
+                </p>
+              </section>
 
               {/* Experience */}
               <section>
-                <h3 className="text-lg font-semibold text-[var(--ctp-green)] border-b border-[var(--ctp-green)]/30 pb-2 mb-4 font-mono">
-                  // EXPERIENCE
+                <h3 className="text-sm font-semibold text-[var(--warm-400)] uppercase tracking-widest mb-4">
+                  Experience
                 </h3>
                 <div className="space-y-6">
                   {experiences.map((exp) => (
-                    <div key={exp.role + exp.company}>
-                      <div className="flex flex-wrap justify-between items-baseline gap-2 mb-2">
-                        <div>
-                          <span className="font-semibold text-[var(--ctp-text)]">
-                            {exp.role}
+                    <div
+                      key={exp.company}
+                      className={`relative pl-4 border-l-2 ${
+                        exp.isUpcoming
+                          ? 'border-[var(--accent-400)]'
+                          : 'border-[var(--warm-200)]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="font-semibold text-[var(--warm-800)]">
+                          {exp.role}
+                        </h4>
+                        {exp.isUpcoming && (
+                          <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-[var(--accent-100)] text-[var(--accent-600)]">
+                            Upcoming
                           </span>
-                          <span className="text-[var(--ctp-subtext0)] mx-2">
-                            @
-                          </span>
-                          <span className="text-[var(--ctp-mauve)]">
-                            {exp.company}
-                          </span>
-                        </div>
-                        <Badge
-                          variant="outline"
-                          className="font-mono text-xs border-[var(--ctp-surface2)] text-[var(--ctp-subtext0)]"
-                        >
-                          {exp.period}
-                        </Badge>
+                        )}
                       </div>
-                      <ul className="space-y-1 pl-4">
+                      <p className="text-sm text-[var(--warm-500)] mb-2">
+                        {exp.company} <span className="mx-1">|</span>
+                        <Calendar className="w-3 h-3 inline mr-1" />
+                        {exp.period}
+                      </p>
+                      <ul className="space-y-1">
                         {exp.highlights.map((h) => (
-                          <li
-                            key={h}
-                            className="text-[var(--ctp-subtext1)] text-sm flex items-start gap-2"
-                          >
-                            <span className="text-[var(--ctp-green)] mt-1.5">
-                              &gt;
-                            </span>
+                          <li key={h} className="text-sm text-[var(--warm-600)] flex items-start gap-2">
+                            <span className="w-1 h-1 rounded-full bg-[var(--warm-400)] mt-2 shrink-0" />
                             {h}
                           </li>
                         ))}
@@ -224,71 +185,71 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 </div>
               </section>
 
-              {/* Tech Stack */}
+              {/* Education */}
               <section>
-                <h3 className="text-lg font-semibold text-[var(--ctp-green)] border-b border-[var(--ctp-green)]/30 pb-2 mb-4 font-mono">
-                  // TECH_STACK
+                <h3 className="text-sm font-semibold text-[var(--warm-400)] uppercase tracking-widest mb-3">
+                  Education
+                </h3>
+                <div className="pl-4 border-l-2 border-[var(--warm-200)]">
+                  <h4 className="font-semibold text-[var(--warm-800)]">
+                    B.E. Computer Engineering
+                  </h4>
+                  <p className="text-sm text-[var(--warm-500)]">
+                    Pune University | 2019 - 2023 | CGPA: 8.56
+                  </p>
+                  <p className="text-sm text-[var(--warm-600)] mt-1">
+                    Honors: AI/ML Specialization
+                  </p>
+                </div>
+              </section>
+
+              {/* Skills */}
+              <section>
+                <h3 className="text-sm font-semibold text-[var(--warm-400)] uppercase tracking-widest mb-3">
+                  Technical Skills
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {techStack.map((tech) => (
-                    <Badge
-                      key={tech}
-                      className="bg-[var(--ctp-surface0)] text-[var(--ctp-text)] border border-[var(--ctp-surface2)] hover:border-[var(--ctp-green)] hover:bg-[var(--ctp-green)]/10 hover:text-[var(--ctp-green)] transition-all duration-300 font-mono text-xs"
+                  {skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 text-sm rounded-lg bg-[var(--warm-100)] text-[var(--warm-700)] border border-[var(--warm-200)]"
                     >
-                      {tech}
-                    </Badge>
+                      {skill}
+                    </span>
                   ))}
                 </div>
               </section>
 
-              {/* Education */}
-              <section>
-                <h3 className="text-lg font-semibold text-[var(--ctp-green)] border-b border-[var(--ctp-green)]/30 pb-2 mb-4 font-mono">
-                  // EDUCATION
-                </h3>
-                <div className="flex flex-wrap justify-between items-baseline gap-2">
-                  <div>
-                    <span className="font-semibold text-[var(--ctp-text)]">
-                      B.E. Computer Engineering
-                    </span>
-                    <span className="text-[var(--ctp-subtext0)] mx-2">@</span>
-                    <span className="text-[var(--ctp-mauve)]">
-                      Pune University
-                    </span>
-                  </div>
-                  <Badge
-                    variant="outline"
-                    className="font-mono text-xs border-[var(--ctp-surface2)] text-[var(--ctp-subtext0)]"
+              {/* Links */}
+              <section className="pt-4 border-t border-[var(--warm-200)]">
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href="https://github.com/AryanSakhala"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-sm text-[var(--accent-600)] hover:underline"
                   >
-                    2019 - 2023
-                  </Badge>
-                </div>
-                <p className="text-[var(--ctp-subtext1)] text-sm mt-2">
-                  CGPA: 8.56 | Honors: AI/ML Specialization
-                </p>
-              </section>
-
-              {/* Publications */}
-              <section>
-                <h3 className="text-lg font-semibold text-[var(--ctp-green)] border-b border-[var(--ctp-green)]/30 pb-2 mb-4 font-mono">
-                  // PUBLICATIONS
-                </h3>
-                <div>
-                  <div className="flex flex-wrap justify-between items-baseline gap-2">
-                    <span className="font-semibold text-[var(--ctp-text)]">
-                      Springer LNNS
-                    </span>
-                    <Badge
-                      variant="outline"
-                      className="font-mono text-xs border-[var(--ctp-surface2)] text-[var(--ctp-subtext0)]"
-                    >
-                      ISBM 2025
-                    </Badge>
-                  </div>
-                  <p className="text-[var(--ctp-subtext1)] text-sm mt-1">
-                    ESG + Machine Learning research publication | Bangkok,
-                    Thailand
-                  </p>
+                    <ExternalLink className="w-4 h-4" />
+                    GitHub
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/AryanSakhala"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-sm text-[var(--accent-600)] hover:underline"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://pypi.org/user/AryanSakhala/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-sm text-[var(--accent-600)] hover:underline"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    PyPI
+                  </a>
                 </div>
               </section>
             </div>
