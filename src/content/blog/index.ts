@@ -15,14 +15,23 @@ export interface BlogPost {
 // Add new posts to this array - the content lives in separate component files
 export const blogPosts: BlogPost[] = [
   {
-    slug: "building-rag-systems",
-    title: "Building Production-Ready RAG Systems",
+    slug: "intel-amx-cpu-acceleration",
+    title: "Intel AMX: CPU-Based AI Acceleration for Computer Vision",
     description:
-      "Deep dive into Retrieval Augmented Generation architecture, vector databases, and optimization strategies for enterprise-scale deployments.",
-    date: "2026-01-20",
-    readTime: "12 min",
-    tags: ["RAG", "LLM", "Vector DB", "AI"],
+      "Leveraging Intel Advanced Matrix Extensions (AMX) for significant ML inference optimization in computer vision workloads. Deep dive into oneDNN, BF16, AVX-512, and OpenVINO's AsyncInferQueue for production deployments.",
+    date: "2026-01-23",
+    readTime: "15 min",
+    tags: ["Intel AMX", "CPU", "ML Inference", "Computer Vision", "oneDNN", "OpenVINO", "BF16"],
     featured: true,
+  },
+  {
+    slug: "contextual-retriever",
+    title: "Contextual Retrieval with VLLM and LlamaIndex",
+    description:
+      "A comprehensive guide to implementing advanced contextual retrieval using VLLM for efficient LLM inference and LlamaIndex for robust data indexing. Solve the context loss problem in RAG systems.",
+    date: "2026-01-25",
+    readTime: "12 min",
+    tags: ["RAG", "LLM", "VLLM", "LlamaIndex", "Milvus", "Contextual Retrieval", "Vector DB"],
   },
   {
     slug: "celery-distributed-tasks",
@@ -32,15 +41,6 @@ export const blogPosts: BlogPost[] = [
     date: "2026-01-22",
     readTime: "10 min",
     tags: ["Celery", "Python", "Distributed Systems", "Redis"],
-  },
-  {
-    slug: "intel-amx-cpu-acceleration",
-    title: "Intel AMX: CPU-Based AI Acceleration",
-    description:
-      "Leveraging Intel Advanced Matrix Extensions for ML inference optimization without dedicated GPU hardware.",
-    date: "2026-01-23",
-    readTime: "8 min",
-    tags: ["Intel AMX", "CPU", "ML Inference", "Optimization"],
   },
   {
     slug: "ecs-fargate-serverless-containers",

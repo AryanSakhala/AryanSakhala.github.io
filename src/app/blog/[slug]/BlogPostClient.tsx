@@ -15,14 +15,14 @@ const blogContentComponents: Record<
   string,
   React.ComponentType<Record<string, never>>
 > = {
-  "building-rag-systems": dynamic(
-    () => import("@/content/blog/posts/building-rag-systems")
+  "intel-amx-cpu-acceleration": dynamic(
+    () => import("@/content/blog/posts/intel-amx-cpu-acceleration")
+  ),
+  "contextual-retriever": dynamic(
+    () => import("@/content/blog/posts/contextual-retriever")
   ),
   "celery-distributed-tasks": dynamic(
     () => import("@/content/blog/posts/celery-distributed-tasks")
-  ),
-  "intel-amx-cpu-acceleration": dynamic(
-    () => import("@/content/blog/posts/intel-amx-cpu-acceleration")
   ),
   "ecs-fargate-serverless-containers": dynamic(
     () => import("@/content/blog/posts/ecs-fargate-serverless-containers")
