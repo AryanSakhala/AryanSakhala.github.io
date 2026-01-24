@@ -4,11 +4,13 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 const navItems = [
   { label: "About", href: "#about" },
   { label: "Journey", href: "#journey" },
   { label: "Skills", href: "#skills" },
+  { label: "Learnings", href: "/blog", external: true },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -85,19 +87,29 @@ export function Navigation({
             animate={{ opacity: 1, y: 0 }}
             className="hidden md:flex items-center gap-6"
           >
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`text-sm font-medium transition-colors duration-300 ${
-                  activeSection === item.href.slice(1)
-                    ? "text-[var(--ctp-mauve)]"
-                    : "text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)]"
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) =>
+              item.external ? (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="text-sm font-medium text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)] transition-colors duration-300"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`text-sm font-medium transition-colors duration-300 ${
+                    activeSection === item.href.slice(1)
+                      ? "text-[var(--ctp-mauve)]"
+                      : "text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)]"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              )
+            )}
             <Button
               onClick={onOpenResume}
               size="sm"
@@ -127,20 +139,31 @@ export function Navigation({
             className="md:hidden mt-4 pb-4 border-t border-[var(--ctp-surface1)]"
           >
             <div className="flex flex-col gap-4 pt-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-sm font-medium transition-colors duration-300 ${
-                    activeSection === item.href.slice(1)
-                      ? "text-[var(--ctp-mauve)]"
-                      : "text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)]"
-                  }`}
-                >
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map((item) =>
+                item.external ? (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-sm font-medium text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)] transition-colors duration-300"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`text-sm font-medium transition-colors duration-300 ${
+                      activeSection === item.href.slice(1)
+                        ? "text-[var(--ctp-mauve)]"
+                        : "text-[var(--ctp-subtext1)] hover:text-[var(--ctp-text)]"
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
               <Button
                 onClick={() => {
                   onOpenResume();
