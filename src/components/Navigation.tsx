@@ -60,7 +60,11 @@ export function Navigation({ onOpenResume }: { onOpenResume: () => void }) {
               <Link
                 key={item.label}
                 href={item.href}
-                className="px-3 py-2 text-sm text-[var(--term-text-muted)] hover:text-[var(--term-cyan)] transition-colors"
+                className={`px-3 py-2 text-sm transition-colors ${
+                  item.label === "blog" 
+                    ? "text-[var(--term-cyan)] border border-[var(--term-cyan)]/50 rounded hover:border-[var(--term-cyan)] hover:bg-[var(--term-cyan)]/10"
+                    : "text-[var(--term-text-muted)] hover:text-[var(--term-cyan)]"
+                }`}
               >
                 <span className="text-[var(--term-text-subtle)]">./</span>
                 {item.label}
@@ -111,7 +115,11 @@ export function Navigation({ onOpenResume }: { onOpenResume: () => void }) {
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-3 text-[var(--term-text-muted)] hover:text-[var(--term-cyan)] hover:bg-[var(--term-bg-surface)] rounded transition-colors"
+                className={`px-4 py-3 rounded transition-colors ${
+                  item.label === "blog"
+                    ? "text-[var(--term-cyan)] border border-[var(--term-cyan)]/50 hover:border-[var(--term-cyan)] hover:bg-[var(--term-cyan)]/10"
+                    : "text-[var(--term-text-muted)] hover:text-[var(--term-cyan)] hover:bg-[var(--term-bg-surface)]"
+                }`}
               >
                 <span className="text-[var(--term-green)]">$</span> cd {item.label}
               </Link>

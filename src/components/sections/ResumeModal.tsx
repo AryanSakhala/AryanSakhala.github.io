@@ -29,7 +29,8 @@ EXPERIENCE
 [ACTIVE]   2024-NOW    Lead Software Engineer
                        Metrum AI
                        - RAG-based Agentic Workflows for Dell & Intel
-                       - SuperCompute 2024 Multi-Modal AI Showcase
+                       - SC24 (SuperCompute 2024) Multi-Modal AI Showcase
+                       - DTW 2024 (Dell Technologies World) Demo
                        - Production-grade LLM pipeline architecture
 
 [DONE]     2023-2024   Research Associate

@@ -55,6 +55,8 @@ const tagConfig: Record<string, { color: string; glow?: boolean; icon?: string }
   fastapi: { color: "#3FB950" },
   unb: { color: "#F85149", glow: true, icon: "unb" },
   cic: { color: "#DB61A2" },
+  sc24: { color: "#FF6B35", glow: true },  // SuperCompute 2024
+  dtw: { color: "#00C9A7", glow: true },   // Dell Technologies World
 };
 
 const experiences = [
@@ -76,8 +78,8 @@ const experiences = [
     org: "Metrum AI",
     dept: "Engineering",
     status: "ACTIVE",
-    desc: "RAG Agentic Workflows for Dell & Intel | SuperCompute 2024 Demo",
-    tags: ["rag", "llm", "dell", "intel"],
+    desc: "RAG Agentic Workflows for Dell & Intel | SC24 (SuperCompute) Demo | DTW 2024",
+    tags: ["rag", "llm", "dell", "intel", "sc24", "dtw"],
   },
   {
     id: "vidyashilp",
@@ -149,15 +151,13 @@ export function Journey() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8 sm:mb-12 md:mb-16"
+          className="mb-8 sm:mb-12 md:mb-16"
         >
-          <span className="text-[var(--term-text-subtle)] text-xs sm:text-sm uppercase tracking-widest">// Career Timeline</span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
-            <span className="text-[var(--term-green)]">Experience</span>{" "}
-            <span className="text-[var(--term-text)]">&</span>{" "}
-            <span className="text-[var(--term-pink)]">Journey</span>
+          <span className="text-[var(--term-text-subtle)] text-xs sm:text-sm">// Career Timeline</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-[var(--term-text)] mt-2 mb-3 sm:mb-4">
+            <span className="text-[var(--term-green)]">$</span> history <span className="text-[var(--term-yellow)]">--career</span>
           </h2>
-          <p className="text-[var(--term-text-muted)] max-w-2xl mx-auto text-sm sm:text-base px-4">
+          <p className="text-[var(--term-text-muted)] max-w-2xl text-sm sm:text-base">
             From Data Science to Lead Software Engineering, building AI systems for enterprise clients.
           </p>
         </motion.div>
