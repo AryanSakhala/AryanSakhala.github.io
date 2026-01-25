@@ -171,58 +171,59 @@ export default function BlogPostClient({
             } as React.CSSProperties}
           >
             <style jsx global>{`
-              /* Blog Content - Editorial Serif Style */
+              /* Blog Content - raylib-inspired clean style */
               .blog-content {
-                font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+                font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
               }
 
               .blog-content p,
               .blog-content li {
-                font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
-                font-size: 1.125rem;
-                line-height: 1.9;
+                font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                font-size: 1.0625rem;
+                line-height: 1.75;
                 color: var(--blog-text);
-                margin-bottom: 1.5rem;
+                margin-bottom: 1.25rem;
+                font-weight: 400;
               }
 
               .blog-content h2,
               .blog-content h3 {
                 font-family: var(--font-mono);
                 text-transform: uppercase;
-                letter-spacing: 0.08em;
-                margin-top: 3rem;
-                margin-bottom: 1.25rem;
+                letter-spacing: 0.1em;
+                margin-top: 2.5rem;
+                margin-bottom: 1rem;
                 font-weight: 600;
               }
 
               .blog-content h2 {
-                font-size: 0.875rem;
+                font-size: 0.8rem;
                 border-left: 3px solid var(--blog-accent);
                 padding-left: 1rem;
                 color: var(--blog-text);
               }
 
               .blog-content h3 {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
                 color: var(--blog-text-muted);
               }
 
               .blog-content p:first-of-type::first-letter {
-                font-size: 4rem;
-                font-weight: 600;
+                font-size: 3.5rem;
+                font-weight: 700;
                 float: left;
                 line-height: 1;
-                margin-right: 0.75rem;
-                margin-top: 0.1rem;
+                margin-right: 0.5rem;
+                margin-top: 0.15rem;
                 color: var(--blog-accent);
-                font-family: var(--font-serif), Georgia, serif;
+                font-family: var(--font-sans), sans-serif;
               }
 
               .blog-content code {
                 font-family: var(--font-mono);
                 background: var(--blog-code-bg);
                 padding: 0.15rem 0.4rem;
-                border-radius: 3px;
+                border-radius: 4px;
                 font-size: 0.85em;
                 color: var(--blog-accent);
               }
@@ -230,10 +231,10 @@ export default function BlogPostClient({
               .blog-content pre {
                 background: var(--blog-code-bg);
                 border: 1px solid var(--blog-border);
-                border-radius: 0;
-                padding: 1.5rem;
+                border-radius: 4px;
+                padding: 1.25rem;
                 overflow-x: auto;
-                margin: 2rem 0;
+                margin: 1.5rem 0;
               }
 
               .blog-content pre code {
@@ -241,26 +242,26 @@ export default function BlogPostClient({
                 padding: 0;
                 font-size: 0.8rem;
                 color: var(--blog-text);
-                line-height: 1.6;
+                line-height: 1.5;
               }
 
               .blog-content blockquote {
                 border-left: 3px solid var(--blog-accent);
-                padding-left: 1.5rem;
-                font-style: italic;
+                padding-left: 1.25rem;
+                font-style: normal;
                 color: var(--blog-text-muted);
-                font-family: var(--font-serif), Georgia, serif;
-                margin: 2rem 0;
+                font-family: var(--font-sans), sans-serif;
+                margin: 1.5rem 0;
               }
 
               .blog-content ul,
               .blog-content ol {
                 padding-left: 1.5rem;
-                margin: 1.5rem 0;
+                margin: 1.25rem 0;
               }
 
               .blog-content li {
-                margin-bottom: 0.75rem;
+                margin-bottom: 0.5rem;
               }
 
               .blog-content li::marker {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Crimson_Pro } from "next/font/google";
+import { JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -8,9 +8,9 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-// Serif font for blog content - matching makingsoftware.com editorial style
-const crimsonPro = Crimson_Pro({
-  variable: "--font-serif",
+// Clean sans-serif font for blog content - raylib-inspired clean style
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -103,7 +103,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${jetbrainsMono.variable} ${crimsonPro.variable} font-mono antialiased`}>
+      <body className={`${jetbrainsMono.variable} ${inter.variable} font-mono antialiased`}>
         {children}
       </body>
     </html>

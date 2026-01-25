@@ -50,8 +50,8 @@
   --blog-border: #30363D;
   --blog-code-bg: #161B22;
   
-  /* Font stacks */
-  --font-serif-stack: var(--font-serif), Georgia, 'Times New Roman', Times, serif;
+  /* Font stacks - raylib-inspired clean style */
+  --font-sans-stack: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
   /* Theme mapping */
   --radius: 0.5rem;
