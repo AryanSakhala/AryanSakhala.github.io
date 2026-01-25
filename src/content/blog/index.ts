@@ -18,10 +18,10 @@ export const blogPosts: BlogPost[] = [
     slug: "seal-homomorphic-encryption",
     title: "SEAL: Homomorphic Encryption from Scratch",
     description:
-      "A complete guide to homomorphic encryption using Microsoft SEAL. Learn Ring-LWE security foundations, SEAL parameters, and the difference between BFV and CKKS schemes.",
+      "A complete guide to homomorphic encryption using Microsoft SEAL. Learn Ring-LWE security, SEAL parameters (poly_modulus, coeff_modulus, plain_modulus), scale factors, and BFV vs CKKS schemes.",
     date: "2026-01-25",
-    readTime: "18 min",
-    tags: ["Homomorphic Encryption", "SEAL", "Ring-LWE", "BFV", "CKKS", "Privacy", "Cryptography"],
+    readTime: "25 min",
+    tags: ["Homomorphic Encryption", "SEAL", "Ring-LWE", "BFV", "CKKS", "Privacy", "Cryptography", "PPML"],
     featured: true,
   },
   {

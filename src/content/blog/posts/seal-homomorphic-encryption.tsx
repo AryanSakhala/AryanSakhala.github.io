@@ -47,7 +47,10 @@ function TableOfContents() {
     { num: "01", id: "what-is-he", title: "What is Homomorphic Encryption?", desc: "Computing on encrypted data" },
     { num: "02", id: "ring-lwe", title: "Ring-LWE: The Security Foundation", desc: "Why it's hard to break" },
     { num: "03", id: "seal-parameters", title: "SEAL Parameters Explained", desc: "poly_modulus, coeff_modulus, plain_modulus" },
-    { num: "04", id: "bfv-vs-ckks", title: "BFV vs CKKS Schemes", desc: "Exact integers vs approximate reals" },
+    { num: "04", id: "plaintext-vs-modulus", title: "Plaintext vs Plain Modulus", desc: "The data vs the container" },
+    { num: "05", id: "rt-vs-rq", title: "R_t vs R_q: Two Different Spaces", desc: "Plaintext space vs ciphertext space" },
+    { num: "06", id: "scale-factor", title: "Scale Factor (CKKS)", desc: "Converting reals to integers" },
+    { num: "07", id: "bfv-vs-ckks", title: "BFV vs CKKS Schemes", desc: "Exact integers vs approximate reals" },
   ];
 
   const scrollToSection = (id: string) => {
@@ -357,6 +360,370 @@ function ParameterHierarchyAnimation() {
             )}
           </motion.div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// ILLUSTRATION: Plaintext vs Plain Modulus
+// ============================================================================
+function PlaintextVsModulusAnimation() {
+  const [showDifference, setShowDifference] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShowDifference((prev) => !prev);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Plain Modulus is the container, Plaintext is the item
+      </IllustrationLabel>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        {/* Plain Modulus */}
+        <motion.div
+          animate={{ 
+            opacity: showDifference ? 0.5 : 1,
+            borderColor: showDifference ? "#30363D" : "#F0883E"
+          }}
+          className="p-5 bg-[#161B22] rounded-lg border-2"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">📦</span>
+            <span className="text-sm font-mono text-[#F0883E]">Plain Modulus (t)</span>
+          </div>
+          <div className="p-3 bg-[#0D1117] rounded font-mono text-sm mb-3">
+            <span className="text-[#8B949E]">parms.set_plain_modulus(</span>
+            <span className="text-[#F0883E]">1024</span>
+            <span className="text-[#8B949E]">);</span>
+          </div>
+          <p className="text-xs text-[#8B949E]">
+            A <strong>parameter</strong>: defines range [0, 1023]
+          </p>
+          <p className="text-xs text-[#F0883E] mt-2">The SIZE of the container</p>
+        </motion.div>
+
+        {/* Plaintext */}
+        <motion.div
+          animate={{ 
+            opacity: showDifference ? 1 : 0.5,
+            borderColor: showDifference ? "#3FB950" : "#30363D"
+          }}
+          className="p-5 bg-[#161B22] rounded-lg border-2"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">🔢</span>
+            <span className="text-sm font-mono text-[#3FB950]">Plaintext</span>
+          </div>
+          <div className="p-3 bg-[#0D1117] rounded font-mono text-sm mb-3">
+            <span className="text-[#8B949E]">Plaintext pt(</span>
+            <span className="text-[#3FB950]">"123"</span>
+            <span className="text-[#8B949E]">);</span>
+          </div>
+          <p className="text-xs text-[#8B949E]">
+            The actual <strong>data</strong>: the number 123
+          </p>
+          <p className="text-xs text-[#3FB950] mt-2">The ITEM in the container</p>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// ILLUSTRATION: Data Flow (Plaintext Usage)
+// ============================================================================
+function DataFlowAnimation() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((prev) => (prev + 1) % 5);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const steps = [
+    { label: "Your Data", value: "123", color: "#E6EDF3", desc: "Raw integer" },
+    { label: "Plaintext", value: "pt(123)", color: "#58A6FF", desc: "Encoded" },
+    { label: "Ciphertext", value: "Enc(123)", color: "#3FB950", desc: "Encrypted" },
+    { label: "Compute", value: "Enc(246)", color: "#F0883E", desc: "123+123" },
+    { label: "Result", value: "246", color: "#A371F7", desc: "Decrypted" },
+  ];
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Complete data flow: Data to Plaintext to Ciphertext and back
+      </IllustrationLabel>
+
+      <div className="flex items-center justify-between gap-2 overflow-x-auto pb-4">
+        {steps.map((s, i) => (
+          <div key={i} className="flex items-center">
+            <motion.div
+              animate={{
+                scale: step === i ? 1.1 : 1,
+                opacity: step >= i ? 1 : 0.3,
+                borderColor: step === i ? s.color : "#30363D",
+              }}
+              className="min-w-[100px] p-3 bg-[#161B22] rounded-lg border-2 text-center"
+            >
+              <div className="text-xs text-[#8B949E] mb-1">{s.label}</div>
+              <div className="font-mono text-sm" style={{ color: s.color }}>{s.value}</div>
+              <div className="text-[10px] text-[#6E7681] mt-1">{s.desc}</div>
+            </motion.div>
+            {i < steps.length - 1 && (
+              <motion.span
+                animate={{ opacity: step > i ? 1 : 0.3 }}
+                className="mx-2 text-[#8B949E]"
+              >
+                →
+              </motion.span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// ILLUSTRATION: R_t vs R_q
+// ============================================================================
+function RtVsRqAnimation() {
+  const [showRq, setShowRq] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShowRq((prev) => !prev);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        R_t (small, for data) vs R_q (huge, for security)
+      </IllustrationLabel>
+
+      <div className="max-w-lg mx-auto space-y-6">
+        {/* R_t */}
+        <motion.div
+          animate={{ 
+            opacity: showRq ? 0.4 : 1,
+            borderColor: showRq ? "#30363D" : "#58A6FF"
+          }}
+          className="p-5 bg-[#161B22] rounded-lg border-2"
+        >
+          <div className="flex justify-between items-start mb-3">
+            <div>
+              <span className="text-sm font-mono text-[#58A6FF]">R_t = Plaintext Space</span>
+              <p className="text-xs text-[#8B949E] mt-1">Coefficients modulo t (plain_modulus)</p>
+            </div>
+            <span className="text-xs font-mono text-[#58A6FF] bg-[#58A6FF]/10 px-2 py-1 rounded">BFV only</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-4 bg-[#21262D] rounded-full overflow-hidden">
+              <motion.div
+                animate={{ width: showRq ? "10%" : "100%" }}
+                className="h-full bg-[#58A6FF] rounded-full"
+              />
+            </div>
+            <span className="text-xs font-mono text-[#8B949E]">~20 bits</span>
+          </div>
+          <p className="text-xs text-[#58A6FF] mt-2">Range: [0, 1,048,575]</p>
+        </motion.div>
+
+        {/* R_q */}
+        <motion.div
+          animate={{ 
+            opacity: showRq ? 1 : 0.4,
+            borderColor: showRq ? "#3FB950" : "#30363D"
+          }}
+          className="p-5 bg-[#161B22] rounded-lg border-2"
+        >
+          <div className="flex justify-between items-start mb-3">
+            <div>
+              <span className="text-sm font-mono text-[#3FB950]">R_q = Ciphertext Space</span>
+              <p className="text-xs text-[#8B949E] mt-1">Coefficients modulo q (coeff_modulus)</p>
+            </div>
+            <span className="text-xs font-mono text-[#3FB950] bg-[#3FB950]/10 px-2 py-1 rounded">BFV + CKKS</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-4 bg-[#21262D] rounded-full overflow-hidden">
+              <motion.div
+                animate={{ width: showRq ? "100%" : "10%" }}
+                className="h-full bg-[#3FB950] rounded-full"
+              />
+            </div>
+            <span className="text-xs font-mono text-[#8B949E]">~180 bits</span>
+          </div>
+          <p className="text-xs text-[#3FB950] mt-2">Range: [0, 2^180 - 1] (astronomical!)</p>
+        </motion.div>
+      </div>
+
+      <p className="text-center text-xs text-[#8B949E] mt-6">
+        R_q must be huge for security. R_t only needs to hold your data.
+      </p>
+    </div>
+  );
+}
+
+// ============================================================================
+// ILLUSTRATION: Scale Factor
+// ============================================================================
+function ScaleFactorAnimation() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((prev) => (prev + 1) % 4);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const realValue = 3.14159;
+  const scale = Math.pow(2, 40);
+  const scaled = Math.round(realValue * scale);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        CKKS uses scale factor to convert reals to integers
+      </IllustrationLabel>
+
+      <div className="max-w-md mx-auto space-y-4">
+        <motion.div
+          animate={{ 
+            opacity: step >= 0 ? 1 : 0.3,
+            borderColor: step === 0 ? "#58A6FF" : "#30363D"
+          }}
+          className="p-4 bg-[#161B22] rounded-lg border-2"
+        >
+          <span className="text-xs text-[#8B949E]">Real number (cannot encrypt directly)</span>
+          <div className="font-mono text-xl text-[#58A6FF] mt-1">3.14159</div>
+        </motion.div>
+
+        <motion.div
+          animate={{ opacity: step >= 1 ? 1 : 0.3, x: step === 1 ? 5 : 0 }}
+          className="text-center"
+        >
+          <span className="text-xs text-[#8B949E]">× scale (2^40)</span>
+        </motion.div>
+
+        <motion.div
+          animate={{ 
+            opacity: step >= 2 ? 1 : 0.3,
+            borderColor: step === 2 ? "#3FB950" : "#30363D"
+          }}
+          className="p-4 bg-[#161B22] rounded-lg border-2"
+        >
+          <span className="text-xs text-[#8B949E]">Scaled integer (can encrypt!)</span>
+          <div className="font-mono text-lg text-[#3FB950] mt-1">3,454,327,123,456</div>
+        </motion.div>
+
+        <motion.div
+          animate={{ opacity: step >= 3 ? 1 : 0.3, x: step === 3 ? 5 : 0 }}
+          className="text-center"
+        >
+          <span className="text-xs text-[#8B949E]">After decryption: ÷ scale (2^40)</span>
+        </motion.div>
+
+        <motion.div
+          animate={{ 
+            opacity: step >= 3 ? 1 : 0.3,
+            borderColor: step === 3 ? "#A371F7" : "#30363D"
+          }}
+          className="p-4 bg-[#161B22] rounded-lg border-2"
+        >
+          <span className="text-xs text-[#8B949E]">Back to real (approximately)</span>
+          <div className="font-mono text-xl text-[#A371F7] mt-1">≈ 3.14159</div>
+        </motion.div>
+      </div>
+
+      <p className="text-center text-xs text-[#8B949E] mt-6">
+        2^40 provides ~12 decimal digits of precision
+      </p>
+    </div>
+  );
+}
+
+// ============================================================================
+// ILLUSTRATION: Rescaling After Multiplication
+// ============================================================================
+function RescalingAnimation() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((prev) => (prev + 1) % 4);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Multiplication doubles the scale. Rescaling fixes it.
+      </IllustrationLabel>
+
+      <div className="max-w-lg mx-auto">
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <motion.div
+            animate={{ opacity: step >= 0 ? 1 : 0.3 }}
+            className="p-3 bg-[#161B22] rounded-lg text-center"
+          >
+            <div className="text-xs text-[#8B949E]">Enc(3.14 × 2^40)</div>
+          </motion.div>
+          <motion.div
+            animate={{ opacity: step >= 0 ? 1 : 0.3 }}
+            className="p-3 bg-[#161B22] rounded-lg text-center"
+          >
+            <div className="text-xs text-[#8B949E]">Enc(2.86 × 2^40)</div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          animate={{ opacity: step >= 1 ? 1 : 0.3, y: step === 1 ? -5 : 0 }}
+          className="text-center mb-4"
+        >
+          <span className="text-[#F0883E]">× multiply</span>
+        </motion.div>
+
+        <motion.div
+          animate={{ 
+            opacity: step >= 1 ? 1 : 0.3,
+            borderColor: step === 1 ? "#F85149" : "#30363D"
+          }}
+          className="p-4 bg-[#161B22] rounded-lg border-2 text-center mb-4"
+        >
+          <div className="text-sm text-[#F85149]">Enc(8.98 × 2^80)</div>
+          <div className="text-xs text-[#F85149] mt-1">Scale doubled! Too large!</div>
+        </motion.div>
+
+        <motion.div
+          animate={{ opacity: step >= 2 ? 1 : 0.3, y: step === 2 ? -5 : 0 }}
+          className="text-center mb-4"
+        >
+          <span className="text-[#3FB950]">rescale_to_next (÷ 2^40)</span>
+        </motion.div>
+
+        <motion.div
+          animate={{ 
+            opacity: step >= 3 ? 1 : 0.3,
+            borderColor: step === 3 ? "#3FB950" : "#30363D",
+            boxShadow: step === 3 ? "0 0 15px rgba(63, 185, 80, 0.3)" : "none"
+          }}
+          className="p-4 bg-[#161B22] rounded-lg border-2 text-center"
+        >
+          <div className="text-sm text-[#3FB950]">Enc(8.98 × 2^40)</div>
+          <div className="text-xs text-[#3FB950] mt-1">Scale restored!</div>
+        </motion.div>
       </div>
     </div>
   );
@@ -790,9 +1157,204 @@ if (!context.parameters_set()) {
       </pre>
 
       {/* ================================================================== */}
-      {/* TOPIC 4: BFV vs CKKS */}
+      {/* TOPIC 4: Plaintext vs Plain Modulus */}
       {/* ================================================================== */}
-      <h2 id="bfv-vs-ckks">04. BFV vs CKKS Schemes</h2>
+      <h2 id="plaintext-vs-modulus">04. Plaintext vs Plain Modulus</h2>
+
+      <SectionHeader title="The Container vs The Item" type="layman" />
+
+      <p>
+        This trips up a lot of people. <strong>Plain modulus</strong> and <strong>plaintext</strong> 
+        sound similar but are completely different things.
+      </p>
+
+      <p>
+        Think of it like a shipping container. The <strong>plain modulus</strong> is the size of 
+        the container. It defines how big of an item you can fit. The <strong>plaintext</strong> 
+        is the actual item you put inside the container.
+      </p>
+
+      <PlaintextVsModulusAnimation />
+
+      <SectionHeader title="Where is Plaintext Used?" type="technical" />
+
+      <p>
+        Plaintext appears at specific points in the encryption workflow:
+      </p>
+
+      <ul>
+        <li><strong>Before encryption:</strong> You create a Plaintext object containing your data</li>
+        <li><strong>After decryption:</strong> The result comes back as a Plaintext object</li>
+        <li><strong>With batching:</strong> You encode vectors into Plaintext, then decode back</li>
+      </ul>
+
+      <DataFlowAnimation />
+
+      <SectionHeader title="Code Example" type="code" />
+
+      <pre>
+        <code>{`// Plain Modulus: the PARAMETER (container size)
+parms.set_plain_modulus(1024);  // Values must be 0-1023
+
+// Plaintext: the DATA (actual item)
+Plaintext pt("123");  // The number 123
+
+// Full flow:
+// 1. Create plaintext with your data
+Plaintext pt("123");
+
+// 2. Encrypt plaintext → ciphertext
+Ciphertext ct;
+encryptor.encrypt(pt, ct);  // ct = Enc(123)
+
+// 3. Compute on ciphertext
+evaluator.add_inplace(ct, ct);  // ct = Enc(246)
+
+// 4. Decrypt ciphertext → plaintext
+Plaintext result;
+decryptor.decrypt(ct, result);  // result = "246"`}</code>
+      </pre>
+
+      {/* ================================================================== */}
+      {/* TOPIC 5: R_t vs R_q */}
+      {/* ================================================================== */}
+      <h2 id="rt-vs-rq">05. R_t vs R_q: Two Different Spaces</h2>
+
+      <SectionHeader title="Small Box vs Huge Vault" type="layman" />
+
+      <p>
+        SEAL uses two different "spaces" for data. One is small and efficient (for your actual 
+        data), the other is astronomically large (for security).
+      </p>
+
+      <p>
+        <strong>R_t</strong> (plaintext space) is like a small filing cabinet. It only needs to 
+        hold your actual numbers. If your numbers are 0-1000, a cabinet with 1000 slots is enough.
+      </p>
+
+      <p>
+        <strong>R_q</strong> (ciphertext space) is like a massive underground vault. It needs to 
+        be enormous to provide security. The noise and encryption overhead require huge numbers.
+      </p>
+
+      <RtVsRqAnimation />
+
+      <SectionHeader title="The Two Polynomial Rings" type="technical" />
+
+      <p>
+        <strong>R_t = plaintext ring (BFV only):</strong>
+      </p>
+      <ul>
+        <li>t = plain_modulus (a prime, e.g., 1024 or 2^20)</li>
+        <li>Coefficients are modulo t</li>
+        <li>Small: typically 20-60 bits</li>
+        <li>Purpose: defines the range of values you can encrypt</li>
+      </ul>
+
+      <p>
+        <strong>R_q = ciphertext ring (both BFV and CKKS):</strong>
+      </p>
+      <ul>
+        <li>q = coeff_modulus (product of primes, e.g., q1 × q2 × q3)</li>
+        <li>Coefficients are modulo q</li>
+        <li>Huge: typically 180-300 bits</li>
+        <li>Purpose: provides security and room for noise</li>
+      </ul>
+
+      <SectionHeader title="Code Comparison" type="code" />
+
+      <pre>
+        <code>{`// R_t: Plaintext space (BFV only)
+parms.set_plain_modulus(PlainModulus::Batching(8192, 20));
+// t ≈ 2^20 (a prime)
+// Plaintexts: R_t = ℤ_t[X]/(X^8192 + 1)
+// Range: [0, ~1,000,000]
+
+// R_q: Ciphertext space (both BFV and CKKS)
+parms.set_coeff_modulus(CoeffModulus::BFVDefault(8192));
+// q ≈ 2^180 (product of 3 primes)
+// Ciphertexts: R_q = ℤ_q[X]/(X^8192 + 1)
+// Range: [0, 2^180 - 1]  ← ASTRONOMICAL!`}</code>
+      </pre>
+
+      {/* ================================================================== */}
+      {/* TOPIC 6: Scale Factor */}
+      {/* ================================================================== */}
+      <h2 id="scale-factor">06. Scale Factor (CKKS Only)</h2>
+
+      <SectionHeader title="The Decimal Problem" type="layman" />
+
+      <p>
+        CKKS works with real numbers like 3.14159. But here's the problem: polynomials only 
+        understand integers. You can't directly encrypt a decimal.
+      </p>
+
+      <p>
+        The solution is the <strong>scale factor</strong>. Multiply your decimal by a large 
+        number (like 2^40) to turn it into an integer. After computation, divide by the same 
+        number to get your decimal back.
+      </p>
+
+      <ScaleFactorAnimation />
+
+      <SectionHeader title="How Scale Works" type="technical" />
+
+      <p>
+        The scale factor (typically 2^40) converts reals to integers:
+      </p>
+
+      <ul>
+        <li><strong>Encoding:</strong> real × scale → integer (then encrypt)</li>
+        <li><strong>Decoding:</strong> integer ÷ scale → real (after decrypt)</li>
+        <li><strong>Precision:</strong> 2^40 gives ~12 decimal digits of precision</li>
+      </ul>
+
+      <p>
+        <strong>The multiplication problem:</strong> When you multiply two scaled values, the 
+        scales also multiply:
+      </p>
+
+      <pre>
+        <code>{`Enc(3.14 × 2^40) × Enc(2.86 × 2^40)
+= Enc(3.14 × 2.86 × 2^80)
+= Enc(8.98 × 2^80)  ← Scale doubled!`}</code>
+      </pre>
+
+      <p>
+        This is why CKKS requires <strong>rescaling</strong> after multiplication:
+      </p>
+
+      <RescalingAnimation />
+
+      <SectionHeader title="CKKS Scale in Code" type="code" />
+
+      <pre>
+        <code>{`// Set scale factor
+double scale = pow(2.0, 40);  // 2^40 ≈ 1 trillion
+
+// Encode real numbers with scale
+vector<double> vec = {3.14159, 2.71828};
+Plaintext pt;
+ckks_encoder.encode(vec, scale, pt);  // Multiply by scale
+
+// Encrypt
+Ciphertext ct;
+encryptor.encrypt(pt, ct);
+
+// After multiplication: MUST rescale
+evaluator.multiply(ct1, ct2, ct_result);
+evaluator.rescale_to_next_inplace(ct_result);  // Divide by scale
+
+// Decode after decryption
+vector<double> result;
+decryptor.decrypt(ct, pt);
+ckks_encoder.decode(pt, result);  // Divide by scale`}</code>
+      </pre>
+
+      {/* ================================================================== */}
+      {/* TOPIC 7: BFV vs CKKS */}
+      {/* ================================================================== */}
+      <h2 id="bfv-vs-ckks">07. BFV vs CKKS Schemes</h2>
 
       <SectionHeader title="Calculator vs Scientific Calculator" type="layman" />
 
