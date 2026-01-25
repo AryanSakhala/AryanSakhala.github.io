@@ -671,35 +671,80 @@ function OneDNNISAVisualization() {
 }
 
 // ============================================================================
+// TABLE OF CONTENTS
+// ============================================================================
+function TableOfContents() {
+  const topics = [
+    { num: "01", title: "What is AMX?", desc: "From kitchen analogies to tile architecture" },
+    { num: "02", title: "BF16: The Perfect Precision", desc: "Why less precision can mean faster AI" },
+    { num: "03", title: "Processing Multiple Tasks", desc: "Parallel workers and Python's limitations" },
+    { num: "04", title: "The Software Layer: oneDNN", desc: "How software picks the right hardware" },
+  ];
+
+  return (
+    <div className="my-10 p-6 bg-[#161B22] rounded-lg border border-[#30363D]">
+      <div className="text-xs text-[#58A6FF] font-mono uppercase tracking-wider mb-4">
+        What We'll Cover
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {topics.map((topic) => (
+          <div key={topic.num} className="flex gap-3 items-start">
+            <span className="text-[#58A6FF] font-mono text-sm">{topic.num}</span>
+            <div>
+              <p className="text-sm text-[#E6EDF3] font-medium">{topic.title}</p>
+              <p className="text-xs text-[#8B949E]">{topic.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 export default function IntelAmxCpuAcceleration() {
   return (
     <>
       <p>
-        When we think about AI acceleration, dedicated GPUs dominate the conversation. However, Intel's 
-        <strong> Advanced Matrix Extensions (AMX)</strong> represent a fundamental shift—bringing specialized 
-        matrix multiplication hardware directly into the CPU silicon. This guide breaks down AMX from 
-        beginner-friendly concepts to technical deep dives.
+        When we think about AI acceleration, dedicated GPUs usually steal the spotlight. But Intel's 
+        <strong> Advanced Matrix Extensions (AMX)</strong> are changing that. They bring specialized 
+        matrix multiplication hardware directly into the CPU, which means you can run AI workloads 
+        faster without needing an expensive graphics card.
       </p>
+
+      <p>
+        I've structured this guide to work for everyone. Each topic starts with a simple explanation 
+        using everyday analogies, then dives into the technical details for those who want them. 
+        Skip around as needed.
+      </p>
+
+      <TableOfContents />
 
       {/* ================================================================== */}
       {/* TOPIC 1: What is AMX? */}
       {/* ================================================================== */}
-      <h2>What is AMX?</h2>
+      <h2>01. What is AMX?</h2>
 
       <SectionHeader title="The Simple Explanation" type="layman" />
       
       <p>
-        Imagine you need to add up a grocery list. Traditional CPUs work like adding items one by one: 
-        apples, then oranges, then bread, then milk. AMX is like having a calculator that can add your 
-        entire shopping cart at once.
+        Let me start with an analogy. Imagine you need to add up a grocery list. Traditional CPUs 
+        work like adding items one by one: apples, then oranges, then bread, then milk. It works, 
+        but it's slow.
       </p>
 
       <p>
-        AI models are basically giant math problems - millions of multiplications and additions. AMX is 
-        special hardware inside newer Intel CPUs that can do many of these calculations simultaneously, 
-        making AI programs run much faster without needing an expensive graphics card.
+        AMX is like having a calculator that can add your entire shopping cart at once. All the 
+        items, in one go.
+      </p>
+
+      <p>
+        AI models are basically giant math problems with millions of multiplications and additions. 
+        AMX is special hardware inside newer Intel CPUs that handles many of these calculations 
+        simultaneously. The result? AI programs run much faster without needing an expensive 
+        graphics card.
       </p>
 
       <KitchenAnalogyAnimation />
@@ -707,15 +752,16 @@ export default function IntelAmxCpuAcceleration() {
       <SectionHeader title="Under the Hood" type="technical" />
 
       <p>
-        AMX introduces a new paradigm: <strong>tile-based matrix operations</strong>. Instead of 
-        processing vectors (one-dimensional arrays), AMX operates on tiles—two-dimensional matrix 
-        blocks that fit entirely within dedicated tile registers.
+        AMX introduces <strong>tile-based matrix operations</strong>. Instead of processing 
+        vectors (one-dimensional arrays), AMX operates on tiles, which are two-dimensional 
+        matrix blocks that fit entirely within dedicated tile registers.
       </p>
 
       <p>
-        The key innovation is the <strong>TMUL (Tile Matrix Multiply) unit</strong>—specialized 
-        silicon dedicated exclusively to matrix operations. A single <code>TDPBF16PS</code> instruction 
-        performs a complete tile multiplication, replacing hundreds of traditional instructions.
+        The key innovation is the <strong>TMUL (Tile Matrix Multiply) unit</strong>. This is 
+        specialized silicon dedicated exclusively to matrix operations. A single <code>TDPBF16PS</code> 
+        instruction performs a complete tile multiplication, replacing what would otherwise 
+        require hundreds of traditional instructions.
       </p>
 
       <AMXTileVisualization />
@@ -723,19 +769,20 @@ export default function IntelAmxCpuAcceleration() {
       {/* ================================================================== */}
       {/* TOPIC 2: BF16 Data Format */}
       {/* ================================================================== */}
-      <h2>BF16: The Perfect Precision</h2>
+      <h2>02. BF16: The Perfect Precision</h2>
 
       <SectionHeader title="Why Less Precision is Better" type="layman" />
 
       <p>
-        When you calculate tips at a restaurant, do you need to know the answer to 15 decimal places? 
-        No - rounding to the nearest cent is fine. BF16 (Brain Float 16) works the same way for AI.
+        Here's a question: when you calculate tips at a restaurant, do you need to know the answer 
+        to 15 decimal places? Of course not. Rounding to the nearest cent is perfectly fine.
       </p>
 
       <p>
-        Traditional computers use 32 bits to store numbers, giving extreme precision. But AI doesn't 
-        need that much detail. BF16 uses only 16 bits - half the space - while keeping enough accuracy 
-        for AI to work perfectly. Less data to move around = faster processing.
+        BF16 (Brain Float 16) works the same way for AI. Traditional computers use 32 bits to 
+        store numbers, giving extreme precision. But AI doesn't need that much detail. BF16 uses 
+        only 16 bits, which is half the space, while keeping enough accuracy for AI to work 
+        perfectly. Less data to move around means faster processing.
       </p>
 
       <BF16ShorthandAnimation />
@@ -743,15 +790,15 @@ export default function IntelAmxCpuAcceleration() {
       <SectionHeader title="Native BF16 Hardware Support" type="technical" />
 
       <p>
-        AMX processes BF16 natively in hardware. Without AMX, BF16 operations must be emulated: 
-        convert BF16 → FP32, compute, convert FP32 → BF16. This conversion overhead negates BF16's 
-        memory benefits.
+        AMX processes BF16 natively in hardware. Without AMX, BF16 operations must be emulated. 
+        That means converting BF16 to FP32, doing the math, then converting back to BF16. This 
+        conversion overhead eats up all the memory benefits of using BF16 in the first place.
       </p>
 
       <p>
-        With AMX's native support, data stays in BF16 format throughout the computation pipeline. 
-        The TMUL unit handles BF16 multiplication and accumulation directly, eliminating conversion 
-        latency and maximizing memory bandwidth utilization.
+        With AMX's native support, data stays in BF16 format throughout the entire computation 
+        pipeline. The TMUL unit handles BF16 multiplication and accumulation directly. No 
+        conversion latency, maximum memory bandwidth utilization.
       </p>
 
       <BF16DataFlowAnimation />
@@ -759,20 +806,26 @@ export default function IntelAmxCpuAcceleration() {
       {/* ================================================================== */}
       {/* TOPIC 3: Parallel Processing */}
       {/* ================================================================== */}
-      <h2>Processing Multiple Tasks</h2>
+      <h2>03. Processing Multiple Tasks</h2>
 
       <SectionHeader title="The Assembly Line Concept" type="layman" />
 
       <p>
-        Think of a car factory. If one worker builds an entire car alone, it takes forever. But with 
-        an assembly line, many workers handle different cars simultaneously. The factory produces 
-        many more cars per hour.
+        Think of a car factory. If one worker builds an entire car alone, it takes forever. But 
+        with an assembly line, many workers handle different cars simultaneously. The factory 
+        produces many more cars per hour.
       </p>
 
       <p>
-        Python (the programming language used for most AI) has a limitation - only one thing can 
-        truly run at a time. <code>AsyncInferQueue</code> is like moving the work to a separate 
-        factory floor where multiple workers can operate freely.
+        Here's the problem: Python (the programming language used for most AI) has a limitation. 
+        Only one thing can truly run at a time. It's like having an assembly line where only 
+        one worker is allowed to move at any moment.
+      </p>
+
+      <p>
+        <code>AsyncInferQueue</code> is the workaround. It's like moving the actual work to a 
+        separate factory floor where multiple workers can operate freely, outside of Python's 
+        restrictions.
       </p>
 
       <AssemblyLineAnimation />
@@ -781,14 +834,14 @@ export default function IntelAmxCpuAcceleration() {
 
       <p>
         Python's <strong>Global Interpreter Lock (GIL)</strong> prevents true multi-threaded 
-        execution. For AI inference, this creates a bottleneck—even with fast AMX hardware, 
+        execution. For AI inference, this creates a bottleneck. Even with fast AMX hardware, 
         Python can only process one request at a time.
       </p>
 
       <p>
-        <code>AsyncInferQueue</code> from OpenVINO solves this by managing requests at the C++ level. 
-        Inference executes in parallel threads completely outside Python's control, fully saturating 
-        AMX capabilities.
+        <code>AsyncInferQueue</code> from OpenVINO solves this by managing requests at the C++ 
+        level. Inference executes in parallel threads completely outside Python's control, fully 
+        saturating AMX capabilities.
       </p>
 
       <AsyncQueueConceptAnimation />
@@ -808,19 +861,19 @@ async_queue.wait_all()`}</code>
       {/* ================================================================== */}
       {/* TOPIC 4: oneDNN & ISA */}
       {/* ================================================================== */}
-      <h2>The Software Layer: oneDNN</h2>
+      <h2>04. The Software Layer: oneDNN</h2>
 
       <SectionHeader title="Automatic Optimization" type="layman" />
 
       <p>
         You don't need to know how your car engine works to drive. Similarly, oneDNN (Intel's 
-        software library) automatically uses the best CPU features available. When you run an AI 
-        model, oneDNN checks what your CPU supports and picks the fastest method.
+        software library) automatically uses the best CPU features available.
       </p>
 
       <p>
-        It's like having a smart GPS that automatically picks the fastest route based on current 
-        traffic conditions. You just tell it where to go; it handles the rest.
+        When you run an AI model, oneDNN checks what your CPU supports and picks the fastest 
+        method. Think of it like a smart GPS that automatically picks the fastest route based 
+        on current traffic conditions. You just tell it where to go, and it handles the rest.
       </p>
 
       <ToolboxAnimation />
@@ -853,31 +906,40 @@ export ONEDNN_MAX_CPU_ISA=AVX2`}</code>
       {/* ================================================================== */}
       {/* KEY TAKEAWAYS */}
       {/* ================================================================== */}
-      <h2>Key Takeaways</h2>
+      <h2>Wrapping Up</h2>
+
+      <p>
+        If you take away just a few things from this post, let it be these:
+      </p>
 
       <ol>
         <li>
-          <strong>AMX processes matrix blocks, not individual numbers</strong> — This architectural 
-          difference enables massive parallelism for AI workloads
+          <strong>AMX processes matrix blocks, not individual numbers.</strong> This architectural 
+          difference enables massive parallelism for AI workloads.
         </li>
         <li>
-          <strong>BF16 is native, not emulated</strong> — No conversion overhead means full 
-          memory bandwidth utilization
+          <strong>BF16 is native, not emulated.</strong> No conversion overhead means full 
+          memory bandwidth utilization.
         </li>
         <li>
-          <strong>AsyncInferQueue unlocks true parallelism</strong> — Bypassing Python's GIL is 
-          essential to saturate AMX capabilities
+          <strong>AsyncInferQueue unlocks true parallelism.</strong> Bypassing Python's GIL is 
+          essential to saturate AMX capabilities.
         </li>
         <li>
-          <strong>oneDNN handles complexity automatically</strong> — Frameworks use optimal 
-          instructions without manual configuration
+          <strong>oneDNN handles complexity automatically.</strong> Frameworks use optimal 
+          instructions without manual configuration.
         </li>
       </ol>
 
       <blockquote>
         AMX transforms modern Intel CPUs into capable AI inference engines. It doesn't replace 
-        GPUs for training, but fundamentally changes the economics of CPU-based inference.
+        GPUs for training, but it does fundamentally change the economics of CPU-based inference.
       </blockquote>
+
+      <p>
+        If you're running AI workloads on Intel hardware, understanding AMX can help you squeeze 
+        out significantly more performance without changing your infrastructure.
+      </p>
     </>
   );
 }

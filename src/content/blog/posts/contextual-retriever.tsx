@@ -708,34 +708,79 @@ function ArchitectureDiagram() {
 }
 
 // ============================================================================
+// TABLE OF CONTENTS
+// ============================================================================
+function TableOfContents() {
+  const topics = [
+    { num: "01", title: "The Context Loss Problem", desc: "Why traditional chunking fails" },
+    { num: "02", title: "Contextual Enrichment", desc: "The solution that actually works" },
+    { num: "03", title: "Generating Context with VLLM", desc: "Using AI to describe your chunks" },
+    { num: "04", title: "Vector Storage with Milvus", desc: "Searching through millions of vectors" },
+  ];
+
+  return (
+    <div className="my-10 p-6 bg-[#161B22] rounded-lg border border-[#30363D]">
+      <div className="text-xs text-[#58A6FF] font-mono uppercase tracking-wider mb-4">
+        What We'll Cover
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {topics.map((topic) => (
+          <div key={topic.num} className="flex gap-3 items-start">
+            <span className="text-[#58A6FF] font-mono text-sm">{topic.num}</span>
+            <div>
+              <p className="text-sm text-[#E6EDF3] font-medium">{topic.title}</p>
+              <p className="text-xs text-[#8B949E]">{topic.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 export default function ContextualRetriever() {
   return (
     <>
       <p>
-        Traditional RAG systems suffer from a fundamental flaw: <strong>context loss during chunking</strong>. 
-        When we split documents into chunks for embedding, each chunk loses its relationship to the 
-        parent document, surrounding sections, and overall narrative. The Contextual Retriever pattern 
-        solves this by enriching chunks with explicit context before embedding.
+        If you've built a RAG system, you've probably noticed something frustrating: sometimes 
+        the search returns chunks that seem relevant but aren't quite right. The words match, 
+        but the context is off.
       </p>
+
+      <p>
+        This happens because of <strong>context loss during chunking</strong>. When we split 
+        documents into smaller pieces for embedding, each piece loses its relationship to the 
+        bigger picture. The Contextual Retriever pattern fixes this by adding context back 
+        before we embed anything.
+      </p>
+
+      <p>
+        I'll walk through both the intuition and the technical implementation. Feel free to 
+        skip to whatever section is most useful to you.
+      </p>
+
+      <TableOfContents />
 
       {/* ================================================================== */}
       {/* TOPIC 1: The Problem */}
       {/* ================================================================== */}
-      <h2>The Context Loss Problem</h2>
+      <h2>01. The Context Loss Problem</h2>
 
       <SectionHeader title="The Torn Page Problem" type="layman" />
 
       <p>
-        Imagine you find a single page on the ground. It says: "The function returns embeddings from 
-        the last hidden layer." Is this about Python? JavaScript? Machine learning? Database queries? 
-        Without knowing which book this page came from, you're guessing.
+        Imagine you find a single page on the ground. It says: "The function returns embeddings 
+        from the last hidden layer." Is this about Python? JavaScript? Machine learning? 
+        Database queries? Without knowing which book this page came from, you're just guessing.
       </p>
 
       <p>
-        This is exactly what happens in traditional RAG systems. We chop documents into small pieces 
-        (chunks) to search through them, but each piece loses the context of where it came from.
+        This is exactly what happens in traditional RAG systems. We chop documents into small 
+        pieces (chunks) to search through them, but each piece loses the context of where it 
+        came from. It's like tearing pages out of books and throwing them in a pile.
       </p>
 
       <LibraryBookAnimation />
@@ -743,15 +788,16 @@ export default function ContextualRetriever() {
       <SectionHeader title="Vector Similarity Without Context" type="technical" />
 
       <p>
-        When chunks are embedded without context, the vector space becomes ambiguous. A chunk saying 
-        "The function returns embeddings" could match queries about any embedding function in any 
-        library. The embedding model captures the words, but not the semantic scope.
+        When chunks are embedded without context, the vector space becomes ambiguous. A chunk 
+        saying "The function returns embeddings" could match queries about any embedding 
+        function in any library. The embedding model captures the words, but not the semantic 
+        scope.
       </p>
 
       <p>
-        This leads to low recall and irrelevant results. The right chunk exists in your database, 
-        but the query vector doesn't find it because the embedding space is too crowded with 
-        similar-but-wrong matches.
+        This leads to low recall and irrelevant results. The right chunk exists in your 
+        database, but the query vector doesn't find it because the embedding space is too 
+        crowded with similar-but-wrong matches.
       </p>
 
       <ChunkComparisonAnimation />
@@ -759,20 +805,20 @@ export default function ContextualRetriever() {
       {/* ================================================================== */}
       {/* TOPIC 2: The Solution */}
       {/* ================================================================== */}
-      <h2>The Solution: Contextual Enrichment</h2>
+      <h2>02. The Solution: Contextual Enrichment</h2>
 
       <SectionHeader title="Adding the Book Title to Every Page" type="layman" />
 
       <p>
-        The fix is simple in concept: before saving each chunk, we add a header that explains 
+        The fix is simple in concept. Before saving each chunk, we add a header that explains 
         where it came from. It's like writing the book title and chapter name at the top of 
-        every page, so anyone finding that page knows exactly what book it's from.
+        every page. Anyone finding that page now knows exactly what book it's from.
       </p>
 
       <p>
-        We use an AI (specifically VLLM - a fast language model) to read each chunk and write 
-        a short description of what it's about. This description gets stored with the chunk, 
-        making searches much more accurate.
+        We use an AI (specifically VLLM, which is a fast language model) to read each chunk 
+        and write a short description of what it's about. This description gets stored with 
+        the chunk, making searches much more accurate.
       </p>
 
       <ContextPipelineAnimation />
@@ -780,14 +826,15 @@ export default function ContextualRetriever() {
       <SectionHeader title="The Enrichment Pipeline" type="technical" />
 
       <p>
-        The contextual enrichment pipeline operates in stages, each adding semantic information:
+        The contextual enrichment pipeline operates in stages. Each stage adds more semantic 
+        information to the chunk:
       </p>
 
       <ol>
-        <li><strong>Document context</strong> — Title, summary, document type</li>
-        <li><strong>Section context</strong> — Headers, subsection hierarchy</li>
-        <li><strong>Neighbor context</strong> — Surrounding chunks for narrative flow</li>
-        <li><strong>LLM-generated description</strong> — Semantic summary of the chunk's purpose</li>
+        <li><strong>Document context:</strong> Title, summary, document type</li>
+        <li><strong>Section context:</strong> Headers, subsection hierarchy</li>
+        <li><strong>Neighbor context:</strong> Surrounding chunks for narrative flow</li>
+        <li><strong>LLM-generated description:</strong> Semantic summary of the chunk's purpose</li>
       </ol>
 
       <ContextFlowAnimation />
@@ -800,19 +847,19 @@ export default function ContextualRetriever() {
       {/* ================================================================== */}
       {/* TOPIC 3: VLLM for Context Generation */}
       {/* ================================================================== */}
-      <h2>Generating Context with VLLM</h2>
+      <h2>03. Generating Context with VLLM</h2>
 
       <SectionHeader title="AI as Your Librarian" type="layman" />
 
       <p>
-        Think of VLLM as a super-fast librarian. For every page in your library, the librarian 
-        writes a quick note: "This page is from the Python documentation, specifically about 
-        how the embed function works with custom models."
+        Think of VLLM as a super-fast librarian. For every page in your library, this 
+        librarian writes a quick note: "This page is from the Python documentation, 
+        specifically about how the embed function works with custom models."
       </p>
 
       <p>
-        VLLM is designed to do this very quickly - it can process thousands of chunks per minute, 
-        making it practical for large document collections.
+        VLLM is designed to do this very quickly. It can process thousands of chunks per 
+        minute, making it practical even for large document collections.
       </p>
 
       <LLMContextAnimation />
@@ -820,8 +867,8 @@ export default function ContextualRetriever() {
       <SectionHeader title="High-Throughput Context Generation" type="technical" />
 
       <p>
-        VLLM provides the throughput needed for production-scale context generation. Key 
-        configuration includes batch processing, model selection, and token limits:
+        VLLM provides the throughput needed for production-scale context generation. The key 
+        configuration involves batch processing, model selection, and token limits:
       </p>
 
       <pre>
@@ -850,19 +897,20 @@ context = llm.complete(CONTEXT_PROMPT).text`}</code>
       {/* ================================================================== */}
       {/* TOPIC 4: Vector Storage with Milvus */}
       {/* ================================================================== */}
-      <h2>Vector Storage with Milvus</h2>
+      <h2>04. Vector Storage with Milvus</h2>
 
       <SectionHeader title="A Smart Filing Cabinet" type="layman" />
 
       <p>
         Milvus is like a magical filing cabinet. Instead of organizing files alphabetically, 
-        it organizes them by meaning. When you search for "how to embed documents," it instantly 
-        finds all the pages that talk about embedding, even if they use different words.
+        it organizes them by meaning. When you search for "how to embed documents," it 
+        instantly finds all the pages that talk about embedding, even if they use 
+        different words.
       </p>
 
       <p>
         With contextual enrichment, each file now has a label saying what book it came from. 
-        The filing cabinet can give you much better results because it knows the full context 
+        The filing cabinet gives you much better results because it knows the full context 
         of each page.
       </p>
 
@@ -871,7 +919,7 @@ context = llm.complete(CONTEXT_PROMPT).text`}</code>
       <SectionHeader title="Vector Similarity Search" type="technical" />
 
       <p>
-        Milvus handles vector similarity search with support for hybrid queries combining 
+        Milvus handles vector similarity search with support for hybrid queries that combine 
         dense vectors and sparse keyword matching. The enriched context improves both:
       </p>
 
@@ -911,8 +959,9 @@ results = collection.search(
       <h2>Complete Architecture</h2>
 
       <p>
-        The full contextual retriever combines document processing, VLLM context generation, 
-        Milvus vector storage, and LlamaIndex for query orchestration:
+        Here's how all the pieces fit together. Document processing feeds into VLLM for 
+        context generation, which flows into Milvus for vector storage. LlamaIndex 
+        orchestrates the queries:
       </p>
 
       <ArchitectureDiagram />
@@ -920,23 +969,27 @@ results = collection.search(
       {/* ================================================================== */}
       {/* KEY TAKEAWAYS */}
       {/* ================================================================== */}
-      <h2>Key Takeaways</h2>
+      <h2>Wrapping Up</h2>
+
+      <p>
+        If you take away just a few things from this post, let it be these:
+      </p>
 
       <ol>
         <li>
-          <strong>Context is king</strong> — Raw chunks lose the document hierarchy that makes 
+          <strong>Context is king.</strong> Raw chunks lose the document hierarchy that makes 
           them meaningful. Adding context back dramatically improves search relevance.
         </li>
         <li>
-          <strong>LLM-generated descriptions</strong> — VLLM produces semantic descriptions at 
-          scale, transforming ambiguous chunks into well-labeled content.
+          <strong>LLM-generated descriptions work.</strong> VLLM produces semantic descriptions 
+          at scale, transforming ambiguous chunks into well-labeled content.
         </li>
         <li>
-          <strong>Milvus for production</strong> — Vector databases like Milvus handle millions 
-          of vectors with sub-second latency, essential for real-time RAG.
+          <strong>Milvus handles production scale.</strong> Vector databases like Milvus handle 
+          millions of vectors with sub-second latency, essential for real-time RAG.
         </li>
         <li>
-          <strong>The enrichment pipeline matters</strong> — Document context, section headers, 
+          <strong>The enrichment pipeline matters.</strong> Document context, section headers, 
           and neighbor chunks all contribute to embedding quality.
         </li>
       </ol>
@@ -949,8 +1002,9 @@ results = collection.search(
       </blockquote>
 
       <p>
-        This pattern has become essential in my RAG implementations, consistently improving 
-        retrieval quality across different domains and document types.
+        This pattern has become essential in my RAG implementations. It consistently improves 
+        retrieval quality across different domains and document types. Give it a try and 
+        see the difference for yourself.
       </p>
     </>
   );
