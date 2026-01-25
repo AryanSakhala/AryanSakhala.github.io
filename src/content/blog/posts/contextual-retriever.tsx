@@ -3,7 +3,273 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
-// Context Flow Animation
+// ============================================================================
+// SECTION HEADER COMPONENT
+// ============================================================================
+function SectionHeader({ title, type }: { title: string; type: "layman" | "technical" }) {
+  return (
+    <div className={`my-8 py-3 px-4 rounded-lg border-l-4 ${
+      type === "layman" 
+        ? "bg-[#58A6FF]/10 border-[#58A6FF]" 
+        : "bg-[#3FB950]/10 border-[#3FB950]"
+    }`}>
+      <span className={`text-xs font-mono uppercase tracking-wider ${
+        type === "layman" ? "text-[#58A6FF]" : "text-[#3FB950]"
+      }`}>
+        {type === "layman" ? "// LAYMAN UNDERSTANDING" : "// TECHNICAL DEEP DIVE"}
+      </span>
+      <h3 className="text-lg font-bold text-[#E6EDF3] mt-1">{title}</h3>
+    </div>
+  );
+}
+
+function IllustrationLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-center mb-6">
+      <span className="text-xs text-[#F0883E] uppercase tracking-[0.15em] font-mono">
+        Illustration
+      </span>
+      <p className="text-sm text-[#8B949E] mt-1">{children}</p>
+    </div>
+  );
+}
+
+// ============================================================================
+// LAYMAN ILLUSTRATION: Library Book Analogy
+// ============================================================================
+function LibraryBookAnimation() {
+  const [hasContext, setHasContext] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHasContext((prev) => !prev);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Finding information: with vs without context
+      </IllustrationLabel>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Without Context */}
+        <motion.div
+          animate={{ opacity: hasContext ? 0.4 : 1 }}
+          className="p-5 bg-[#161B22] rounded-lg"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-2xl">📄</span>
+            <span className="text-sm font-mono text-[#E6EDF3]">Without Context</span>
+          </div>
+          <div className="p-4 bg-[#0D1117] rounded border border-[#F85149]/30 mb-4">
+            <p className="text-sm text-[#8B949E] italic">
+              "The function returns embeddings from the last hidden layer."
+            </p>
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs text-[#F85149]">
+              <span>❓</span> Which function?
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#F85149]">
+              <span>❓</span> What library?
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#F85149]">
+              <span>❓</span> What topic?
+            </div>
+          </div>
+          <p className="mt-4 text-xs text-[#F85149]">Like a page torn from a book - useless alone</p>
+        </motion.div>
+
+        {/* With Context */}
+        <motion.div
+          animate={{ 
+            opacity: hasContext ? 1 : 0.4,
+            borderColor: hasContext ? "#3FB950" : "#30363D"
+          }}
+          className="p-5 bg-[#161B22] rounded-lg border-2"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-2xl">📚</span>
+            <span className="text-sm font-mono text-[#E6EDF3]">With Context</span>
+          </div>
+          <motion.div 
+            animate={{ boxShadow: hasContext ? "0 0 15px rgba(63, 185, 80, 0.2)" : "none" }}
+            className="p-4 bg-[#0D1117] rounded border border-[#3FB950]/30 mb-4"
+          >
+            <p className="text-xs text-[#58A6FF] mb-2">
+              📖 Book: LlamaIndex Documentation
+              <br />📑 Chapter: Custom Embedding Models
+            </p>
+            <p className="text-sm text-[#8B949E] italic">
+              "The function returns embeddings from the last hidden layer."
+            </p>
+          </motion.div>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs text-[#3FB950]">
+              <span>✓</span> LlamaIndex's embed function
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#3FB950]">
+              <span>✓</span> About custom models
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#3FB950]">
+              <span>✓</span> Technical documentation
+            </div>
+          </div>
+          <p className="mt-4 text-xs text-[#3FB950]">Now we know exactly what this is about!</p>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// TECHNICAL ILLUSTRATION: Chunk Comparison
+// ============================================================================
+function ChunkComparisonAnimation() {
+  const [showContext, setShowContext] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShowContext((prev) => !prev);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Traditional chunking loses hierarchy. Contextual chunking preserves it.
+      </IllustrationLabel>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Traditional */}
+        <motion.div
+          animate={{ opacity: showContext ? 0.5 : 1 }}
+          className="p-4 bg-[#161B22] rounded border border-[#F85149]"
+        >
+          <div className="text-xs text-[#F85149] font-mono mb-2">Traditional Chunk</div>
+          <div className="text-sm text-[#8B949E] font-mono p-3 bg-[#0D1117] rounded">
+            <p>"The function returns a list of embeddings for the input tokens. 
+            It uses the model's hidden states from the last layer."</p>
+          </div>
+          <div className="mt-3 text-xs text-[#F85149]">
+            Missing: What function? Which model? What context?
+          </div>
+        </motion.div>
+
+        {/* Contextual */}
+        <motion.div
+          animate={{ 
+            opacity: showContext ? 1 : 0.5,
+            borderColor: showContext ? "#3FB950" : "#30363D"
+          }}
+          className="p-4 bg-[#161B22] rounded border-2"
+        >
+          <div className="text-xs text-[#3FB950] font-mono mb-2">Contextual Chunk</div>
+          <div className="text-sm font-mono p-3 bg-[#0D1117] rounded">
+            <motion.div
+              animate={{ color: showContext ? "#58A6FF" : "#8B949E" }}
+              className="mb-2 text-xs"
+            >
+              [Doc: LlamaIndex Embeddings Guide]
+              <br />[Section: Custom Embedding Models]
+            </motion.div>
+            <p className="text-[#8B949E]">
+              "The function returns a list of embeddings for the input tokens. 
+              It uses the model's hidden states from the last layer."
+            </p>
+          </div>
+          <div className="mt-3 text-xs text-[#3FB950]">
+            Context preserved: Document + Section + Hierarchy
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="mt-6 p-4 bg-[#161B22] rounded-lg">
+        <p className="text-xs text-[#8B949E] font-mono text-center">
+          Vector embedding captures semantic meaning. 
+          <span className="text-[#3FB950]"> With context, embeddings become far more precise.</span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// LAYMAN ILLUSTRATION: Assembly Line Context
+// ============================================================================
+function ContextPipelineAnimation() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((prev) => (prev + 1) % 5);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const steps = [
+    { emoji: "📄", label: "Raw Chunk", desc: "Just the text", color: "#8B949E" },
+    { emoji: "📖", label: "Add Document", desc: "Which document?", color: "#58A6FF" },
+    { emoji: "📑", label: "Add Section", desc: "Which section?", color: "#3FB950" },
+    { emoji: "🔗", label: "Add Neighbors", desc: "Nearby content?", color: "#F0883E" },
+    { emoji: "✨", label: "Enriched!", desc: "Full context", color: "#A371F7" },
+  ];
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Building context step by step, like adding ingredients to a recipe
+      </IllustrationLabel>
+
+      <div className="flex items-center justify-between gap-2 overflow-x-auto pb-4">
+        {steps.map((s, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              scale: step === i ? 1.1 : 1,
+              opacity: step >= i ? 1 : 0.3,
+            }}
+            className="flex flex-col items-center min-w-[80px]"
+          >
+            <motion.div
+              animate={{
+                backgroundColor: step >= i ? s.color : "#21262D",
+                boxShadow: step === i ? `0 0 20px ${s.color}` : "none",
+              }}
+              className="w-14 h-14 rounded-full flex items-center justify-center text-2xl"
+            >
+              {s.emoji}
+            </motion.div>
+            <span className="text-xs text-[#E6EDF3] mt-2 text-center font-mono">
+              {s.label}
+            </span>
+            <span className="text-[10px] text-[#8B949E] text-center">
+              {s.desc}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        key={step}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6 text-center p-4 bg-[#161B22] rounded"
+      >
+        <span className="text-sm" style={{ color: steps[step].color }}>
+          Step {step + 1}: {steps[step].desc}
+        </span>
+      </motion.div>
+    </div>
+  );
+}
+
+// ============================================================================
+// TECHNICAL ILLUSTRATION: Context Flow Pipeline
+// ============================================================================
 function ContextFlowAnimation() {
   const [step, setStep] = useState(0);
 
@@ -23,12 +289,10 @@ function ContextFlowAnimation() {
   ];
 
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-6">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          Contextual Enrichment Pipeline
-        </span>
-      </div>
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Contextual Enrichment Pipeline: Each stage adds semantic information
+      </IllustrationLabel>
 
       <div className="flex items-center justify-between gap-2 mb-6 overflow-x-auto pb-2">
         {steps.map((s, i) => (
@@ -49,7 +313,7 @@ function ContextFlowAnimation() {
             >
               {i + 1}
             </motion.div>
-            <span className="text-xs text-[var(--blog-text)] mt-2 text-center font-mono">
+            <span className="text-xs text-[#E6EDF3] mt-2 text-center font-mono">
               {s.label}
             </span>
           </motion.div>
@@ -60,9 +324,9 @@ function ContextFlowAnimation() {
         key={step}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center p-4 bg-[#0D1117] rounded border border-[var(--blog-border)]"
+        className="text-center p-4 bg-[#161B22] rounded border border-[#30363D]"
       >
-        <span className="text-sm text-[var(--blog-text)]" style={{ color: steps[step].color }}>
+        <span className="text-sm" style={{ color: steps[step].color }}>
           {steps[step].desc}
         </span>
       </motion.div>
@@ -70,77 +334,92 @@ function ContextFlowAnimation() {
   );
 }
 
-// Chunk Comparison Animation
-function ChunkComparisonAnimation() {
-  const [showContext, setShowContext] = useState(false);
+// ============================================================================
+// LAYMAN ILLUSTRATION: Search Comparison
+// ============================================================================
+function SearchComparisonAnimation() {
+  const [useContextual, setUseContextual] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setShowContext((prev) => !prev);
-    }, 3000);
+      setUseContextual((prev) => !prev);
+    }, 3500);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          Traditional vs Contextual Chunking
-        </span>
-      </div>
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Searching for "how to embed documents" - which results are better?
+      </IllustrationLabel>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Traditional */}
-        <motion.div
-          animate={{ opacity: showContext ? 0.5 : 1 }}
-          className="p-4 bg-[#0D1117] rounded border border-[#F85149]"
-        >
-          <div className="text-xs text-[#F85149] font-mono mb-2">Traditional Chunk</div>
-          <div className="text-sm text-[var(--blog-text-muted)] font-mono">
-            <p>"The function returns a list of embeddings for the input tokens. 
-            It uses the model's hidden states from the last layer."</p>
-          </div>
-          <div className="mt-3 text-xs text-[#F85149]">
-            Missing: What function? Which model? What context?
-          </div>
-        </motion.div>
+      <div className="space-y-4">
+        <div className="p-4 bg-[#161B22] rounded text-center">
+          <span className="text-sm text-[#58A6FF] font-mono">🔍 Query: "how to embed documents"</span>
+        </div>
 
-        {/* Contextual */}
-        <motion.div
-          animate={{ 
-            opacity: showContext ? 1 : 0.5,
-            borderColor: showContext ? "#3FB950" : "#30363D"
-          }}
-          className="p-4 bg-[#0D1117] rounded border-2"
-        >
-          <div className="text-xs text-[#3FB950] font-mono mb-2">Contextual Chunk</div>
-          <div className="text-sm font-mono">
-            <motion.p
-              animate={{ color: showContext ? "#58A6FF" : "#8B949E" }}
-              className="mb-2"
-            >
-              [Doc: LlamaIndex Embeddings Guide]
-              <br />[Section: Custom Embedding Models]
-            </motion.p>
-            <p className="text-[var(--blog-text-muted)]">
-              "The function returns a list of embeddings for the input tokens. 
-              It uses the model's hidden states from the last layer."
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Traditional Results */}
+          <motion.div
+            animate={{ opacity: useContextual ? 0.4 : 1 }}
+            className="p-4 bg-[#161B22] rounded border border-[#30363D]"
+          >
+            <div className="text-xs text-[#F85149] font-mono mb-3">Traditional Search Results</div>
+            <div className="space-y-2">
+              <div className="p-2 bg-[#0D1117] rounded text-xs text-[#8B949E]">
+                "The embed() function takes input..."
+              </div>
+              <div className="p-2 bg-[#0D1117] rounded text-xs text-[#8B949E]">
+                "Documents can be processed..."
+              </div>
+              <div className="p-2 bg-[#0D1117] rounded text-xs text-[#8B949E]">
+                "Embedding vectors represent..."
+              </div>
+            </div>
+            <p className="mt-3 text-xs text-[#F85149]">
+              Generic results - may or may not be relevant
             </p>
-          </div>
-          <div className="mt-3 text-xs text-[#3FB950]">
-            Context preserved: Document + Section + Hierarchy
-          </div>
-        </motion.div>
-      </div>
+          </motion.div>
 
-      <div className="mt-4 text-center text-xs text-[var(--blog-text-muted)] font-mono">
-        {showContext ? "Contextual retrieval significantly improves relevance" : "Traditional chunks lose critical context"}
+          {/* Contextual Results */}
+          <motion.div
+            animate={{ 
+              opacity: useContextual ? 1 : 0.4,
+              borderColor: useContextual ? "#3FB950" : "#30363D"
+            }}
+            className="p-4 bg-[#161B22] rounded border-2"
+          >
+            <div className="text-xs text-[#3FB950] font-mono mb-3">Contextual Search Results</div>
+            <div className="space-y-2">
+              <motion.div 
+                animate={{ boxShadow: useContextual ? "0 0 10px rgba(63, 185, 80, 0.3)" : "none" }}
+                className="p-2 bg-[#0D1117] rounded text-xs border border-[#3FB950]/30"
+              >
+                <span className="text-[#58A6FF]">[LlamaIndex Docs → Embeddings]</span>
+                <br />"The embed() function takes input..."
+              </motion.div>
+              <div className="p-2 bg-[#0D1117] rounded text-xs border border-[#3FB950]/30">
+                <span className="text-[#58A6FF]">[OpenAI API → Embeddings Guide]</span>
+                <br />"Documents can be processed..."
+              </div>
+              <div className="p-2 bg-[#0D1117] rounded text-xs border border-[#3FB950]/30">
+                <span className="text-[#58A6FF]">[Vector DB Tutorial → Getting Started]</span>
+                <br />"Embedding vectors represent..."
+              </div>
+            </div>
+            <p className="mt-3 text-xs text-[#3FB950]">
+              Context tells us exactly where each result comes from
+            </p>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
 }
 
-// Vector Database Animation
+// ============================================================================
+// TECHNICAL ILLUSTRATION: Vector DB Animation
+// ============================================================================
 function VectorDBAnimation() {
   const [queryActive, setQueryActive] = useState(false);
   const [results, setResults] = useState<number[]>([]);
@@ -160,23 +439,21 @@ function VectorDBAnimation() {
   }, []);
 
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          Milvus Vector Search
-        </span>
-      </div>
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        Milvus Vector Search: Query vector finds nearest neighbors in embedding space
+      </IllustrationLabel>
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
         {/* Query */}
         <motion.div
           animate={{ 
             scale: queryActive ? 1.1 : 1,
             borderColor: queryActive ? "#58A6FF" : "#30363D"
           }}
-          className="p-3 bg-[#0D1117] rounded border-2 text-center min-w-[120px]"
+          className="p-3 bg-[#161B22] rounded border-2 text-center min-w-[120px]"
         >
-          <div className="text-xs text-[var(--blog-text-muted)] font-mono mb-1">Query Vector</div>
+          <div className="text-xs text-[#8B949E] font-mono mb-1">Query Vector</div>
           <motion.div
             animate={{ 
               color: queryActive ? "#58A6FF" : "#8B949E",
@@ -192,13 +469,13 @@ function VectorDBAnimation() {
         <motion.div
           animate={{ x: queryActive ? [0, 10, 0] : 0 }}
           transition={{ repeat: queryActive ? Infinity : 0, duration: 0.5 }}
-          className="text-[var(--blog-accent)] text-2xl"
+          className="text-[#58A6FF] text-2xl"
         >
-          {">"}
+          →
         </motion.div>
 
         {/* Vector Store */}
-        <div className="flex-1 p-3 bg-[#0D1117] rounded border border-[var(--blog-border)]">
+        <div className="flex-1 p-3 bg-[#161B22] rounded border border-[#30363D] min-w-[200px]">
           <div className="text-xs text-[#3FB950] font-mono mb-2">Milvus Collection</div>
           <div className="grid grid-cols-4 gap-1">
             {Array(16).fill(0).map((_, i) => (
@@ -222,7 +499,7 @@ function VectorDBAnimation() {
           transition={{ repeat: results.length > 0 ? Infinity : 0, duration: 0.5 }}
           className="text-[#3FB950] text-2xl"
         >
-          {">"}
+          →
         </motion.div>
 
         {/* Results */}
@@ -231,24 +508,105 @@ function VectorDBAnimation() {
             scale: results.length > 0 ? 1.1 : 1,
             borderColor: results.length > 0 ? "#F0883E" : "#30363D"
           }}
-          className="p-3 bg-[#0D1117] rounded border-2 text-center min-w-[100px]"
+          className="p-3 bg-[#161B22] rounded border-2 text-center min-w-[100px]"
         >
-          <div className="text-xs text-[var(--blog-text-muted)] font-mono mb-1">Top-K</div>
+          <div className="text-xs text-[#8B949E] font-mono mb-1">Top-K</div>
           <motion.div
-            animate={{ 
-              color: results.length > 0 ? "#F0883E" : "#8B949E",
-            }}
+            animate={{ color: results.length > 0 ? "#F0883E" : "#8B949E" }}
             className="text-xl font-mono"
           >
             {results.length > 0 ? `${results.length} docs` : "..."}
           </motion.div>
         </motion.div>
       </div>
+
+      <div className="mt-6 p-4 bg-[#161B22] rounded-lg">
+        <p className="text-xs text-[#8B949E] font-mono text-center">
+          <code className="text-[#58A6FF]">COSINE</code> similarity finds semantically similar chunks.
+          <span className="text-[#3FB950]"> Contextual embeddings make similarity more meaningful.</span>
+        </p>
+      </div>
     </div>
   );
 }
 
-// VLLM Pipeline Animation
+// ============================================================================
+// LAYMAN ILLUSTRATION: LLM as Context Generator
+// ============================================================================
+function LLMContextAnimation() {
+  const [generating, setGenerating] = useState(false);
+  const [context, setContext] = useState("");
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setGenerating(true);
+      setContext("");
+      
+      const fullContext = "This chunk discusses LlamaIndex embedding functions for custom model integration...";
+      let i = 0;
+      
+      const typeTimer = setInterval(() => {
+        if (i < fullContext.length) {
+          setContext(fullContext.substring(0, i + 1));
+          i++;
+        } else {
+          clearInterval(typeTimer);
+          setTimeout(() => setGenerating(false), 1500);
+        }
+      }, 50);
+      
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        An AI reads the chunk and explains what it's about
+      </IllustrationLabel>
+
+      <div className="max-w-xl mx-auto space-y-4">
+        {/* Input */}
+        <div className="p-4 bg-[#161B22] rounded">
+          <div className="text-xs text-[#8B949E] font-mono mb-2">📄 Raw Chunk:</div>
+          <p className="text-sm text-[#E6EDF3] italic">
+            "The function returns embeddings from the hidden layer..."
+          </p>
+        </div>
+
+        {/* Processing */}
+        <div className="flex justify-center">
+          <motion.div
+            animate={{
+              scale: generating ? [1, 1.1, 1] : 1,
+              boxShadow: generating ? "0 0 20px rgba(163, 113, 247, 0.5)" : "none",
+            }}
+            transition={{ repeat: generating ? Infinity : 0, duration: 0.5 }}
+            className="p-4 bg-[#A371F7]/20 rounded-lg text-center"
+          >
+            <span className="text-2xl">🤖</span>
+            <p className="text-xs text-[#A371F7] font-mono mt-2">
+              {generating ? "VLLM generating context..." : "VLLM ready"}
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Output */}
+        <div className="p-4 bg-[#161B22] rounded border border-[#3FB950]/30">
+          <div className="text-xs text-[#3FB950] font-mono mb-2">✨ Generated Context:</div>
+          <p className="text-sm text-[#E6EDF3] font-mono min-h-[40px]">
+            {context || "Waiting..."}
+            {generating && <span className="animate-pulse">|</span>}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// TECHNICAL ILLUSTRATION: VLLM Pipeline
+// ============================================================================
 function VLLMPipelineAnimation() {
   const [stage, setStage] = useState(0);
 
@@ -261,18 +619,16 @@ function VLLMPipelineAnimation() {
 
   const stages = [
     { name: "Chunk", desc: "Raw text chunk", color: "#8B949E" },
-    { name: "Context Prompt", desc: "Add document context via LLM", color: "#58A6FF" },
-    { name: "VLLM Generate", desc: "Contextual description", color: "#3FB950" },
+    { name: "Context Prompt", desc: "Document context + chunk", color: "#58A6FF" },
+    { name: "VLLM Generate", desc: "LLM produces description", color: "#3FB950" },
     { name: "Enriched Vector", desc: "Context + Original embedded", color: "#F0883E" },
   ];
 
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)]">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          VLLM Context Generation Pipeline
-        </span>
-      </div>
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <IllustrationLabel>
+        VLLM Context Generation Pipeline: Batch processing for throughput
+      </IllustrationLabel>
 
       <div className="flex flex-wrap justify-center gap-2">
         {stages.map((s, i) => (
@@ -282,7 +638,7 @@ function VLLMPipelineAnimation() {
               scale: stage === i ? 1.05 : 1,
               borderColor: stage >= i ? s.color : "#30363D",
             }}
-            className="flex-1 min-w-[140px] p-4 bg-[#0D1117] rounded border-2 text-center"
+            className="flex-1 min-w-[140px] p-4 bg-[#161B22] rounded border-2 text-center"
           >
             <motion.div
               animate={{ 
@@ -294,8 +650,8 @@ function VLLMPipelineAnimation() {
               <div className="text-xs font-mono mb-2" style={{ color: s.color }}>
                 Step {i + 1}
               </div>
-              <div className="text-sm font-bold text-[var(--blog-text)]">{s.name}</div>
-              <div className="text-xs text-[var(--blog-text-muted)] mt-1">{s.desc}</div>
+              <div className="text-sm font-bold text-[#E6EDF3]">{s.name}</div>
+              <div className="text-xs text-[#8B949E] mt-1">{s.desc}</div>
             </motion.div>
           </motion.div>
         ))}
@@ -305,7 +661,7 @@ function VLLMPipelineAnimation() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-4 p-3 bg-[#0D1117] rounded border border-[#3FB950] text-center"
+          className="mt-4 p-3 bg-[#161B22] rounded border border-[#3FB950] text-center"
         >
           <span className="text-xs text-[#3FB950] font-mono">
             VLLM: "This chunk discusses embedding functions in the LlamaIndex documentation, 
@@ -317,18 +673,18 @@ function VLLMPipelineAnimation() {
   );
 }
 
-// Architecture Diagram
+// ============================================================================
+// ARCHITECTURE DIAGRAM
+// ============================================================================
 function ArchitectureDiagram() {
   return (
-    <div className="my-8 p-6 bg-[var(--blog-code-bg)] rounded-lg border border-[var(--blog-border)] overflow-x-auto">
-      <div className="text-center mb-4">
-        <span className="text-xs text-[var(--blog-accent)] uppercase tracking-wider font-mono">
-          Contextual Retriever Architecture
-        </span>
-      </div>
+    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D] overflow-x-auto">
+      <IllustrationLabel>
+        Complete Contextual Retriever Architecture
+      </IllustrationLabel>
 
       <div className="min-w-[500px] font-mono text-xs">
-        <pre className="text-[var(--blog-text-muted)] leading-relaxed">
+        <pre className="text-[#8B949E] leading-relaxed">
 {`+----------------+     +----------------+     +----------------+
 |   Documents    | --> |   Chunking     | --> |   VLLM         |
 |   (PDF, MD)    |     |   (Semantic)   |     |   Context Gen  |
@@ -351,6 +707,9 @@ function ArchitectureDiagram() {
   );
 }
 
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
 export default function ContextualRetriever() {
   return (
     <>
@@ -361,74 +720,160 @@ export default function ContextualRetriever() {
         solves this by enriching chunks with explicit context before embedding.
       </p>
 
+      {/* ================================================================== */}
+      {/* TOPIC 1: The Problem */}
+      {/* ================================================================== */}
       <h2>The Context Loss Problem</h2>
 
+      <SectionHeader title="The Torn Page Problem" type="layman" />
+
       <p>
-        Consider a chunk that says: "The function returns embeddings from the last hidden layer." 
-        Helpful, right? But <em>which</em> function? From <em>which</em> library? In <em>what</em> context? 
-        Without this information, vector similarity becomes a guessing game.
+        Imagine you find a single page on the ground. It says: "The function returns embeddings from 
+        the last hidden layer." Is this about Python? JavaScript? Machine learning? Database queries? 
+        Without knowing which book this page came from, you're guessing.
+      </p>
+
+      <p>
+        This is exactly what happens in traditional RAG systems. We chop documents into small pieces 
+        (chunks) to search through them, but each piece loses the context of where it came from.
+      </p>
+
+      <LibraryBookAnimation />
+
+      <SectionHeader title="Vector Similarity Without Context" type="technical" />
+
+      <p>
+        When chunks are embedded without context, the vector space becomes ambiguous. A chunk saying 
+        "The function returns embeddings" could match queries about any embedding function in any 
+        library. The embedding model captures the words, but not the semantic scope.
+      </p>
+
+      <p>
+        This leads to low recall and irrelevant results. The right chunk exists in your database, 
+        but the query vector doesn't find it because the embedding space is too crowded with 
+        similar-but-wrong matches.
       </p>
 
       <ChunkComparisonAnimation />
 
+      {/* ================================================================== */}
+      {/* TOPIC 2: The Solution */}
+      {/* ================================================================== */}
       <h2>The Solution: Contextual Enrichment</h2>
 
+      <SectionHeader title="Adding the Book Title to Every Page" type="layman" />
+
       <p>
-        Instead of embedding raw chunks, we enrich each chunk with contextual metadata before 
-        creating the embedding. This preserves the document hierarchy and significantly improves 
-        retrieval relevance.
+        The fix is simple in concept: before saving each chunk, we add a header that explains 
+        where it came from. It's like writing the book title and chapter name at the top of 
+        every page, so anyone finding that page knows exactly what book it's from.
       </p>
+
+      <p>
+        We use an AI (specifically VLLM - a fast language model) to read each chunk and write 
+        a short description of what it's about. This description gets stored with the chunk, 
+        making searches much more accurate.
+      </p>
+
+      <ContextPipelineAnimation />
+
+      <SectionHeader title="The Enrichment Pipeline" type="technical" />
+
+      <p>
+        The contextual enrichment pipeline operates in stages, each adding semantic information:
+      </p>
+
+      <ol>
+        <li><strong>Document context</strong> — Title, summary, document type</li>
+        <li><strong>Section context</strong> — Headers, subsection hierarchy</li>
+        <li><strong>Neighbor context</strong> — Surrounding chunks for narrative flow</li>
+        <li><strong>LLM-generated description</strong> — Semantic summary of the chunk's purpose</li>
+      </ol>
 
       <ContextFlowAnimation />
 
-      <h2>Architecture Overview</h2>
-
       <p>
-        My implementation uses <code>Milvus</code> as the vector store and <code>VLLM</code> for 
-        high-throughput context generation. The pipeline is built on <code>LlamaIndex</code> for 
-        seamless integration.
+        The enriched text is then embedded. The resulting vector captures not just the chunk's 
+        content, but its semantic position within the document hierarchy.
       </p>
 
-      <ArchitectureDiagram />
+      {/* ================================================================== */}
+      {/* TOPIC 3: VLLM for Context Generation */}
+      {/* ================================================================== */}
+      <h2>Generating Context with VLLM</h2>
 
-      <h2>VLLM for Context Generation</h2>
+      <SectionHeader title="AI as Your Librarian" type="layman" />
 
       <p>
-        The key innovation is using a language model to generate contextual descriptions for each chunk. 
-        <code>VLLM</code> provides the throughput needed to process thousands of chunks efficiently.
+        Think of VLLM as a super-fast librarian. For every page in your library, the librarian 
+        writes a quick note: "This page is from the Python documentation, specifically about 
+        how the embed function works with custom models."
       </p>
 
-      <VLLMPipelineAnimation />
+      <p>
+        VLLM is designed to do this very quickly - it can process thousands of chunks per minute, 
+        making it practical for large document collections.
+      </p>
+
+      <LLMContextAnimation />
+
+      <SectionHeader title="High-Throughput Context Generation" type="technical" />
+
+      <p>
+        VLLM provides the throughput needed for production-scale context generation. Key 
+        configuration includes batch processing, model selection, and token limits:
+      </p>
 
       <pre>
         <code>{`from llama_index.llms.vllm import Vllm
 
-# Configure VLLM endpoint
+# Configure VLLM endpoint for high throughput
 llm = Vllm(
     api_url="<YOUR_API_URI>",
     model="meta-llama/Llama-2-7b-chat-hf",
-    max_tokens=150
+    max_tokens=150  # Keep context descriptions concise
 )
 
-# Generate context for chunk
-prompt = f"""Given this document context:
+# The prompt template is critical
+CONTEXT_PROMPT = f"""Given this document context:
 Title: {doc.title}
 Section: {section.header}
 
 Describe what this chunk is about in one sentence:
 {chunk.text}"""
 
-context = llm.complete(prompt).text`}</code>
+context = llm.complete(CONTEXT_PROMPT).text`}</code>
       </pre>
 
-      <h2>Milvus Vector Store</h2>
+      <VLLMPipelineAnimation />
+
+      {/* ================================================================== */}
+      {/* TOPIC 4: Vector Storage with Milvus */}
+      {/* ================================================================== */}
+      <h2>Vector Storage with Milvus</h2>
+
+      <SectionHeader title="A Smart Filing Cabinet" type="layman" />
 
       <p>
-        <code>Milvus</code> handles the vector similarity search with support for hybrid queries 
-        combining dense vectors and sparse keyword matching.
+        Milvus is like a magical filing cabinet. Instead of organizing files alphabetically, 
+        it organizes them by meaning. When you search for "how to embed documents," it instantly 
+        finds all the pages that talk about embedding, even if they use different words.
       </p>
 
-      <VectorDBAnimation />
+      <p>
+        With contextual enrichment, each file now has a label saying what book it came from. 
+        The filing cabinet can give you much better results because it knows the full context 
+        of each page.
+      </p>
+
+      <SearchComparisonAnimation />
+
+      <SectionHeader title="Vector Similarity Search" type="technical" />
+
+      <p>
+        Milvus handles vector similarity search with support for hybrid queries combining 
+        dense vectors and sparse keyword matching. The enriched context improves both:
+      </p>
 
       <pre>
         <code>{`from pymilvus import connections, Collection
@@ -458,73 +903,41 @@ results = collection.search(
 )`}</code>
       </pre>
 
-      <h2>The Prompt Template</h2>
+      <VectorDBAnimation />
+
+      {/* ================================================================== */}
+      {/* ARCHITECTURE OVERVIEW */}
+      {/* ================================================================== */}
+      <h2>Complete Architecture</h2>
 
       <p>
-        The prompt template is critical for generating useful context. It should be tailored 
-        to your domain and document structure.
+        The full contextual retriever combines document processing, VLLM context generation, 
+        Milvus vector storage, and LlamaIndex for query orchestration:
       </p>
 
-      <pre>
-        <code>{`CONTEXT_PROMPT_TEMPLATE = """
-<document>
-{document_content}
-</document>
+      <ArchitectureDiagram />
 
-Here is the chunk we want to situate within the document:
-<chunk>
-{chunk_content}
-</chunk>
-
-Please give a short succinct context to situate this chunk 
-within the overall document for improving search retrieval. 
-Answer only with the succinct context and nothing else.
-"""`}</code>
-      </pre>
-
-      <h2>Implementation Notes</h2>
-
-      <ul>
-        <li>
-          <strong>Batch Processing</strong> — Process chunks in batches for optimal <code>VLLM</code> throughput
-        </li>
-        <li>
-          <strong>Caching</strong> — Cache generated contexts to avoid regenerating for unchanged documents
-        </li>
-        <li>
-          <strong>Fallback</strong> — If context generation fails, use document title + section header as fallback
-        </li>
-        <li>
-          <strong>Token Limits</strong> — Keep context generation prompts concise for speed
-        </li>
-      </ul>
-
-      <h2>Why This Matters</h2>
-
-      <p>
-        In production testing, contextual retrieval showed significant improvements across 
-        all key metrics—<strong>Top-K Recall</strong>, <strong>Mean Reciprocal Rank</strong>, and 
-        <strong>Answer Accuracy</strong>. The enriched context allows the embedding model to capture 
-        the true semantic meaning of each chunk, leading to more relevant search results.
-      </p>
-
+      {/* ================================================================== */}
+      {/* KEY TAKEAWAYS */}
+      {/* ================================================================== */}
       <h2>Key Takeaways</h2>
 
       <ol>
         <li>
-          <strong>Context is king</strong> — Raw chunks lose critical information needed for accurate retrieval
+          <strong>Context is king</strong> — Raw chunks lose the document hierarchy that makes 
+          them meaningful. Adding context back dramatically improves search relevance.
         </li>
         <li>
-          <strong>LLM-generated context</strong> — Use <code>VLLM</code> to create rich contextual descriptions at scale
+          <strong>LLM-generated descriptions</strong> — VLLM produces semantic descriptions at 
+          scale, transforming ambiguous chunks into well-labeled content.
         </li>
         <li>
-          <strong>Milvus for production</strong> — <code>Milvus</code> handles millions of vectors with sub-second latency
+          <strong>Milvus for production</strong> — Vector databases like Milvus handle millions 
+          of vectors with sub-second latency, essential for real-time RAG.
         </li>
         <li>
-          <strong>Hybrid approach</strong> — Combine contextual + traditional embeddings for best results
-        </li>
-        <li>
-          <strong>Domain adaptation</strong> — Tailor the context prompt to your specific use case
+          <strong>The enrichment pipeline matters</strong> — Document context, section headers, 
+          and neighbor chunks all contribute to embedding quality.
         </li>
       </ol>
 
