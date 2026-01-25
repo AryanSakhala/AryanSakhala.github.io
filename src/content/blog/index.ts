@@ -15,14 +15,23 @@ export interface BlogPost {
 // Add new posts to this array - the content lives in separate component files
 export const blogPosts: BlogPost[] = [
   {
+    slug: "seal-homomorphic-encryption",
+    title: "SEAL: Homomorphic Encryption from Scratch",
+    description:
+      "A complete guide to homomorphic encryption using Microsoft SEAL. Learn Ring-LWE security foundations, SEAL parameters, and the difference between BFV and CKKS schemes.",
+    date: "2026-01-25",
+    readTime: "18 min",
+    tags: ["Homomorphic Encryption", "SEAL", "Ring-LWE", "BFV", "CKKS", "Privacy", "Cryptography"],
+    featured: true,
+  },
+  {
     slug: "intel-amx-cpu-acceleration",
     title: "Intel AMX: Understanding CPU-Based Matrix Acceleration",
     description:
-      "A deep exploration of Intel's Advanced Matrix Extensions—how tile-based operations differ from vector processing, the role of BF16, and how oneDNN bridges hardware and software for AI inference.",
+      "A deep exploration of Intel's Advanced Matrix Extensions. How tile-based operations differ from vector processing, the role of BF16, and how oneDNN bridges hardware and software for AI inference.",
     date: "2026-01-23",
     readTime: "15 min",
     tags: ["Intel AMX", "CPU", "Matrix Computation", "oneDNN", "BF16", "AVX-512"],
-    featured: true,
   },
   {
     slug: "contextual-retriever",

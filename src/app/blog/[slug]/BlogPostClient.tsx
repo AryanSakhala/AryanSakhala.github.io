@@ -16,6 +16,9 @@ const blogContentComponents: Record<
   string,
   React.ComponentType<Record<string, never>>
 > = {
+  "seal-homomorphic-encryption": dynamic(
+    () => import("@/content/blog/posts/seal-homomorphic-encryption")
+  ),
   "intel-amx-cpu-acceleration": dynamic(
     () => import("@/content/blog/posts/intel-amx-cpu-acceleration")
   ),
