@@ -712,11 +712,18 @@ function ArchitectureDiagram() {
 // ============================================================================
 function TableOfContents() {
   const topics = [
-    { num: "01", title: "The Context Loss Problem", desc: "Why traditional chunking fails" },
-    { num: "02", title: "Contextual Enrichment", desc: "The solution that actually works" },
-    { num: "03", title: "Generating Context with VLLM", desc: "Using AI to describe your chunks" },
-    { num: "04", title: "Vector Storage with Milvus", desc: "Searching through millions of vectors" },
+    { num: "01", id: "context-loss", title: "The Context Loss Problem", desc: "Why traditional chunking fails" },
+    { num: "02", id: "contextual-enrichment", title: "Contextual Enrichment", desc: "The solution that actually works" },
+    { num: "03", id: "vllm-context", title: "Generating Context with VLLM", desc: "Using AI to describe your chunks" },
+    { num: "04", id: "milvus-storage", title: "Vector Storage with Milvus", desc: "Searching through millions of vectors" },
   ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="my-10 p-6 bg-[#161B22] rounded-lg border border-[#30363D]">
@@ -725,13 +732,17 @@ function TableOfContents() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {topics.map((topic) => (
-          <div key={topic.num} className="flex gap-3 items-start">
-            <span className="text-[#58A6FF] font-mono text-sm">{topic.num}</span>
+          <button
+            key={topic.num}
+            onClick={() => scrollToSection(topic.id)}
+            className="flex gap-3 items-start text-left hover:bg-[#21262D] p-2 rounded-lg transition-colors cursor-pointer group"
+          >
+            <span className="text-[#58A6FF] font-mono text-sm group-hover:text-[#79C0FF]">{topic.num}</span>
             <div>
-              <p className="text-sm text-[#E6EDF3] font-medium">{topic.title}</p>
+              <p className="text-sm text-[#E6EDF3] font-medium group-hover:text-[#58A6FF] transition-colors">{topic.title}</p>
               <p className="text-xs text-[#8B949E]">{topic.desc}</p>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -767,7 +778,7 @@ export default function ContextualRetriever() {
       {/* ================================================================== */}
       {/* TOPIC 1: The Problem */}
       {/* ================================================================== */}
-      <h2>01. The Context Loss Problem</h2>
+      <h2 id="context-loss">01. The Context Loss Problem</h2>
 
       <SectionHeader title="The Torn Page Problem" type="layman" />
 
@@ -805,7 +816,7 @@ export default function ContextualRetriever() {
       {/* ================================================================== */}
       {/* TOPIC 2: The Solution */}
       {/* ================================================================== */}
-      <h2>02. The Solution: Contextual Enrichment</h2>
+      <h2 id="contextual-enrichment">02. The Solution: Contextual Enrichment</h2>
 
       <SectionHeader title="Adding the Book Title to Every Page" type="layman" />
 
@@ -847,7 +858,7 @@ export default function ContextualRetriever() {
       {/* ================================================================== */}
       {/* TOPIC 3: VLLM for Context Generation */}
       {/* ================================================================== */}
-      <h2>03. Generating Context with VLLM</h2>
+      <h2 id="vllm-context">03. Generating Context with VLLM</h2>
 
       <SectionHeader title="AI as Your Librarian" type="layman" />
 
@@ -897,7 +908,7 @@ context = llm.complete(CONTEXT_PROMPT).text`}</code>
       {/* ================================================================== */}
       {/* TOPIC 4: Vector Storage with Milvus */}
       {/* ================================================================== */}
-      <h2>04. Vector Storage with Milvus</h2>
+      <h2 id="milvus-storage">04. Vector Storage with Milvus</h2>
 
       <SectionHeader title="A Smart Filing Cabinet" type="layman" />
 

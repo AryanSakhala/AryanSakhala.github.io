@@ -675,11 +675,18 @@ function OneDNNISAVisualization() {
 // ============================================================================
 function TableOfContents() {
   const topics = [
-    { num: "01", title: "What is AMX?", desc: "From kitchen analogies to tile architecture" },
-    { num: "02", title: "BF16: The Perfect Precision", desc: "Why less precision can mean faster AI" },
-    { num: "03", title: "Processing Multiple Tasks", desc: "Parallel workers and Python's limitations" },
-    { num: "04", title: "The Software Layer: oneDNN", desc: "How software picks the right hardware" },
+    { num: "01", id: "what-is-amx", title: "What is AMX?", desc: "From kitchen analogies to tile architecture" },
+    { num: "02", id: "bf16-precision", title: "BF16: The Perfect Precision", desc: "Why less precision can mean faster AI" },
+    { num: "03", id: "parallel-processing", title: "Processing Multiple Tasks", desc: "Parallel workers and Python's limitations" },
+    { num: "04", id: "onednn", title: "The Software Layer: oneDNN", desc: "How software picks the right hardware" },
   ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="my-10 p-6 bg-[#161B22] rounded-lg border border-[#30363D]">
@@ -688,13 +695,17 @@ function TableOfContents() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {topics.map((topic) => (
-          <div key={topic.num} className="flex gap-3 items-start">
-            <span className="text-[#58A6FF] font-mono text-sm">{topic.num}</span>
+          <button
+            key={topic.num}
+            onClick={() => scrollToSection(topic.id)}
+            className="flex gap-3 items-start text-left hover:bg-[#21262D] p-2 rounded-lg transition-colors cursor-pointer group"
+          >
+            <span className="text-[#58A6FF] font-mono text-sm group-hover:text-[#79C0FF]">{topic.num}</span>
             <div>
-              <p className="text-sm text-[#E6EDF3] font-medium">{topic.title}</p>
+              <p className="text-sm text-[#E6EDF3] font-medium group-hover:text-[#58A6FF] transition-colors">{topic.title}</p>
               <p className="text-xs text-[#8B949E]">{topic.desc}</p>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -725,7 +736,7 @@ export default function IntelAmxCpuAcceleration() {
       {/* ================================================================== */}
       {/* TOPIC 1: What is AMX? */}
       {/* ================================================================== */}
-      <h2>01. What is AMX?</h2>
+      <h2 id="what-is-amx">01. What is AMX?</h2>
 
       <SectionHeader title="The Simple Explanation" type="layman" />
       
@@ -769,7 +780,7 @@ export default function IntelAmxCpuAcceleration() {
       {/* ================================================================== */}
       {/* TOPIC 2: BF16 Data Format */}
       {/* ================================================================== */}
-      <h2>02. BF16: The Perfect Precision</h2>
+      <h2 id="bf16-precision">02. BF16: The Perfect Precision</h2>
 
       <SectionHeader title="Why Less Precision is Better" type="layman" />
 
@@ -806,7 +817,7 @@ export default function IntelAmxCpuAcceleration() {
       {/* ================================================================== */}
       {/* TOPIC 3: Parallel Processing */}
       {/* ================================================================== */}
-      <h2>03. Processing Multiple Tasks</h2>
+      <h2 id="parallel-processing">03. Processing Multiple Tasks</h2>
 
       <SectionHeader title="The Assembly Line Concept" type="layman" />
 
@@ -861,7 +872,7 @@ async_queue.wait_all()`}</code>
       {/* ================================================================== */}
       {/* TOPIC 4: oneDNN & ISA */}
       {/* ================================================================== */}
-      <h2>04. The Software Layer: oneDNN</h2>
+      <h2 id="onednn">04. The Software Layer: oneDNN</h2>
 
       <SectionHeader title="Automatic Optimization" type="layman" />
 

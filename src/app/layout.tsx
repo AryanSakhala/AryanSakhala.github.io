@@ -21,6 +21,13 @@ export const metadata: Metadata = {
     default: "Aryan Sakhala | AI/ML Engineer & RAG Specialist | Dell & Intel",
     template: "%s | Aryan Sakhala",
   },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   description:
     "Aryan Sakhala - Lead Software Engineer specializing in RAG-based Agentic AI Workflows, LLM Systems, Multi-Agent Architecture. Working with Dell Technologies & Intel. Expert in Python, PyTorch, LangChain, FastAPI. Building production AI systems at scale.",
   keywords: [
