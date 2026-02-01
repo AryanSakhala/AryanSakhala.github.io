@@ -16,56 +16,66 @@ const resumeContent = `
 
 PROFILE
 -------
-> Lead Software Engineer | AI/ML Architect | RAG Systems Builder
-> Location: India -> Canada (May 2026)
-> Email: aryansakhala@gmail.com
-
-EXPERIENCE
-----------
-[UPCOMING] 2026-05     Research Assistant - PPML
-                       University of New Brunswick (CIC)
-                       - Privacy-Preserving Machine Learning Research
-
-[ACTIVE]   2024-NOW    Lead Software Engineer
-                       Metrum AI
-                       - RAG-based Agentic Workflows for Dell & Intel
-                       - SC24 (SuperCompute 2024) Multi-Modal AI Showcase
-                       - DTW 2024 (Dell Technologies World) Demo
-                       - Production-grade LLM pipeline architecture
-
-[DONE]     2023-2024   Research Associate
-                       Vidyashilp University
-                       - Springer LNNS Publication (ESG + ML)
-                       - Teaching Assistant for Data Science
-
-[DONE]     2023-2024   ML Developer
-                       EvueMe Selection Robot
-                       - Deep Learning for AI-based HR Bot
-                       - Dashboard API & Database Pipeline
-
-[DONE]     2021-2023   Data Scientist
-                       Sirpi
-                       - Led 7-member team for Proofify (Blockchain)
-                       - Analytics for IUDX (Gov. of India)
+> ryansakhala@gmail.com | +91 9403027341 | India
+> LinkedIn | GitHub (AryanSakhala) | YouTube | PyPI
 
 EDUCATION
 ---------
-2019-2023  B.E. Computer Engineering
-           Pune University
-           CGPA: 8.56 | Honors: AI/ML Specialization
+2019-2023  B.E. Computer Engineering (Honors: AI/ML)
+           Pune University (SPPU)
+           CGPA: 8.56 / 10.0
+
+EXPERIENCE
+----------
+[ACTIVE]   2024-NOW    SDE - Metrum AI
+                       - Lead RAG-based agentic workflow solutions for Dell & Intel
+                       - Showcased solution at SuperCompute 2024 (SC24)
+                       - Integrated multi-modal AI capabilities
+
+[DONE]     2023-2024   Research Associate - Vidyashilp University
+                       - Research papers in ML and Data Science
+                       - Teaching Assistant for Data Science Course
+
+[DONE]     2023-2024   ML Developer - EvueMe Selection Robot
+                       - Built Deep Learning model for AI-based HR bot
+                       - Built Dashboard API as Database Model pipeline
+
+[DONE]     2021-2023   Data Science Intern - Sirpi
+                       - Led team of 7 for Proofify (Blockchain Document Transfer)
+                       - Analytics for IUDX (India Urban Data Exchange)
+
+[DONE]     2021        Data Analyst - NS Gokhale
+                       - Data validation for audit team at Bank of India
+
+PROJECTS & RESEARCH
+-------------------
+Proofify | Solidity (Web3), Matic, Ceramic, socket.io, Python, React
+- Led team of 6 for Zero Interference Document Transfer system
+- Effortless and zero-cost tracking of Document Transfer
+
+Springer LNNS Publication (ISBM 2025)
+- Title: ML Approach to Analyzing ESG Indicators on Financial Performance
+- Conference: ISBM 2025 (Bangkok) - SCOPUS indexed
 
 SKILLS
 ------
-AI/ML:     PyTorch, TensorFlow, Scikit-learn, Pandas, CV, NLP
-LLM/RAG:   LangChain, LlamaIndex, OpenAI, VectorDBs, Multi-Agent
-Backend:   Python, FastAPI, PostgreSQL, Docker, AWS, Redis
-Frontend:  React, TypeScript, Next.js, Streamlit
+Frontend:  Flask, React, MongoDB, PostgreSQL, Firebase
+Skills:    Problem-Solving, DSA, NLP, Deep Learning, Statistics, Web3
+Languages: C, C++, Java, Python, JavaScript, TensorFlow, PyTorch
+DevOps:    Git, Docker, Nginx, Apache Kafka
+
+INVOLVEMENT
+-----------
+- Teaching Assistant for Data Science and ML course
+- Open-Source Contributor for PyPI (Python Package Index)
+- Data Science, ML and Blockchain Tutorials on YouTube
+- Taught 5 batches for IIT Guwahati on Cybersecurity
 
 LINKS
 -----
 GitHub:    github.com/AryanSakhala
-LinkedIn:  linkedin.com/in/AryanSakhala
-PyPI:      pypi.org/user/AryanSakhala
+LinkedIn:  linkedin.com/in/aryan-sakhala-990b46176
+PyPI:      pypi.org/user/ryansakhala
 
 ================================================================================
                               END OF RESUME

@@ -11,11 +11,11 @@ export function PersonJsonLd() {
     url: "https://aryansakhala.netlify.app",
     sameAs: [
       "https://github.com/AryanSakhala",
-      "https://linkedin.com/in/AryanSakhala",
-      "https://pypi.org/user/AryanSakhala",
+      "https://linkedin.com/in/aryan-sakhala-990b46176",
+      "https://pypi.org/user/ryansakhala",
       "https://youtube.com/@aryansakhala3930",
     ],
-    email: "aryansakhala@gmail.com",
+    email: "ryansakhala@gmail.com",
     knowsAbout: [
       "Artificial Intelligence",
       "Machine Learning",
@@ -161,11 +161,19 @@ export function BlogListJsonLd() {
       },
       {
         "@type": "BlogPosting",
-        headline: "Building Production-Ready RAG Systems",
+        headline: "Contextual Retrieval with VLLM and LlamaIndex",
         description:
-          "Deep dive into Retrieval Augmented Generation architecture, vector databases, and optimization strategies.",
-        url: "https://aryansakhala.netlify.app/blog/building-rag-systems",
-        keywords: "RAG, LLM, Vector DB, AI",
+          "Advanced contextual retrieval using VLLM for efficient LLM inference and LlamaIndex for robust data indexing.",
+        url: "https://aryansakhala.netlify.app/blog/contextual-retriever",
+        keywords: "RAG, VLLM, LlamaIndex, Contextual Retrieval",
+      },
+      {
+        "@type": "BlogPosting",
+        headline: "SEAL: Homomorphic Encryption from Scratch",
+        description:
+          "Complete guide to homomorphic encryption using Microsoft SEAL, Ring-LWE security, and BFV vs CKKS schemes.",
+        url: "https://aryansakhala.netlify.app/blog/seal-homomorphic-encryption",
+        keywords: "Homomorphic Encryption, SEAL, Privacy, Cryptography",
       },
     ],
   };

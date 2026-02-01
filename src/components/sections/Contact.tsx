@@ -5,10 +5,10 @@ import { useRef, useState } from "react";
 import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 const contacts = [
-  { protocol: "mailto", address: "aryansakhala@gmail.com", label: "Email" },
+  { protocol: "mailto", address: "ryansakhala@gmail.com", label: "Email" },
   { protocol: "https", address: "github.com/AryanSakhala", label: "GitHub" },
-  { protocol: "https", address: "linkedin.com/in/AryanSakhala", label: "LinkedIn" },
-  { protocol: "https", address: "pypi.org/user/AryanSakhala", label: "PyPI" },
+  { protocol: "https", address: "linkedin.com/in/aryan-sakhala-990b46176", label: "LinkedIn" },
+  { protocol: "https", address: "pypi.org/user/ryansakhala", label: "PyPI" },
   { protocol: "https", address: "youtube.com/@aryansakhala3930", label: "YouTube" },
 ];
 
@@ -102,7 +102,7 @@ export function Contact() {
           className="mt-8 text-center"
         >
           <a
-            href="mailto:aryansakhala@gmail.com"
+            href="mailto:ryansakhala@gmail.com"
             className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--term-green)]/10 border border-[var(--term-green)]/30 rounded-lg hover:bg-[var(--term-green)]/20 hover:border-[var(--term-green)]/50 transition-all text-[var(--term-green)]"
           >
             <span className="text-[var(--term-text-muted)]">$</span>

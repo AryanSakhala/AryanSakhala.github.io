@@ -256,7 +256,7 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
           </button>
 
           <a
-            href="mailto:aryansakhala@gmail.com"
+            href="mailto:ryansakhala@gmail.com"
             className="group flex items-center gap-2 px-4 sm:px-6 py-3 bg-[var(--term-bg-surface)] border border-[var(--term-border)] rounded-lg hover:border-[var(--term-green)] hover:glow-green transition-all text-sm sm:text-base"
           >
             <span className="text-[var(--term-green)]">$</span>
