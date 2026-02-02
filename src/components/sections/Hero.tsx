@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { TerminalWindow, Prompt, Command, Flag, Cursor, Output } from "@/components/ui/TerminalWindow";
+import { playKeySound, playReturnSound, playBootSound } from "@/lib/sounds";
 
 const commands = [
   { prompt: "$ ", command: "whoami", output: "aryan.sakhala" },
@@ -39,20 +40,84 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
   const [typingComplete, setTypingComplete] = useState(false);
   const [easterEgg, setEasterEgg] = useState(0);
   const [showSecret, setShowSecret] = useState(false);
+  const [typingText, setTypingText] = useState<Record<number, string>>({});
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const hasInteracted = useRef(false);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setVisibleLines((prev) => {
-        if (prev >= commands.length) {
-          clearInterval(timer);
-          setTypingComplete(true);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 800);
-    return () => clearInterval(timer);
+  // Enable sound after first user interaction (browser requirement)
+  const enableSound = useCallback(() => {
+    if (!hasInteracted.current) {
+      hasInteracted.current = true;
+      setSoundEnabled(true);
+      playBootSound();
+    }
   }, []);
+
+  // Listen for first interaction
+  useEffect(() => {
+    const handleInteraction = () => enableSound();
+    window.addEventListener("click", handleInteraction, { once: true });
+    window.addEventListener("keydown", handleInteraction, { once: true });
+    window.addEventListener("touchstart", handleInteraction, { once: true });
+    return () => {
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("keydown", handleInteraction);
+      window.removeEventListener("touchstart", handleInteraction);
+    };
+  }, [enableSound]);
+
+  // Typing effect with sound
+  useEffect(() => {
+    let lineIndex = 0;
+    let charIndex = 0;
+    let currentLine = "";
+    
+    const typeNextChar = () => {
+      if (lineIndex >= commands.length) {
+        setTypingComplete(true);
+        return;
+      }
+
+      const cmd = commands[lineIndex];
+      const fullText = cmd.command + (cmd.args ? " " + cmd.args : "");
+      
+      if (charIndex < fullText.length) {
+        currentLine += fullText[charIndex];
+        setTypingText(prev => ({ ...prev, [lineIndex]: currentLine }));
+        
+        // Play key sound
+        if (soundEnabled) {
+          playKeySound();
+        }
+        
+        charIndex++;
+        setTimeout(typeNextChar, 50 + Math.random() * 30); // Variable typing speed
+      } else {
+        // Line complete - play return sound and show output
+        if (soundEnabled) {
+          playReturnSound();
+        }
+        
+        setVisibleLines(prev => prev + 1);
+        lineIndex++;
+        charIndex = 0;
+        currentLine = "";
+        
+        if (lineIndex < commands.length) {
+          setTimeout(typeNextChar, 600); // Pause between commands
+        } else {
+          setTypingComplete(true);
+        }
+      }
+    };
+
+    // Start typing after initial delay
+    const startTimer = setTimeout(() => {
+      typeNextChar();
+    }, 1000);
+
+    return () => clearTimeout(startTimer);
+  }, [soundEnabled]);
 
   // Easter egg rotation
   useEffect(() => {
@@ -186,27 +251,52 @@ export function Hero({ onOpenResume }: { onOpenResume: () => void }) {
               {easterEggs[easterEgg]}
             </motion.div>
 
-            {/* Command history */}
-            {commands.slice(0, visibleLines).map((cmd, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div>
-                  <Prompt>{cmd.prompt}</Prompt>
-                  <Command>{cmd.command}</Command>
-                  {cmd.args && (
-                    <>
-                      {" "}
-                      <Flag>{cmd.args}</Flag>
-                    </>
-                  )}
-                </div>
-                <Output>{cmd.output}</Output>
-              </motion.div>
-            ))}
+            {/* Command history with typing effect */}
+            {commands.map((cmd, index) => {
+              const isTyping = typingText[index] !== undefined && visibleLines === index;
+              const isComplete = visibleLines > index;
+              const currentTypedText = typingText[index] || "";
+              
+              if (!isTyping && !isComplete) return null;
+              
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div>
+                    <Prompt>{cmd.prompt}</Prompt>
+                    {isComplete ? (
+                      <>
+                        <Command>{cmd.command}</Command>
+                        {cmd.args && (
+                          <>
+                            {" "}
+                            <Flag>{cmd.args}</Flag>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Command>
+                          {currentTypedText.slice(0, cmd.command.length)}
+                        </Command>
+                        {currentTypedText.length > cmd.command.length && (
+                          <>
+                            {" "}
+                            <Flag>{currentTypedText.slice(cmd.command.length + 1)}</Flag>
+                          </>
+                        )}
+                        <span className="animate-pulse text-[var(--term-green)]">_</span>
+                      </>
+                    )}
+                  </div>
+                  {isComplete && <Output>{cmd.output}</Output>}
+                </motion.div>
+              );
+            })}
 
             {/* Current prompt with cursor */}
             {typingComplete && (

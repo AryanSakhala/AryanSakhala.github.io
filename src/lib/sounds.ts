@@ -1,6 +1,133 @@
 // Refined sound effects using Web Audio API
 // More soothing, subtle tones for professional feel
 
+// Audio context singleton for better performance
+let sharedAudioContext: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  
+  try {
+    if (!sharedAudioContext) {
+      sharedAudioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+    }
+    return sharedAudioContext;
+  } catch {
+    return null;
+  }
+}
+
+// Keyboard typing sound - mechanical keyboard style
+export function playKeySound() {
+  const audioContext = getAudioContext();
+  if (!audioContext) return;
+  
+  try {
+    // Create a short click/tick sound like a mechanical keyboard
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    
+    oscillator.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // High frequency for that crisp key click
+    const baseFreq = 1800 + Math.random() * 400; // Slight variation for realism
+    oscillator.frequency.value = baseFreq;
+    oscillator.type = "square";
+    
+    // High-pass filter for crispness
+    filter.type = "highpass";
+    filter.frequency.value = 1000;
+    filter.Q.value = 0.5;
+    
+    // Very short, punchy envelope
+    const now = audioContext.currentTime;
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.03, now + 0.002);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    
+    oscillator.start(now);
+    oscillator.stop(now + 0.04);
+  } catch {
+    // Silently fail
+  }
+}
+
+// Typewriter carriage return / newline sound
+export function playReturnSound() {
+  const audioContext = getAudioContext();
+  if (!audioContext) return;
+  
+  try {
+    // Create a slightly different sound for line completion
+    const osc1 = audioContext.createOscillator();
+    const osc2 = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    osc1.frequency.value = 600;
+    osc2.frequency.value = 900;
+    osc1.type = "sine";
+    osc2.type = "sine";
+    
+    filter.type = "lowpass";
+    filter.frequency.value = 2000;
+    
+    const now = audioContext.currentTime;
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.02, now + 0.01);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+    
+    osc1.start(now);
+    osc2.start(now);
+    osc1.stop(now + 0.1);
+    osc2.stop(now + 0.1);
+  } catch {
+    // Silently fail
+  }
+}
+
+// Terminal boot sound
+export function playBootSound() {
+  const audioContext = getAudioContext();
+  if (!audioContext) return;
+  
+  try {
+    // Rising tone for "system online"
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    
+    oscillator.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.15);
+    oscillator.type = "sine";
+    
+    filter.type = "lowpass";
+    filter.frequency.value = 2000;
+    
+    const now = audioContext.currentTime;
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.025, now + 0.02);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    
+    oscillator.start(now);
+    oscillator.stop(now + 0.2);
+  } catch {
+    // Silently fail
+  }
+}
+
 export function playHoverSound() {
   if (typeof window === "undefined") return;
   

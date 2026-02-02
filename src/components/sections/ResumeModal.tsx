@@ -107,7 +107,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden px-2 sm:px-0"
+            className="relative w-full max-w-4xl max-h-[90vh] flex flex-col px-2 sm:px-0"
           >
             {/* Actions bar */}
             <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
@@ -134,9 +134,11 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               </div>
             </div>
 
-            {/* Terminal with resume */}
-            <TerminalWindow title="less resume.txt" className="max-h-[70vh] sm:max-h-[75vh] overflow-y-auto">
-              <pre className="text-[10px] sm:text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">
+            {/* Terminal with resume - scrollable container */}
+            <div className="flex-1 min-h-0 overflow-hidden">
+              <TerminalWindow title="less resume.txt" className="h-full flex flex-col">
+                <div className="flex-1 overflow-y-auto max-h-[60vh] sm:max-h-[65vh] scrollbar-thin scrollbar-thumb-[var(--term-border)] scrollbar-track-transparent">
+                  <pre className="text-[10px] sm:text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-words">
                 {resumeContent.split("\n").map((line, i) => {
                   if (line.includes("===")) {
                     return <div key={i} className="text-[var(--term-cyan)]">{line}</div>;
@@ -170,8 +172,10 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                   }
                   return <div key={i} className="text-[var(--term-text)]">{line}</div>;
                 })}
-              </pre>
-            </TerminalWindow>
+                  </pre>
+                </div>
+              </TerminalWindow>
+            </div>
 
             {/* Footer */}
             <div className="mt-3 sm:mt-4 text-center text-[var(--term-text-subtle)] text-xs sm:text-sm">
