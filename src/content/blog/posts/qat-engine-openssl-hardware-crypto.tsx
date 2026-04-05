@@ -15,20 +15,20 @@ function QATArchitectureFlow() {
   }, []);
 
   const layers = [
-    { label: "Application (HAProxy / Rustls)", color: "#58A6FF", desc: "TLS handshake requests" },
-    { label: "OpenSSL 3.x", color: "#A371F7", desc: "Crypto dispatch layer" },
-    { label: "QAT Engine / Provider", color: "#F0883E", desc: "Intercepts & redirects to HW" },
-    { label: "qatlib (VFIO)", color: "#3FB950", desc: "Kernel driver interface" },
-    { label: "QAT 4xxx Hardware", color: "#F85149", desc: "Crypto in silicon" },
+    { label: "Application Layer", emoji: "🌐", desc: "HAProxy / Rustls — initiates TLS handshake", color: "#58A6FF" },
+    { label: "OpenSSL 3.x", emoji: "🔐", desc: "Crypto dispatch — routes operations", color: "#A371F7" },
+    { label: "QAT Engine / Provider", emoji: "⚡", desc: "Intercepts & redirects to hardware", color: "#F0883E" },
+    { label: "qatlib (VFIO)", emoji: "🔧", desc: "Kernel driver interface", color: "#3FB950" },
+    { label: "QAT Hardware", emoji: "🧮", desc: "Dedicated crypto silicon", color: "#F85149" },
   ];
 
   return (
     <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
       <div className="text-center mb-6">
         <span className="text-xs text-[#F0883E] uppercase tracking-[0.15em] font-mono">
-          Data Flow Visualization
+          ⚙️ Data Flow Visualization
         </span>
-        <p className="text-sm text-[#8B949E] mt-1">How a crypto operation flows from app to hardware</p>
+        <p className="text-sm text-[#8B949E] mt-1">How a crypto operation flows from app → hardware</p>
       </div>
 
       <div className="max-w-md mx-auto space-y-2">
@@ -42,10 +42,7 @@ function QATArchitectureFlow() {
               }}
               className="flex items-center gap-3 p-3 rounded-lg border bg-[#161B22] transition-all"
             >
-              <div
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: step >= i ? layer.color : "#30363D" }}
-              />
+              <span className="text-xl flex-shrink-0">{layer.emoji}</span>
               <div className="flex-1 min-w-0">
                 <span className="text-xs font-mono text-[#E6EDF3] block truncate">{layer.label}</span>
                 <span className="text-[10px] text-[#8B949E]">{layer.desc}</span>
@@ -57,7 +54,7 @@ function QATArchitectureFlow() {
                   className="text-xs"
                   style={{ color: layer.color }}
                 >
-                  ← active
+                  ◀ active
                 </motion.span>
               )}
             </motion.div>
@@ -74,60 +71,72 @@ function QATArchitectureFlow() {
           </div>
         ))}
       </div>
-
-      <div className="mt-6 text-center">
-        <span className="text-sm" style={{ color: layers[step].color }}>
-          {layers[step].label}
-        </span>
-        <p className="text-xs text-[#8B949E] mt-1">{layers[step].desc}</p>
-      </div>
     </div>
   );
 }
 
-// Benchmark results visualization
-function BenchmarkResults() {
-  const data = [
-    { label: "Software (Ring)", value: 1035, max: 60000, color: "#F85149" },
-    { label: "AWS-LC", value: 1743, max: 60000, color: "#D29922" },
-    { label: "OpenSSL SW", value: 1744, max: 60000, color: "#A371F7" },
-    { label: "QAT HW", value: 58629, max: 60000, color: "#3FB950" },
-  ];
+// Driver comparison
+function DriverComparison() {
+  const [selected, setSelected] = useState<"intree" | "oot">("intree");
 
   return (
-    <div className="my-10 p-8 bg-[#0D1117] rounded-lg border border-[#30363D]">
-      <div className="text-center mb-6">
-        <span className="text-xs text-[#3FB950] uppercase tracking-[0.15em] font-mono">
-          RSA-2048 Sign Performance
+    <div className="my-10 p-6 bg-[#0D1117] rounded-lg border border-[#30363D]">
+      <div className="text-center mb-4">
+        <span className="text-xs text-[#58A6FF] uppercase tracking-[0.15em] font-mono">
+          🔀 Two Paths to QAT
         </span>
-        <p className="text-sm text-[#8B949E] mt-1">Operations per second (higher is better)</p>
       </div>
 
-      <div className="space-y-4 max-w-lg mx-auto">
-        {data.map((item, i) => (
-          <div key={item.label}>
-            <div className="flex justify-between text-xs mb-1">
-              <span className="text-[#E6EDF3] font-mono">{item.label}</span>
-              <span style={{ color: item.color }}>{item.value.toLocaleString()} ops/s</span>
-            </div>
-            <div className="h-3 bg-[#21262D] rounded-full overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: `${(item.value / item.max) * 100}%` }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: i * 0.2, ease: "easeOut" }}
-                className="h-full rounded-full"
-                style={{ backgroundColor: item.color }}
-              />
-            </div>
-          </div>
+      <div className="flex justify-center gap-3 mb-6">
+        {(["intree", "oot"] as const).map((type) => (
+          <motion.button
+            key={type}
+            onClick={() => setSelected(type)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-4 py-2 rounded-lg text-xs font-mono transition-all"
+            style={{
+              background: selected === type ? (type === "intree" ? "#3FB95020" : "#58A6FF20") : "#161B22",
+              border: `1px solid ${selected === type ? (type === "intree" ? "#3FB950" : "#58A6FF") : "#30363D"}`,
+              color: selected === type ? (type === "intree" ? "#3FB950" : "#58A6FF") : "#8B949E",
+            }}
+          >
+            {type === "intree" ? "📦 In-Tree (qatlib)" : "🔨 Out-of-Tree (OOT)"}
+          </motion.button>
         ))}
       </div>
 
-      <div className="mt-6 p-3 bg-[#161B22] rounded-lg text-center">
-        <span className="text-sm text-[#3FB950] font-mono">56.6x speedup</span>
-        <span className="text-xs text-[#8B949E] ml-2">QAT HW vs Ring software baseline</span>
-      </div>
+      <motion.div key={selected} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+        {selected === "intree" ? (
+          <div className="space-y-2">
+            {[
+              { icon: "✅", text: "Ships with Linux kernel — no extra install" },
+              { icon: "🔒", text: "Uses VFIO → requires IOMMU enabled" },
+              { icon: "👥", text: "Shared memory allocator — contention under heavy threading" },
+              { icon: "🛠️", text: "Managed by qatmgr daemon" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-2 text-xs text-[#E6EDF3]">
+                <span className="flex-shrink-0">{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {[
+              { icon: "📥", text: "Downloaded separately from Intel — manual install" },
+              { icon: "🔓", text: "Uses UIO/USDM → requires IOMMU disabled (PF mode)" },
+              { icon: "🚀", text: "Thread-specific DMA allocators — zero contention" },
+              { icon: "⚠️", text: "Can conflict with in-tree modules — careful cleanup needed" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-2 text-xs text-[#E6EDF3]">
+                <span className="flex-shrink-0">{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 }
@@ -138,34 +147,32 @@ export default function QatEngineOpensslHardwareCrypto() {
       <p>
         When we think about TLS performance, we usually accept that cryptographic operations are
         just &quot;expensive&quot; — a cost of doing business for secure connections. But Intel&apos;s{" "}
-        <strong>QuickAssist Technology (QAT)</strong> changes that equation entirely. This is the
-        story of building, patching, and deploying the QAT Engine to offload crypto operations from
-        CPU to dedicated hardware — achieving a 56x speedup on RSA-2048 signing.
+        <strong>QuickAssist Technology (QAT)</strong> changes that equation entirely. This is what
+        I learned from building, patching, and deploying the QAT Engine to offload crypto from
+        CPU to dedicated hardware.
       </p>
 
-      <h2>The Problem</h2>
+      <h2>🧩 The Core Idea</h2>
 
       <p>
         Every TLS handshake requires the server to perform a <strong>private key signing operation</strong>.
-        For RSA-2048, this is a modular exponentiation (<code>m^d mod n</code>). On a standard CPU,
-        a single core manages about <strong>1,000–1,700 signs per second</strong>. For high-throughput
-        services — think a vector database like Qdrant serving thousands of concurrent connections — this
-        becomes the bottleneck.
+        For RSA, this is modular exponentiation (<code>m^d mod n</code>). On a standard CPU,
+        this is computationally expensive — especially when handling thousands of concurrent connections
+        to services like a vector database (Qdrant).
       </p>
 
       <p>
-        Intel QAT is a dedicated co-processor that sits on the motherboard alongside the CPU. Instead
-        of the CPU doing the signing math, you send the numbers to QAT hardware, it computes the result
-        in silicon, and sends the answer back.
+        QAT is a dedicated co-processor on the motherboard. Instead of the CPU doing the crypto math,
+        you offload it to QAT hardware that computes the result in silicon and returns the answer.
+        The speedup is <strong>orders of magnitude</strong> over software.
       </p>
 
       <QATArchitectureFlow />
 
-      <h2>The Codebase: QAT Engine v2.0.0b</h2>
+      <h2>🏗️ What the QAT Engine Codebase Does</h2>
 
       <p>
-        The QAT Engine repository (~60,000 lines of C + docs + patches) builds two outputs from the
-        same codebase:
+        The QAT Engine repository builds two outputs from the same C codebase:
       </p>
 
       <ul>
@@ -174,37 +181,36 @@ export default function QatEngineOpensslHardwareCrypto() {
       </ul>
 
       <p>
-        The build flag <code>--enable-qat_provider</code> switches which output you get. Both share 
-        the same core C files for QAT hardware interaction.
+        The build flag <code>--enable-qat_provider</code> switches which one you get. Both share
+        the same core C files that interact with QAT hardware via Intel&apos;s CPA (Crypto Physical
+        Acceleration) API.
       </p>
 
-      <h2>Phase 1: Building from Source — The Linker Error</h2>
+      <h2>🔧 Building from Source — The Linker Surprise</h2>
 
       <p>
-        Building against the system&apos;s in-tree qatlib 24.02.0:
+        Building against the system&apos;s in-tree qatlib, the first error was a missing symbol:
       </p>
 
-      <pre><code>{`./autogen.sh
-./configure --with-qat_hw_dir=/usr
+      <pre><code>{`./configure --with-qat_hw_dir=/usr
 make -j$(nproc)
 
-# Result: undefined symbol: icp_sal_AsymGetInflightRequests`}</code></pre>
+# Error: undefined symbol: icp_sal_AsymGetInflightRequests`}</code></pre>
 
       <p>
-        The function <code>icp_sal_AsymGetInflightRequests()</code> is used for congestion
-        management — checking how many crypto operations are in-flight on the hardware. It was added
-        in qatlib <strong>24.09.0+</strong>, but our system had <strong>24.02.0</strong>. The header
-        was shipped, but the implementation wasn&apos;t linked into libqat.so.
+        This function is for <strong>congestion management</strong> — checking how many operations
+        are queued on the hardware. It was added in a newer qatlib version than we had. The header
+        declared it, but the shared library didn&apos;t include the implementation.
       </p>
 
-      <h3>The Fix: Weak Symbol Stubs</h3>
+      <h3>💡 The Fix: Weak Symbol Stubs</h3>
 
       <p>
-        We added weak symbol fallbacks in <code>e_qat.c</code>:
+        Instead of upgrading qatlib (which could break other dependencies), we used a C technique
+        called <strong>weak symbols</strong>:
       </p>
 
-      <pre><code>{`#ifdef QAT_HW_INTREE
-__attribute__((weak))
+      <pre><code>{`__attribute__((weak))
 CpaStatus icp_sal_AsymGetInflightRequests(
     CpaInstanceHandle instanceHandle,
     Cpa32U *maxInflightRequests,
@@ -213,121 +219,94 @@ CpaStatus icp_sal_AsymGetInflightRequests(
     if (maxInflightRequests) *maxInflightRequests = 1;
     if (numInflightRequests) *numInflightRequests = 0;
     return CPA_STATUS_SUCCESS;
-}
-#endif`}</code></pre>
+}`}</code></pre>
 
       <p>
-        The <code>__attribute__((weak))</code> trick means: if the real qatlib provides these symbols
-        at runtime, they override our stubs. If not, our stubs return &quot;no congestion&quot; so the
-        engine loads fine. This is safe because it just disables congestion-based throttling.
+        <code>__attribute__((weak))</code> means: if the real qatlib provides this symbol at
+        runtime, it overrides our stub. If not, our stub returns &quot;no congestion.&quot; The
+        engine loads and works fine — just without congestion-based throttling.
       </p>
 
-      <h2>Phase 2: Qdrant + HAProxy Integration</h2>
+      <h2>🌐 The Integration Pattern</h2>
 
       <p>
-        Qdrant itself does <strong>zero cryptography</strong>. The integration puts HAProxy as a TLS
-        termination proxy in front of Qdrant:
+        Qdrant (vector database) itself does <strong>zero cryptography</strong>. The pattern puts
+        HAProxy as a TLS proxy in front:
       </p>
 
-      <pre><code>{`Client (HTTPS) → HAProxy :8443 → Qdrant :6333 (HTTP)
-                     │
-                     └── ssl-engine qatengine algo RSA
-                         (offloads TLS signing to QAT HW)`}</code></pre>
+      <pre><code>{`Client ──HTTPS──▶ HAProxy :8443 ──HTTP──▶ Qdrant :6333
+                      │
+                      └── ssl-engine qatengine algo RSA
+                          (offloads signing to QAT HW)`}</code></pre>
 
       <p>
-        HAProxy was rebuilt from source with <code>USE_ENGINE=1</code> since the system package
-        didn&apos;t include engine support. Qdrant required CPU limiting (<code>--cpus=8</code>)
-        because its Actix-rt framework panics on 256-core systems.
+        HAProxy was rebuilt from source with <code>USE_ENGINE=1</code> since the distro package
+        didn&apos;t include engine support.
       </p>
 
-      <h2>Phase 3: Rustls PoC — Replicating Intel's Benchmark</h2>
+      <h2>🔬 The Rustls Benchmark Path</h2>
 
       <p>
-        The benchmark path uses patched Rust crates for async QAT offload:
+        For benchmarking, a separate path uses patched Rust crates for async QAT offload:
       </p>
 
-      <pre><code>{`crypto_bench_async (Rust/Tokio binary)
-    → rustls-openssl (patched crate)
-        → qatprovider.so (OpenSSL 3.x Provider)
-            → OpenSSL 3.5.0 (built from source)
+      <pre><code>{`crypto_bench_async (Rust/Tokio)
+    → rustls-openssl (patched)
+        → qatprovider.so
+            → OpenSSL 3.x (built from source)
                 → qatlib (VFIO)
-                    → QAT 4xxx Hardware`}</code></pre>
+                    → QAT Hardware`}</code></pre>
 
       <p>
-        This required building OpenSSL 3.5.0 from source, rebuilding the QAT code as a Provider
-        (not Engine), and applying two patches from the rustls-poc directory:
+        This required applying two patches from the rustls-poc directory:
       </p>
 
       <ul>
-        <li><strong>rustls.patch</strong> — Adds async non-blocking sign support to rustls v0.23.33</li>
-        <li><strong>rustls-openssl.patch</strong> — Adds async-jobs feature, batched worker loop, and the benchmark binary</li>
+        <li><strong>rustls.patch</strong> — Adds async non-blocking sign support</li>
+        <li><strong>rustls-openssl.patch</strong> — Adds async-jobs feature and the benchmark binary</li>
       </ul>
 
-      <h2>Phase 4: Device Optimization</h2>
+      <h2>⚙️ Device Configuration</h2>
 
       <p>
-        The system had 4 QAT Gen4 devices across 2 NUMA nodes, but only 2 were configured for
-        crypto (<code>sym;asym</code>) — the other 2 were set to data compression (<code>dc</code>).
-        Reconfiguring all 4 to <code>sym;asym</code> via sysfs doubled the crypto capacity:
+        QAT devices can be configured for different modes — crypto (<code>sym;asym</code>) or
+        data compression (<code>dc</code>). The configuration lives in sysfs:
       </p>
 
-      <pre><code>{`# Bring down, reconfigure, bring up
-echo down > /sys/bus/pci/devices/XXXX/qat/state
-echo asym > /sys/bus/pci/devices/XXXX/qat/cfg_services
-echo up   > /sys/bus/pci/devices/XXXX/qat/state`}</code></pre>
+      <pre><code>{`# Reconfigure a QAT device
+echo down > /sys/bus/pci/devices/<BDF>/qat/state
+echo asym > /sys/bus/pci/devices/<BDF>/qat/cfg_services
+echo up   > /sys/bus/pci/devices/<BDF>/qat/state`}</code></pre>
 
-      <BenchmarkResults />
+      <blockquote>
+        <p>
+          ⚠️ <strong>Important:</strong> This configuration is volatile — it resets on reboot.
+          Production deployments need a systemd unit or udev rule to persist it.
+        </p>
+      </blockquote>
 
-      <h2>The Driver Architecture — In-Tree vs Out-of-Tree</h2>
+      <DriverComparison />
 
-      <p>
-        Understanding the two driver types is critical:
-      </p>
+      <h2>📂 Key Files and Their Roles</h2>
 
       <ul>
-        <li><strong>In-Tree (qatlib)</strong> — Ships with the Linux kernel, uses VFIO for
-          userspace access via Virtual Functions, managed by <code>qatmgr</code>. Requires IOMMU
-          enabled. Uses a shared memory allocator (causes contention under multi-threading).</li>
-        <li><strong>Out-of-Tree (OOT)</strong> — Downloaded from Intel separately, uses UIO/USDM
-          with thread-specific DMA allocators (zero contention). Requires IOMMU <strong>disabled</strong>
-          in PF mode.</li>
+        <li>📄 <code>e_qat.c</code> — Engine entry point (where we added weak symbol stubs)</li>
+        <li>🔑 <code>qat_hw_rsa.c</code> — RSA sign/verify via QAT hardware CPA API</li>
+        <li>✍️ <code>qat_hw_ec.c</code> — ECDSA sign/verify and ECDH key agreement</li>
+        <li>🔄 <code>qat_hw_polling.c</code> — Background polling thread for completed QAT ops</li>
+        <li>🏭 <code>qat_prov_init.c</code> — Provider entry point for OpenSSL 3.x</li>
+        <li>⚙️ <code>configure.ac</code> — Autoconf: detects in-tree vs OOT driver</li>
       </ul>
 
-      <p>
-        We attempted the OOT driver for its thread-specific USDM allocator but hit:
-        <code>Cannot use PF with IOMMU enabled and SVM off</code>. The system&apos;s IOMMU
-        couldn&apos;t be disabled without a reboot, so we proceeded with the in-tree driver.
-      </p>
-
-      <h2>Final Results</h2>
-
-      <pre><code>{`Algorithm         | Software (Ring) | QAT HW        | Speedup
-RSA-2048 Sign     | 1,035 ops/s     | 58,629 ops/s   | 56.6x
-ECDSA P-384 Sign  | 896 ops/s       | 57,881 ops/s   | 64.6x
-
-vs Intel Chart Reference:
-RSA-2048:   58,629 → 84% of ~70,000 target
-ECDSA P-384: 57,881 → 118% of ~49,000 (exceeded!)`}</code></pre>
-
-      <h2>Key Files and Their Roles</h2>
+      <h2>🎓 Key Learnings</h2>
 
       <ul>
-        <li><code>e_qat.c</code> — Engine entry point, the only file we modified (weak symbol stubs)</li>
-        <li><code>qat_hw_rsa.c</code> — RSA sign/verify via QAT hardware CPA API</li>
-        <li><code>qat_hw_ec.c</code> — ECDSA sign/verify and ECDH key agreement</li>
-        <li><code>qat_hw_polling.c</code> — Background thread polling for completed QAT operations</li>
-        <li><code>qat_prov_init.c</code> — Provider entry point for OpenSSL 3.x</li>
-        <li><code>configure.ac</code> — Autoconf detection of in-tree vs OOT driver</li>
-      </ul>
-
-      <h2>Lessons Learned</h2>
-
-      <ul>
-        <li>Weak symbols are a powerful C technique for cross-version library compatibility.</li>
-        <li>The OpenSSL Engine vs Provider API distinction matters — Engine is legacy but widely used, Provider is modern but requires OpenSSL 3.x.</li>
-        <li>IOMMU configuration is a hard constraint for OOT driver PF mode — plan for this at the infrastructure level.</li>
-        <li>Sysfs device reconfiguration is volatile — it resets on reboot. Production deployments need a systemd unit or udev rule.</li>
-        <li>Multi-thread scaling under the in-tree driver degrades due to shared allocator contention — 2 threads performed worse than 1 thread on both RSA and ECDSA.</li>
+        <li><strong>Weak symbols</strong> are a powerful C technique for cross-version library compatibility without breaking builds.</li>
+        <li>The <strong>Engine vs Provider</strong> API distinction in OpenSSL matters — Engine is legacy but widely deployed, Provider is modern but requires OpenSSL 3.x.</li>
+        <li><strong>IOMMU</strong> is a hard constraint: in-tree driver needs it on, OOT PF mode needs it off. Plan this at the infrastructure level.</li>
+        <li>Sysfs device reconfiguration is <strong>volatile</strong> — always persist with systemd for production.</li>
+        <li>Multi-thread scaling under the in-tree driver can <strong>degrade</strong> due to the shared allocator — this is why the OOT driver with thread-specific USDM exists.</li>
+        <li>HAProxy needs to be <strong>built from source</strong> with <code>USE_ENGINE=1</code> for QAT support — distro packages typically omit it.</li>
       </ul>
     </>
   );

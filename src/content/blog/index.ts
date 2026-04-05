@@ -25,16 +25,6 @@ export const blogPosts: BlogPost[] = [
     featured: true,
   },
   {
-    slug: "cv-workload-analysis-debugging",
-    title: "Computer Vision Workload Analysis: Memory Leaks & System Debugging",
-    description:
-      "Deep investigation into production CV benchmark failures — tracing memory leaks from 5000-frame tensor replication, fixing Celery visibility timeout infinite loops, and eliminating oneDNN log disk exhaustion.",
-    date: "2026-02-22",
-    readTime: "25 min",
-    tags: ["Computer Vision", "Debugging", "Docker", "Celery", "OpenVINO", "Memory Management", "Python"],
-    featured: true,
-  },
-  {
     slug: "runpod-gpu-deployment",
     title: "RunPod: GPU Cloud Deployment Mental Model",
     description:

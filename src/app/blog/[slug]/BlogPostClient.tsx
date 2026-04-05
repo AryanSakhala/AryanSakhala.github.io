@@ -19,9 +19,6 @@ const blogContentComponents: Record<
   "qat-engine-openssl-hardware-crypto": dynamic(
     () => import("@/content/blog/posts/qat-engine-openssl-hardware-crypto")
   ),
-  "cv-workload-analysis-debugging": dynamic(
-    () => import("@/content/blog/posts/cv-workload-analysis-debugging")
-  ),
   "runpod-gpu-deployment": dynamic(
     () => import("@/content/blog/posts/runpod-gpu-deployment")
   ),
