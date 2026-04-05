@@ -19,7 +19,7 @@ export const blogPosts: BlogPost[] = [
     title: "QAT Engine: Hardware Crypto Acceleration with OpenSSL & Qdrant",
     description:
       "Building and deploying Intel QAT Engine for hardware-accelerated TLS. From C source patches and OpenSSL provider architecture to Rustls async benchmarks — achieving 58K+ RSA signs/sec with QAT offload.",
-    date: "2026-04-05",
+    date: "2026-03-18",
     readTime: "35 min",
     tags: ["QAT", "OpenSSL", "Hardware Acceleration", "TLS", "Qdrant", "Rustls", "C", "Cryptography"],
     featured: true,
@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     title: "Computer Vision Workload Analysis: Memory Leaks & System Debugging",
     description:
       "Deep investigation into production CV benchmark failures — tracing memory leaks from 5000-frame tensor replication, fixing Celery visibility timeout infinite loops, and eliminating oneDNN log disk exhaustion.",
-    date: "2026-04-05",
+    date: "2026-02-22",
     readTime: "25 min",
     tags: ["Computer Vision", "Debugging", "Docker", "Celery", "OpenVINO", "Memory Management", "Python"],
     featured: true,
@@ -39,7 +39,7 @@ export const blogPosts: BlogPost[] = [
     title: "RunPod: GPU Cloud Deployment Mental Model",
     description:
       "A practitioner's guide to RunPod GPU infrastructure — from Template→Pod→Endpoint architecture to debugging CUDA-compat library conflicts and Docker entrypoint overrides for vLLM deployment.",
-    date: "2026-04-05",
+    date: "2026-01-28",
     readTime: "8 min",
     tags: ["RunPod", "GPU Cloud", "Docker", "vLLM", "CUDA", "DevOps", "Infrastructure"],
   },

@@ -6,7 +6,6 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Journey } from "@/components/sections/Journey";
 import { Skills } from "@/components/sections/Skills";
-import { SystemArchitecture } from "@/components/sections/SystemArchitecture";
 import { Contact } from "@/components/sections/Contact";
 import { ResumeModal } from "@/components/sections/ResumeModal";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
@@ -28,7 +27,6 @@ export default function Home() {
       <About />
       <Journey />
       <Skills />
-      <SystemArchitecture />
       <Contact />
 
       {/* Resume modal */}

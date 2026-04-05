@@ -9,7 +9,6 @@ const navItems = [
   { label: "about", href: "#about" },
   { label: "journey", href: "#journey" },
   { label: "skills", href: "#skills" },
-  { label: "architecture", href: "#architecture" },
   { label: "contact", href: "#contact" },
   { label: "blog", href: "/blog" },
 ];
