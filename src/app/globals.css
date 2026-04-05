@@ -1,0 +1,563 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+/* 
+ * TERMINAL-INSPIRED DEVELOPER PORTFOLIO
+ * Inspired by: VS Code, iTerm2, Warp Terminal, Hyper
+ * 
+ * Design Philosophy:
+ * - Monospace everything
+ * - Terminal window aesthetics
+ * - Command-line patterns
+ * - Sophisticated dark theme (not neon)
+ * - Syntax highlighting colors
+ */
+
+:root {
+  /* Terminal Dark Theme - Inspired by One Dark / Dracula refined */
+  --term-bg: #0D1117;
+  --term-bg-elevated: #161B22;
+  --term-bg-surface: #21262D;
+  --term-bg-hover: #30363D;
+  
+  /* Terminal Text Colors */
+  --term-text: #E6EDF3;
+  --term-text-muted: #8B949E;
+  --term-text-subtle: #6E7681;
+  
+  /* Syntax Colors */
+  --term-green: #3FB950;
+  --term-cyan: #58A6FF;
+  --term-yellow: #D29922;
+  --term-orange: #F0883E;
+  --term-purple: #A371F7;
+  --term-pink: #DB61A2;
+  --term-red: #F85149;
+  
+  /* Borders */
+  --term-border: #30363D;
+  --term-border-bright: #484F58;
+  
+  /* Blog Theme - Editorial style matching makingsoftware.com */
+  --blog-bg: #0D1117;
+  --blog-bg-alt: #161B22;
+  --blog-text: #C9D1D9;
+  --blog-text-muted: #8B949E;
+  --blog-accent: #58A6FF;
+  --blog-border: #30363D;
+  --blog-code-bg: #161B22;
+  
+  /* Font stacks - raylib-inspired clean style */
+  --font-sans-stack: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Scroll offset for anchored sections (accounts for sticky header) */
+h2[id], h3[id] {
+  scroll-margin-top: 5rem;
+  
+  /* Theme mapping */
+  --radius: 0.5rem;
+  --background: var(--term-bg);
+  --foreground: var(--term-text);
+  --card: var(--term-bg-elevated);
+  --card-foreground: var(--term-text);
+  --primary: var(--term-cyan);
+  --primary-foreground: var(--term-bg);
+  --secondary: var(--term-bg-surface);
+  --secondary-foreground: var(--term-text);
+  --muted: var(--term-bg-surface);
+  --muted-foreground: var(--term-text-muted);
+  --accent: var(--term-green);
+  --border: var(--term-border);
+  --input: var(--term-bg-surface);
+  --ring: var(--term-cyan);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-mono);
+  --font-mono: var(--font-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  
+  /* Direct terminal colors */
+  --color-term-bg: var(--term-bg);
+  --color-term-green: var(--term-green);
+  --color-term-cyan: var(--term-cyan);
+  --color-term-yellow: var(--term-yellow);
+  --color-term-orange: var(--term-orange);
+  --color-term-purple: var(--term-purple);
+  --color-term-pink: var(--term-pink);
+  --color-term-red: var(--term-red);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--term-bg);
+    color: var(--term-text);
+    font-family: var(--font-mono), 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: var(--term-cyan);
+    color: var(--term-bg);
+  }
+
+  /* Terminal-style scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--term-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--term-border);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--term-border-bright);
+  }
+
+  /* All text is monospace */
+  h1, h2, h3, h4, h5, h6, p, span, a, li {
+    font-family: inherit;
+  }
+}
+
+/* Terminal Window Component */
+.terminal-window {
+  background: var(--term-bg-elevated);
+  border: 1px solid var(--term-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--term-bg-surface);
+  border-bottom: 1px solid var(--term-border);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #FF5F56; }
+.terminal-dot.yellow { background: #FFBD2E; }
+.terminal-dot.green { background: #27C93F; }
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  color: var(--term-text-muted);
+  font-size: 12px;
+}
+
+.terminal-body {
+  padding: 16px 20px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* Command prompt styling */
+.prompt {
+  color: var(--term-green);
+}
+
+.command {
+  color: var(--term-cyan);
+}
+
+.flag {
+  color: var(--term-yellow);
+}
+
+.string {
+  color: var(--term-orange);
+}
+
+.comment {
+  color: var(--term-text-subtle);
+  font-style: italic;
+}
+
+.output {
+  color: var(--term-text-muted);
+}
+
+.success {
+  color: var(--term-green);
+}
+
+.key {
+  color: var(--term-purple);
+}
+
+.value {
+  color: var(--term-orange);
+}
+
+.bracket {
+  color: var(--term-text-muted);
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background: var(--term-green);
+  animation: blink 1.2s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+/* Horizontal scroll container */
+.scroll-horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  height: 4px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb {
+  background: var(--term-border-bright);
+}
+
+/* Hover scroll effect */
+.hover-scroll-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-scroll-content {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.3s ease-out;
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(63, 185, 80, 0.15);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(63, 185, 80, 0.5);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+}
+
+/* Section spacing */
+.section-padding {
+  padding: clamp(4rem, 10vh, 8rem) clamp(1rem, 5vw, 4rem);
+}
+
+/* ASCII art styling */
+.ascii-art {
+  white-space: pre;
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--term-green);
+  opacity: 0.3;
+}
+
+/* Enhanced text glow for daemon name */
+.text-glow-daemon {
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    0 0 60px currentColor;
+}
+
+/* Neon border effect */
+.neon-border {
+  box-shadow:
+    0 0 5px var(--term-cyan),
+    0 0 10px var(--term-cyan),
+    inset 0 0 5px rgba(88, 166, 255, 0.1);
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(88, 166, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(88, 166, 255, 0.8), 0 0 30px rgba(88, 166, 255, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Tag badge base */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.tech-badge:hover {
+  transform: translateY(-1px);
+}
+
+/* Company badge special styling */
+.company-badge {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.company-badge:hover {
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2s steps(40, end);
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Line numbers */
+.line-numbers {
+  counter-reset: line;
+}
+
+.line-numbers > div::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2em;
+  margin-right: 1em;
+  text-align: right;
+  color: var(--term-text-subtle);
+  user-select: none;
+}
+
+/* Grid pattern background */
+.grid-bg {
+  background-image: 
+    linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Scanline effect */
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ======================================
+   MOBILE RESPONSIVE STYLES
+   ====================================== */
+
+/* Mobile terminal adjustments */
+@media (max-width: 640px) {
+  body {
+    font-size: 12px;
+  }
+  
+  .terminal-header {
+    padding: 8px 12px;
+  }
+  
+  .terminal-title {
+    font-size: 10px;
+  }
+  
+  .terminal-body {
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .terminal-dots {
+    gap: 4px;
+  }
+  
+  .section-padding {
+    padding: 3rem 1rem;
+  }
+  
+  /* Hide complex decorations on mobile */
+  .grid-bg {
+    background-size: 30px 30px;
+  }
+  
+  .text-glow-daemon {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor;
+  }
+  
+  /* Tags smaller on mobile */
+  .tech-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 4rem 1.5rem;
+  }
+  
+  .terminal-body {
+    padding: 14px 16px;
+  }
+}
+
+/* Large phone adjustments */
+@media (max-width: 480px) {
+  .terminal-body {
+    font-size: 11px;
+    padding: 10px 12px;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+  
+  .terminal-header {
+    padding: 6px 10px;
+  }
+  
+  /* Ensure pre tags don't break layout */
+  pre {
+    font-size: inherit;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  /* Compact spacing */
+  .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+}
+
+/* Touch-friendly targets */
+@media (pointer: coarse) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .terminal-body a,
+  .terminal-body button {
+    min-height: auto;
+    min-width: auto;
+  }
+}
+
+/* Safe area for notched phones */
+@supports (padding: max(0px)) {
+  .section-padding {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
